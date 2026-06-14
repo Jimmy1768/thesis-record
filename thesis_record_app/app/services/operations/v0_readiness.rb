@@ -9,6 +9,8 @@ module Operations
     THESIS_METADATA_PATH = THESIS_ROOT.join("thesis.yml")
     V0_ARTIFACT_PATH = THESIS_ROOT.join("publication", "v0.md")
     V0_TIMELINE_PATH = THESIS_ROOT.join("publication", "v0_timeline.yml")
+    V0_CLAIM_SET_PATH = THESIS_ROOT.join("publication", "v0_claim_set.yml")
+    V0_FORECAST_SET_PATH = THESIS_ROOT.join("publication", "v0_forecast_set.yml")
 
     REQUIRED_CHECKPOINTS = {
       v2: 12,
@@ -35,6 +37,8 @@ module Operations
     def call
       metadata = load_metadata
       timeline = load_timeline
+      claim_set = load_claim_set
+      forecast_set = load_forecast_set
       checks = {
         thesis_metadata_present: metadata.present?,
         thesis_slug_correct: metadata.fetch(:slug, nil) == THESIS_SLUG,
@@ -43,13 +47,15 @@ module Operations
         draft_status_resolved: metadata.dig(:paper, :draft_status) != "held_back_initially",
         v0_publication_scaffold_present: V0_ARTIFACT_PATH.exist?,
         v0_timeline_scaffold_present: timeline.present?,
+        v0_claim_set_present: claim_set.present?,
+        v0_forecast_set_present: forecast_set.present?,
         v0_internal_target_date_set: timeline.dig(:publication, :target_internal_publication_date).present?,
         v0_first_measurement_period_set: timeline.dig(:forecast_clock, :first_measurement_period).present?,
         v0_publication_approved: timeline.dig(:publication, :approval_status) == "approved",
         v0_publication_date_set: timeline.dig(:publication, :publication_date).present?,
         v0_checkpoint_dates_set: checkpoint_dates_set?(timeline),
-        v0_claim_set_approved: timeline.dig(:publication, :claims_status) == "approved",
-        v0_forecast_set_approved: timeline.dig(:publication, :forecasts_status) == "approved",
+        v0_claim_set_approved: v0_set_approved?(timeline, claim_set, :claims_status),
+        v0_forecast_set_approved: v0_set_approved?(timeline, forecast_set, :forecasts_status),
         forecast_clock_policy_present: forecast_clock_policy_present?,
         checkpoint_offsets_present: checkpoint_offsets_present?,
         sidekiq_schedule_present: sidekiq_schedule_present?,
@@ -66,7 +72,7 @@ module Operations
         passed: blockers.empty?,
         checks: checks,
         blockers: blockers,
-        warnings: warnings(metadata, timeline)
+        warnings: warnings(metadata, timeline, claim_set, forecast_set)
       )
     end
 
@@ -84,6 +90,18 @@ module Operations
       return {} unless V0_TIMELINE_PATH.exist?
 
       YAML.safe_load_file(V0_TIMELINE_PATH).deep_symbolize_keys
+    end
+
+    def load_claim_set
+      return {} unless V0_CLAIM_SET_PATH.exist?
+
+      YAML.safe_load_file(V0_CLAIM_SET_PATH).deep_symbolize_keys
+    end
+
+    def load_forecast_set
+      return {} unless V0_FORECAST_SET_PATH.exist?
+
+      YAML.safe_load_file(V0_FORECAST_SET_PATH).deep_symbolize_keys
     end
 
     def forecast_clock
@@ -120,6 +138,11 @@ module Operations
       end
     end
 
+    def v0_set_approved?(timeline, set, timeline_status_key)
+      timeline.dig(:publication, timeline_status_key) == "approved" &&
+        set.fetch(:approval_status, nil) == "approved"
+    end
+
     def sidekiq_schedule_present?
       scheduler_jobs = policy.fetch(:scheduler).fetch(:jobs)
       REQUIRED_SCHEDULED_JOBS.all? { |job| scheduler_jobs.key?(job) }
@@ -147,11 +170,13 @@ module Operations
       claim_review_gate.fetch(:automatic_claim_promotion_authorized, true) == false
     end
 
-    def warnings(metadata, timeline)
+    def warnings(metadata, timeline, claim_set, forecast_set)
       [].tap do |warnings|
         warnings << "paper_draft_is_archive_only" if metadata.dig(:paper, :draft_status) == "held_back_initially"
         warnings << "v0_publication_scaffold_only" if %w[draft_scaffold internal_target_scaffold].include?(timeline.fetch(:status, nil))
         warnings << "v0_dates_are_provisional" if timeline.dig(:forecast_clock, :date_status) == "provisional_until_publication_approval"
+        warnings << "v0_claim_set_candidate_only" if claim_set.fetch(:status, nil) == "candidate_inventory"
+        warnings << "v0_forecast_set_candidate_only" if forecast_set.fetch(:status, nil) == "candidate_inventory"
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
       end
     end

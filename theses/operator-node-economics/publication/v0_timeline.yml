@@ -12,7 +12,9 @@ publication:
   approval_status: unapproved
   paper_prose_status: not_imported
   claims_status: unapproved
+  claim_set_path: theses/operator-node-economics/publication/v0_claim_set.yml
   forecasts_status: unapproved
+  forecast_set_path: theses/operator-node-economics/publication/v0_forecast_set.yml
 forecast_clock:
   measurement_atom: calendar_quarter
   first_measurement_period_rule: first_full_calendar_quarter_after_v0_publication

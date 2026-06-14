@@ -103,6 +103,8 @@ The current pre-v0 scaffolds are:
 
 - `theses/operator-node-economics/publication/v0.md`;
 - `theses/operator-node-economics/publication/v0_timeline.yml`;
+- `theses/operator-node-economics/publication/v0_claim_set.yml`;
+- `theses/operator-node-economics/publication/v0_forecast_set.yml`;
 - `theses/operator-node-economics/evidence/assimilation_plan.md`;
 - `docs/operations/operator_nodes_v0_operating_runbook.md`.
 

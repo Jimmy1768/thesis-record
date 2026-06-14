@@ -1,0 +1,127 @@
+version: v0
+status: candidate_inventory
+thesis_slug: operator-node-economics
+approval_status: unapproved
+source_index: theses/operator-node-economics/research/claims_index.md
+scope:
+  purpose: Freeze candidate claim IDs for v0 review before publication.
+  prose_status: not_publication_prose
+  claim_status_effect: unchanged
+  automatic_promotion_authorized: false
+review_requirements:
+  - source_truth_review
+  - prohibited_foundations_review
+  - claim_scope_review
+  - evidence_boundary_review
+  - human_approval
+claims:
+  - id: TCE-CLAIM-001
+    v0_role: guardrail
+    source_status: supported
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/core_hypothesis.md
+      - source_truth/falsifiability_contract.md
+    review_note: Relative-cost framing guardrail; prevents task productivity from being treated as firm-boundary proof.
+  - id: TCE-CLAIM-002
+    v0_role: boundary_condition
+    source_status: weak_support
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/operator_node_definition.md
+      - source_truth/terminology.md
+    review_note: Low-asset-specificity and modularity boundary condition requires careful sector wording.
+  - id: TCE-CLAIM-003
+    v0_role: evidence_boundary
+    source_status: supported
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/research_contract.md
+      - source_truth/falsifiability_contract.md
+    review_note: Distinguishes task-cost evidence from transaction-cost and firm-boundary evidence.
+  - id: TCE-CLAIM-004
+    v0_role: standing_criticism
+    source_status: supported
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/falsifiability_contract.md
+    review_note: Preserves TCE threats as active scalability constraints.
+  - id: TCE-CLAIM-005
+    v0_role: taxonomy_question
+    source_status: needs_refinement
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/terminology.md
+    review_note: Requires governance-form wording before publication.
+  - id: TCE-CLAIM-006
+    v0_role: alternative_hypothesis
+    source_status: weak_support
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/falsifiability_contract.md
+    review_note: Large-firm adoption advantage should remain an alternative, not a thesis-support claim.
+  - id: TCE-CLAIM-007
+    v0_role: mechanism_constraint
+    source_status: supported
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/core_hypothesis.md
+    review_note: Verification and reliability costs belong in the node-cost model.
+  - id: TCE-CLAIM-008
+    v0_role: transition_boundary
+    source_status: needs_refinement
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/operator_node_definition.md
+    review_note: Needs measurable thresholds for when nodes become firms.
+  - id: TCE-CLAIM-009
+    v0_role: mechanism_hypothesis
+    source_status: weak_support
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/core_hypothesis.md
+    review_note: Reputation, audit, and protocol claims need narrow wording.
+  - id: TCE-CLAIM-010
+    v0_role: failure_condition
+    source_status: weak_support
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/falsifiability_contract.md
+    review_note: Coordinated-adaptation failures should remain explicit disconfirmation pathways.
+  - id: TCE-CLAIM-011
+    v0_role: disconfirming_pressure
+    source_status: weak_support
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/falsifiability_contract.md
+    review_note: Early Census evidence cautions against premature hierarchy-shrinkage claims.
+  - id: TCE-CLAIM-012
+    v0_role: mechanism_boundary
+    source_status: weak_support
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/research_contract.md
+    review_note: Platform reputation evidence cannot be generalized into full contracting proof.
+  - id: TCE-CLAIM-013
+    v0_role: measurement_boundary
+    source_status: supported
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/research_contract.md
+      - source_truth/falsifiability_contract.md
+    review_note: Current data infrastructure is context evidence, not direct Operator Node verification.
+  - id: TCE-CLAIM-014
+    v0_role: falsifier_definition
+    source_status: hypothesis
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/falsifiability_contract.md
+    review_note: Remote employment should be stated as a falsifier/transition definition, not evidence.
+  - id: TCE-CLAIM-015
+    v0_role: forecast_taxonomy
+    source_status: hypothesis
+    v0_status: candidate_unapproved
+    source_truth_refs:
+      - source_truth/prohibited_foundations.md
+      - source_truth/research_contract.md
+    review_note: Economic-class implications must avoid policy, religious, or philosophical foundation claims.

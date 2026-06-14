@@ -1,0 +1,96 @@
+version: v0
+status: candidate_inventory
+thesis_slug: operator-node-economics
+approval_status: unapproved
+source_index: theses/operator-node-economics/research/predictions.md
+timeline_ref: theses/operator-node-economics/publication/v0_timeline.yml
+scope:
+  purpose: Freeze candidate forecast IDs for v0 review before publication.
+  forecast_status_effect: unchanged
+  quarterly_updates_are_verdicts: false
+  automatic_verdicts_authorized: false
+review_requirements:
+  - measurement_definition_review
+  - failure_condition_review
+  - comparison_group_review
+  - confounder_review
+  - human_approval
+forecast_clock:
+  first_measurement_period: "2026-Q3"
+  checkpoint_refs:
+    v2: "2029-Q2"
+    v3: "2031-Q2"
+    v4: "2036-Q2"
+forecasts:
+  - id: TCE-P001
+    v0_role: primary_forecast
+    source_status: candidate
+    v0_status: candidate_unapproved
+    measurement_readiness: partial_public_proxy
+    failure_condition_status: present
+  - id: TCE-P002
+    v0_role: primary_forecast
+    source_status: candidate
+    v0_status: candidate_unapproved
+    measurement_readiness: requires_private_or_platform_data
+    failure_condition_status: present
+  - id: TCE-P003
+    v0_role: sector_boundary_forecast
+    source_status: disconfirming_sector_boundary
+    v0_status: candidate_unapproved
+    measurement_readiness: requires_sector_specific_design
+    failure_condition_status: present
+  - id: TCE-P004
+    v0_role: mechanism_test
+    source_status: candidate
+    v0_status: candidate_unapproved
+    measurement_readiness: requires_transaction_cost_data
+    failure_condition_status: present
+  - id: TCE-P005
+    v0_role: hierarchy_shrinkage_test
+    source_status: disconfirming_if_hierarchy_grows
+    v0_status: candidate_unapproved
+    measurement_readiness: blocked_pending_management_layer_data
+    failure_condition_status: present
+  - id: TCE-P006
+    v0_role: alternative_hypothesis
+    source_status: disconfirming_alternative
+    v0_status: candidate_unapproved
+    measurement_readiness: partial_public_proxy
+    failure_condition_status: present
+  - id: TCE-P007
+    v0_role: transition_forecast
+    source_status: disconfirming_transition
+    v0_status: candidate_unapproved
+    measurement_readiness: indirect_public_proxy
+    failure_condition_status: present
+  - id: TCE-P008
+    v0_role: governance_mechanism_test
+    source_status: candidate
+    v0_status: candidate_unapproved
+    measurement_readiness: requires_platform_governance_data
+    failure_condition_status: present
+  - id: TCE-P009
+    v0_role: entry_churn_forecast
+    source_status: candidate
+    v0_status: candidate_unapproved
+    measurement_readiness: partial_public_proxy
+    failure_condition_status: present
+  - id: TCE-P010
+    v0_role: corporate_absorption_alternative
+    source_status: disconfirming_alternative
+    v0_status: candidate_unapproved
+    measurement_readiness: partial_public_proxy
+    failure_condition_status: present
+  - id: TCE-P011
+    v0_role: remote_employment_falsifier
+    source_status: candidate_falsifier
+    v0_status: candidate_unapproved
+    measurement_readiness: partial_public_proxy
+    failure_condition_status: present
+  - id: TCE-P012
+    v0_role: economic_class_taxonomy_forecast
+    source_status: forecast_taxonomy
+    v0_status: candidate_unapproved
+    measurement_readiness: measurement_design_only
+    failure_condition_status: present
