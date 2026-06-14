@@ -1,12 +1,13 @@
 require "test_helper"
 
 class Operations::V0ProhibitedFoundationsReviewTest < ActiveSupport::TestCase
-  test "passes current unapproved prohibited-foundations review scaffold" do
+  test "passes current accepted prohibited-foundations gate while preserving the no-effect review scaffold" do
     result = Operations::V0ProhibitedFoundationsReview.call
 
     assert result.passed
     assert result.checks.fetch(:v0_prohibited_foundations_review_scaffold_present)
     assert result.checks.fetch(:v0_prohibited_foundations_review_unapproved)
+    assert result.checks.fetch(:v0_prohibited_foundations_review_gate_accepted)
     assert result.checks.fetch(:v0_prohibited_foundations_review_no_approval_effect)
     assert result.checks.fetch(:v0_prohibited_foundations_allowed_foundations_present)
     assert result.checks.fetch(:v0_prohibited_foundation_classes_listed)
@@ -15,7 +16,7 @@ class Operations::V0ProhibitedFoundationsReviewTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_prohibited_foundations_criteria_pending_human_review)
     assert result.checks.fetch(:v0_prohibited_foundations_prohibited_effects_present)
     assert result.checks.fetch(:v0_scanned_artifacts_avoid_philosophical_or_religious_foundation)
-    assert_includes result.warnings, "v0_prohibited_foundations_review_unapproved"
+    assert_not_includes result.warnings, "v0_prohibited_foundations_review_unapproved"
   end
 
   test "fails when a prohibited foundation appears in a scanned artifact" do

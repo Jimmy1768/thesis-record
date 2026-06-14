@@ -59,6 +59,7 @@ module Operations
       checks = {
         v0_prohibited_foundations_review_scaffold_present: loaded_review.present?,
         v0_prohibited_foundations_review_unapproved: loaded_review.fetch(:approval_status, nil) == "unapproved",
+        v0_prohibited_foundations_review_gate_accepted: approval_gate_accepted?(loaded_approval_packet),
         v0_prohibited_foundations_review_no_approval_effect: loaded_review.fetch(:review_effect, nil) == "no_approval_no_publication_no_claim_support",
         v0_prohibited_foundations_allowed_foundations_present: allowed_foundations_present?(loaded_review),
         v0_prohibited_foundation_classes_listed: prohibited_foundation_classes_listed?(loaded_review),
@@ -74,7 +75,7 @@ module Operations
         passed: failures.empty?,
         checks: checks,
         failures: failures,
-        warnings: warnings(loaded_review)
+        warnings: warnings(loaded_review, loaded_approval_packet)
       )
     end
 
@@ -110,6 +111,10 @@ module Operations
       required_artifacts.include?(REVIEW_ARTIFACT_REF)
     end
 
+    def approval_gate_accepted?(loaded_approval_packet)
+      loaded_approval_packet.dig(:approval_gates, :prohibited_foundations_review, :status) == "accepted"
+    end
+
     def review_criteria_pending?(loaded_review)
       criteria = loaded_review.fetch(:review_criteria, {})
       REQUIRED_CRITERIA.all? do |criterion|
@@ -141,9 +146,9 @@ module Operations
       !line.match?(/\b(avoid|avoids|not|no|prohibit|prohibited|must not|cannot|should not|do not|without)\b/i)
     end
 
-    def warnings(loaded_review)
+    def warnings(loaded_review, loaded_approval_packet)
       [].tap do |warnings|
-        warnings << "v0_prohibited_foundations_review_unapproved" if loaded_review.fetch(:approval_status, nil) == "unapproved"
+        warnings << "v0_prohibited_foundations_review_unapproved" if loaded_review.fetch(:approval_status, nil) == "unapproved" && !approval_gate_accepted?(loaded_approval_packet)
       end
     end
   end

@@ -1,0 +1,38 @@
+version: v0
+record_type: prohibited_foundations_acceptance
+thesis_slug: operator-node-economics
+accepted_at_utc: "2026-06-15"
+accepted_gate: prohibited_foundations_review
+approval_status_effect:
+  approval_packet_gate: accepted
+  prohibited_foundations_review_scaffold: unchanged_unapproved
+scope: prohibited_foundations_gate_only
+basis:
+  review_artifact: theses/operator-node-economics/publication/v0_prohibited_foundations_review.yml
+  production_gate_summary_command: bin/rails operator:v0_gate_summary
+accepted_boundaries:
+  - Thesis 1 must rest on economics, organizational theory, history, technology, and empirical evidence.
+  - Philosophical or religious traditions must not be used as foundations, evidence, motivation, authority, or prestige framing.
+  - Analogies discovered by readers remain outside the paper's evidentiary basis.
+  - Manifesto, spiritual, prestige, award, and historical-destiny framing remain outside v0.
+  - Passing this gate does not approve public prose or publication.
+explicit_non_effects:
+  - no_source_truth_status_change
+  - no_claim_status_change
+  - no_forecast_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_prose_approval
+  - no_public_release
+  - no_publication_approval
+  - no_canonical_ingestion_authorization
+  - no_thesis_verdict
+remaining_pending_gates:
+  - frozen_claim_set_review
+  - frozen_forecast_set_review
+  - prose_review
+  - public_release_review
+required_next_checks:
+  - bin/rails operator:verify_v0_prohibited_foundations_review
+  - bin/rails operator:v0_gate_summary
+  - bin/rails operator:v0_readiness

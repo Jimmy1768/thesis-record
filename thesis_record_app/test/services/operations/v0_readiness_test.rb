@@ -31,7 +31,8 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_baseline_evidence_accepted)
     assert result.checks.fetch(:v0_source_truth_review_accepted)
     assert_not_includes result.blockers, "v0_source_truth_review_accepted"
-    assert_includes result.blockers, "v0_prohibited_foundations_review_accepted"
+    assert result.checks.fetch(:v0_prohibited_foundations_review_accepted)
+    assert_not_includes result.blockers, "v0_prohibited_foundations_review_accepted"
     assert_includes result.blockers, "v0_prose_review_accepted"
     assert_includes result.blockers, "v0_public_release_review_accepted"
     assert result.checks.fetch(:v0_internal_target_date_set)
@@ -47,7 +48,7 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert_includes result.warnings, "v0_forecast_set_candidate_only"
     assert_includes result.warnings, "v0_indicator_universe_unapproved"
     assert_not_includes result.warnings, "v0_source_truth_review_unapproved"
-    assert_includes result.warnings, "v0_prohibited_foundations_review_unapproved"
+    assert_not_includes result.warnings, "v0_prohibited_foundations_review_unapproved"
     assert_includes result.warnings, "v0_frozen_claim_set_review_unapproved"
     assert_includes result.warnings, "v0_frozen_forecast_set_review_unapproved"
     assert_includes result.warnings, "v0_prose_review_unapproved"
