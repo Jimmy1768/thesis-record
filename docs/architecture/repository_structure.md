@@ -13,6 +13,8 @@ ThesisRecord separates platform infrastructure from thesis-specific content.
 ## Platform Docs
 
 - `docs/architecture/` documents repository and application structure.
+  `phase_1_operator_nodes_v0.md` records the current Phase 1 direction: publish
+  and operate Thesis 1 before public productization.
 - `docs/audit/` documents audit expectations.
 - `docs/migration/` documents migration decisions and verification.
 - `docs/operations/` documents sanitized operations examples and boundaries.

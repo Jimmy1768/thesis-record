@@ -12,3 +12,7 @@ limitations, paper scaffolding, and operator records under `theses/<slug>/`.
 The initial migration keeps the Rails prototype effectively focused on Thesis 1.
 A later phase should introduce a first-class `Thesis` model and attach existing
 evidence rows to `operator-node-economics`.
+
+The current architecture direction is Phase 1: publish and operate Thesis 1 as
+a durable living thesis record before public productization. See
+`phase_1_operator_nodes_v0.md`.

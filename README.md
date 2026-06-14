@@ -23,3 +23,12 @@ The first migrated thesis is:
 
 Thesis-specific public source manifests live under the relevant thesis slug, not
 under root `data/`.
+
+## Current Direction
+
+The immediate goal is Phase 1: publish and operate Thesis 1, not launch a
+public product. Operator Nodes should reach a v0 thesis record, frozen forecast
+timeline, and scheduled evidence collection/checkpoint loop before
+multi-workspace or third-party product work begins.
+
+See `docs/architecture/phase_1_operator_nodes_v0.md`.
