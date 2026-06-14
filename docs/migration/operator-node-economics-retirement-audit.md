@@ -57,11 +57,11 @@ PostgreSQL and recorded in:
 Research, source-truth, peer-review, and manifest path comparisons found no
 missing mapped files.
 
-## Intentionally Not Migrated Yet
+## Archive-Only Holdouts
 
 | Old path | Reason | Later decision |
 | --- | --- | --- |
-| `paper/draft.md` | Held back to avoid mixing old project-specific prose into the platform migration | Copy later to `theses/operator-node-economics/paper/draft.md` only if explicitly approved |
+| `paper/draft.md` | Held back to avoid mixing old project-specific prose into the platform migration | Keep archive-only on DevSSD; do not migrate into active ThesisRecord unless a later explicit writing task asks for it |
 
 ## Archival / Do Not Migrate By Default
 
@@ -72,11 +72,12 @@ The old repo still contains 45 generated or raw data files under:
 - `data/processed/`
 - `data/analysis/`
 
-These files should not be copied wholesale into ThesisRecord. The structured
-evidence rows derived from the old local database have already been promoted to
-production PostgreSQL. If any generated CSV/JSON artifact is later needed as a
-published or inspectable evidence artifact, promote it through a new manifest
-and place it under the Thesis 1 evidence tree deliberately.
+These files should not be copied wholesale into ThesisRecord. They remain
+archive-only on DevSSD. The structured evidence rows derived from the old local
+database have already been promoted to production PostgreSQL. If any generated
+CSV/JSON artifact is later needed as a published or inspectable evidence
+artifact, promote it through a new manifest and place it under the Thesis 1
+evidence tree deliberately.
 
 ## Excluded / Never Migrate
 
@@ -102,11 +103,12 @@ Do not delete `/Volumes/DevSSD/Projects/archive/operator-node-economics` yet.
 Recommended transition:
 
 1. Keep the old repo read-only as archival/reference on DevSSD.
-2. Decide explicitly whether to copy `paper/draft.md`.
-3. Decide whether any of the 45 old raw/generated data files need curated
-   evidence-artifact promotion.
-4. After those decisions, delete the archived old repo only after a final
-   approval.
+2. Keep `paper/draft.md` archive-only unless a later explicit writing task asks
+   for it.
+3. Keep the 45 old raw/generated data files archive-only unless a later explicit
+   evidence-artifact task asks for a curated promotion.
+4. After a later final retirement decision, delete the archived old repo only
+   after final approval.
 
 The old repo is no longer the system of record for structured evidence data.
 Production PostgreSQL under ThesisRecord is the canonical structured evidence
@@ -118,9 +120,10 @@ Delete the old repo only after all of these are true:
 
 - ThesisRecord remains clean and pushed.
 - Production ThesisRecord health checks pass.
-- `paper/draft.md` has either been copied or explicitly abandoned.
-- Old raw/generated data files have either been promoted by manifest or
-  explicitly abandoned.
+- `paper/draft.md` has either remained archive-only by decision or been copied
+  by an explicit later writing task.
+- Old raw/generated data files have either remained archive-only by decision or
+  been promoted by manifest through an explicit later evidence-artifact task.
 - No active docs, scripts, or operator handoffs reference the old path as an
   operational source.
 - A final human approval says the archived old repo may be deleted.
