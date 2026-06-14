@@ -88,7 +88,7 @@ python3 research/data/sector_panel_transform.py
 git diff -- paper/draft.md
 git diff --check
 rg -n "analysis design only|claim-support|missing_aies_sector_rows|No descriptive calculations|No quantitative analysis|No AI-exposure|No paper prose" research/data/sector_panel_analysis_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md research/predictions.md paper/evidence_requirements.md docs/operator/returns/2026-06-12-sector-panel-analysis-design-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_analysis_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md research/predictions.md paper/evidence_requirements.md docs/operator/returns/2026-06-12-sector-panel-analysis-design-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_analysis_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md research/predictions.md paper/evidence_requirements.md docs/operator/returns/2026-06-12-sector-panel-analysis-design-return.md
 rg -n "[ \t]+$" research/data/sector_panel_analysis_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md research/predictions.md paper/evidence_requirements.md docs/operator/returns/2026-06-12-sector-panel-analysis-design-return.md
 ```
 

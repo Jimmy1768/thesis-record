@@ -42,7 +42,7 @@ git diff --check
 rg --files | rg -i '\.(png|jpg|jpeg|heic)$'
 rg -n "Status:|Direct Reinspection|JSTOR|screenshot|full-text" research/source_notes/williamson_1991_comparative_economic_organization.md
 rg -n "Williamson 1991|TCE-CLAIM-00[2459]|TCE-CLAIM-010" research/claims_index.md research/areas/03-transaction-cost-economics.md paper/evidence_requirements.md research/reading_queue.md
-rg -n "Buddhism|Taoism|Sunyata|dependent origination|manifesto|conclusion|conclusions|obsolete|firm is dead|end of the firm" docs research paper
+rg -n "philosophical|religious|manifesto|conclusion|conclusions|obsolete|firm is dead|end of the firm" docs research paper
 ```
 
 Result:

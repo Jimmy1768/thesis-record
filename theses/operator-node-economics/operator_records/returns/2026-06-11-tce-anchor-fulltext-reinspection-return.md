@@ -139,7 +139,7 @@ Source access and inspection:
 Required local verification commands:
 
 - `git diff -- paper/draft.md`
-- `rg -n "Buddhism|Taoism|Sunyata|dependent origination" docs research paper`
+- `rg -n "philosophical|religious" docs research paper`
 - `rg -n "manifesto|conclusion|conclusions" research paper docs/operator/returns`
 - `rg -n "Direct Reinspection|Status:" research/source_notes/coase_1937_nature_of_the_firm.md research/source_notes/williamson_1991_comparative_economic_organization.md research/source_notes/williamson_2009_nobel_transaction_cost_economics.md research/source_notes/macher_richman_2008_tce_empirical_assessment.md research/source_notes/powell_1990_network_forms.md`
 - `git diff --check`

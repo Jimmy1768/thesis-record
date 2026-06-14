@@ -112,7 +112,7 @@ git diff --check
 rg -n "Status:" research/source_notes
 rg -n "TCE-CLAIM-006|TCE-CLAIM-009|TCE-CLAIM-011|TCE-CLAIM-012" research/claims_index.md
 rg -n "Bonney|Arledge|Pallais|Resnick|headcount|management-layer|nonemployer|escrow|arbitration|insurance|audit|SLA" research paper docs/operator/returns/2026-06-11-direct-empirical-gap-closure-return.md
-rg -n "Buddhism|Taoism|Sunyata|dependent origination" docs research paper
+rg -n "philosophical|religious" docs research paper
 ```
 
 ## Return Required

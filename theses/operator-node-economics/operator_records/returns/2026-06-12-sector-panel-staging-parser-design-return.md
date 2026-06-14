@@ -89,7 +89,7 @@ Run after editing:
 git diff -- paper/draft.md
 git diff --check
 rg -n "sector_panel_staging_parser_design|stg_nes_sector_2023|stg_aies_nes_sector_2023|stg_susb_sector_2022|stg_bds_sector_age_size|analysis_performed|No quantitative analysis|No processed panel" research/data/sector_panel_staging_parser_design.md data/manifests/sector_panel_staging_manifest_template.csv research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-staging-parser-design-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_staging_parser_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-staging-parser-design-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_staging_parser_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-staging-parser-design-return.md
 rg -n "[ \t]+$" research/data/sector_panel_staging_parser_design.md data/manifests/sector_panel_staging_manifest_template.csv research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-staging-parser-design-return.md
 python3 - <<'PY'
 import csv

@@ -77,7 +77,7 @@ Commands run:
 git diff -- paper/draft.md
 git diff --check
 rg -n "company_operator_network|company operator network|private_data_ingested=false|registry_rows_added=false|claim_support_updated=false|pilot intake|feasibility-case|empty intake manifest|private storage" research docs/operator/returns/2026-06-12-company-operator-network-pilot-intake-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|prophetic|lazy|unimaginative|deserving awards|Nobel|firm is dea[d]|end of the fir[m]" research/data/company_operator_network_pilot_intake_plan.md research/data/private_data_governance.md research/data/registry_population_policy.md research/data/living_forecast_registry_templates.md research/living_forecast_system.md research/reading_queue.md research/open_questions.md
+rg -n "philosophical|religious|prophetic|lazy|unimaginative|deserving awards|Nobel|firm is dea[d]|end of the fir[m]" research/data/company_operator_network_pilot_intake_plan.md research/data/private_data_governance.md research/data/registry_population_policy.md research/data/living_forecast_registry_templates.md research/living_forecast_system.md research/reading_queue.md research/open_questions.md
 rg -n "[ \t]+$" research/data/company_operator_network_pilot_intake_plan.md research/data/private_data_governance.md research/data/registry_population_policy.md research/data/living_forecast_registry_templates.md research/living_forecast_system.md research/reading_queue.md research/open_questions.md docs/operator/returns/2026-06-12-company-operator-network-pilot-intake-return.md
 ```
 

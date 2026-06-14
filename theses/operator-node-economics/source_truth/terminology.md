@@ -63,5 +63,5 @@ beautiful, safe, prestigious, or worth choosing.
 ## Avoided Terms
 
 Avoid spiritual or philosophical framing in this repo's argument foundation.
-Terms from Buddhism, Taoism, Sunyata, or dependent origination should not appear
-as foundations for the paper.
+Terms from philosophical or religious traditions should not appear as
+foundations for the paper.

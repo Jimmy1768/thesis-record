@@ -88,7 +88,7 @@ Commands run:
 git diff -- paper/draft.md
 git diff --check
 rg -n "TCE-P012|TCE-CLAIM-015|claim_support_updated=false|partially operationalized|economic class|creator|niche human provider|experiencer|preference validation|OEWS|market research analysts|survey researchers" research docs/operator/returns/2026-06-12-economic-class-measurement-design-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|prophetic|lazy|unimaginative|deserving awards|Nobel|firm is dea[d]|end of the fir[m]" research/source_notes/bls_oews_ooh_preference_validation_proxies.md research/data/economic_class_measurement_design.md research/economic_class_implications.md research/data/field_dictionary.md research/predictions.md research/empirical_strategy.md research/reading_queue.md
+rg -n "philosophical|religious|prophetic|lazy|unimaginative|deserving awards|Nobel|firm is dea[d]|end of the fir[m]" research/source_notes/bls_oews_ooh_preference_validation_proxies.md research/data/economic_class_measurement_design.md research/economic_class_implications.md research/data/field_dictionary.md research/predictions.md research/empirical_strategy.md research/reading_queue.md
 rg -n "[ \t]+$" research/source_notes/bls_oews_ooh_preference_validation_proxies.md research/data/economic_class_measurement_design.md research/economic_class_implications.md research/data/field_dictionary.md research/predictions.md research/empirical_strategy.md research/reading_queue.md docs/operator/returns/2026-06-12-economic-class-measurement-design-return.md
 ```
 

@@ -9,26 +9,31 @@ class Operations::V0ProhibitedFoundationsReviewTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_prohibited_foundations_review_unapproved)
     assert result.checks.fetch(:v0_prohibited_foundations_review_no_approval_effect)
     assert result.checks.fetch(:v0_prohibited_foundations_allowed_foundations_present)
-    assert result.checks.fetch(:v0_prohibited_foundations_terms_listed)
+    assert result.checks.fetch(:v0_prohibited_foundation_classes_listed)
     assert result.checks.fetch(:v0_prohibited_foundations_required_artifacts_present)
     assert result.checks.fetch(:v0_approval_packet_requires_prohibited_foundations_review)
     assert result.checks.fetch(:v0_prohibited_foundations_criteria_pending_human_review)
     assert result.checks.fetch(:v0_prohibited_foundations_prohibited_effects_present)
-    assert result.checks.fetch(:v0_scanned_artifacts_avoid_prohibited_foundation_terms)
+    assert result.checks.fetch(:v0_scanned_artifacts_avoid_philosophical_or_religious_foundation)
     assert_includes result.warnings, "v0_prohibited_foundations_review_unapproved"
   end
 
-  test "fails when a prohibited term appears in a scanned artifact" do
+  test "fails when a prohibited foundation appears in a scanned artifact" do
     review = YAML.safe_load_file(
       Rails.root.join("..", "theses", "operator-node-economics", "publication", "v0_prohibited_foundations_review.yml")
     ).deep_symbolize_keys
-    review[:scan_paths] = [ "theses/operator-node-economics/source_truth/prohibited_foundations.md" ]
+    test_path = Rails.root.join("tmp", "prohibited_foundation_positive_test.md")
+    FileUtils.mkdir_p(test_path.dirname)
+    test_path.write("This thesis uses religious foundation claims as evidence.\n")
+    review[:scan_paths] = [ "thesis_record_app/tmp/prohibited_foundation_positive_test.md" ]
 
     result = Operations::V0ProhibitedFoundationsReview.call(review: review)
 
     assert_not result.passed
-    assert_not result.checks.fetch(:v0_scanned_artifacts_avoid_prohibited_foundation_terms)
-    assert_includes result.failures, "v0_scanned_artifacts_avoid_prohibited_foundation_terms"
+    assert_not result.checks.fetch(:v0_scanned_artifacts_avoid_philosophical_or_religious_foundation)
+    assert_includes result.failures, "v0_scanned_artifacts_avoid_philosophical_or_religious_foundation"
+  ensure
+    test_path&.delete if test_path&.exist?
   end
 
   test "fails when review criteria are treated as accepted without approval" do

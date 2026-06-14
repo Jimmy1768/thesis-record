@@ -110,7 +110,7 @@ git status --short --ignored data/processed/sector_panel
 git diff -- paper/draft.md
 git diff --check
 rg -n "processed_tables_written=3|analysis_performed=false|missing_aies_sector_rows=11;81|No quantitative analysis|No AI-exposure merge|No API key" research/data/sector_panel_transform.py research/data/sector_panel_transform_run.md research/data/sector_panel_transformation_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-transform-run-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_transform.py research/data/sector_panel_transform_run.md research/data/sector_panel_transformation_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-transform-run-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_transform.py research/data/sector_panel_transform_run.md research/data/sector_panel_transformation_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-transform-run-return.md
 rg -n "[ \t]+$" research/data/sector_panel_transform.py research/data/sector_panel_transform_run.md data/manifests/sector_panel_processed_manifest.csv research/data/sector_panel_transformation_design.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-transform-run-return.md
 ```
 

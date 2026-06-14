@@ -124,7 +124,7 @@ Write a return record under `docs/operator/returns/`.
 - Do not write paper prose.
 - Do not write conclusions for the paper.
 - Do not write manifesto language.
-- Do not use Buddhism, Taoism, Sunyata, dependent origination, or related
+- Do not use philosophical or religious foundations, or related
   philosophical traditions as foundations.
 - Do not assume the Operator Node hypothesis is true.
 - Do not commit or push.
@@ -139,7 +139,7 @@ git diff --check
 rg -n "Status:" research/source_notes
 rg -n "unverified|needs verification|needs refinement|weak support|supported" research/claims_index.md research/predictions.md research/criticisms.md paper/evidence_requirements.md
 rg -n "task productivity|transaction-cost|transaction cost|firm-boundary|firm boundary|nonemployer|adoption|management layer|coordination cost" research paper
-rg -n "Buddhism|Taoism|Sunyata|dependent origination" docs research paper
+rg -n "philosophical|religious" docs research paper
 rg -n "manifesto|conclusion|conclusions|obsolete|firm is dead|end of the firm" research paper docs/operator/returns
 ```
 

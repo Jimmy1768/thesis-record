@@ -98,7 +98,7 @@ git diff -- paper/draft.md
 git diff --check
 git check-ignore .env.local data/raw/bds/2023/bds2023_sec_fa_fz.csv data/raw/susb/2022/us_state_6digitnaics_2022.txt
 rg -n 'NES And AIES-NES API Ingestion Readiness|LFO=001|RCPSZES=001|NRCPTOT_N_F|RCPT_TOT_VAL_NS_N_F|452|425|duplicate YEAR|No quantitative analysis|No ingestion' research/data/nes_aies_api_ingestion_readiness.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/field_dictionary.md docs/operator/returns/2026-06-11-nes-aies-api-ingestion-readiness-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/nes_aies_api_ingestion_readiness.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/field_dictionary.md docs/operator/returns/2026-06-11-nes-aies-api-ingestion-readiness-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/nes_aies_api_ingestion_readiness.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/field_dictionary.md docs/operator/returns/2026-06-11-nes-aies-api-ingestion-readiness-return.md
 rg -n "[ \t]+$" research/data/nes_aies_api_ingestion_readiness.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/field_dictionary.md docs/operator/returns/2026-06-11-nes-aies-api-ingestion-readiness-return.md
 ```
 

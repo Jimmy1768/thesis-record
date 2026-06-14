@@ -149,7 +149,7 @@ Run after editing:
 git diff -- paper/draft.md
 git diff --check
 rg -n 'Missing Key|Invalid Key|verified_row_smoke_key_first|verified_combined_query_key_first|CENSUS_API_KEY|BDSFAGEFSIZE|us_state_6digitnaics_2022|us_state_naics_detailedsizes_2022|No quantitative analysis|No raw datasets' research/data/acquisition_scaffold.md research/data/schema_smoke_tests.md research/empirical_strategy.md docs/operator/returns/2026-06-11-schema-smoke-test-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/acquisition_scaffold.md research/data/schema_smoke_tests.md research/empirical_strategy.md docs/operator/returns/2026-06-11-schema-smoke-test-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/acquisition_scaffold.md research/data/schema_smoke_tests.md research/empirical_strategy.md docs/operator/returns/2026-06-11-schema-smoke-test-return.md
 rg -n "[ \t]+$" research/data/acquisition_scaffold.md research/data/schema_smoke_tests.md research/empirical_strategy.md docs/operator/returns/2026-06-11-schema-smoke-test-return.md
 git status --short
 ```

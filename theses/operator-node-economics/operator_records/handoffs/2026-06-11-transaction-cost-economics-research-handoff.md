@@ -44,7 +44,7 @@ explicitly asked to propose outline changes.
 - Do not write conclusions yet.
 - Do not write a manifesto.
 - Do not assume the theory is true.
-- Do not use Buddhism, Taoism, Sunyata, dependent origination, or related
+- Do not use philosophical or religious foundations, or related
   philosophical traditions as foundations.
 - Use economics, organizational theory, history, technology, and empirical
   evidence.

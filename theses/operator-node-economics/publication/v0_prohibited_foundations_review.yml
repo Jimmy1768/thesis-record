@@ -13,11 +13,8 @@ allowed_foundations:
   - history
   - technology
   - empirical_evidence
-prohibited_foundations:
-  - Buddhism
-  - Taoism
-  - Sunyata
-  - dependent origination
+prohibited_foundation_classes:
+  - philosophical_or_religious_foundations
 required_artifacts:
   - theses/operator-node-economics/source_truth/prohibited_foundations.md
   - theses/operator-node-economics/source_truth/research_contract.md
@@ -33,9 +30,9 @@ review_criteria:
   allowed_foundations_only:
     status: pending_human_review
     requirement: v0 framing must rest on economics, organizational theory, history, technology, and empirical evidence.
-  prohibited_foundations_listed:
+  prohibited_foundation_classes_listed:
     status: pending_human_review
-    requirement: Buddhism, Taoism, Sunyata, and dependent origination must be listed as prohibited foundations.
+    requirement: Philosophical or religious foundations must be listed as prohibited foundation classes.
   analogy_not_evidence:
     status: pending_human_review
     requirement: Any later-discovered philosophical or religious parallel cannot be used as evidence or motivation for the thesis.

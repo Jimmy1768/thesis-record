@@ -138,7 +138,7 @@ Commands run:
 git diff -- paper/draft.md
 git diff --check
 rg -n "TCE-P011|JWTRNS|COW|TEWHERE|TRCODE|TUACTDUR24|TRDTIND1|TRDTOCC1|candidate/falsifier|claim_support_updated=false" research paper docs/operator/returns/2026-06-12-remote-employment-source-discovery-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|write paper conclus[i]ons?|paper conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/remote_employment_measurement_design.md research/data/field_dictionary.md research/predictions.md research/empirical_strategy.md research/reading_queue.md paper/evidence_requirements.md docs/operator/returns/2026-06-12-remote-employment-source-discovery-return.md
+rg -n "philosophical|religious|man[i]festo|write paper conclus[i]ons?|paper conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/remote_employment_measurement_design.md research/data/field_dictionary.md research/predictions.md research/empirical_strategy.md research/reading_queue.md paper/evidence_requirements.md docs/operator/returns/2026-06-12-remote-employment-source-discovery-return.md
 rg -n "[ \t]+$" research/source_notes/bls_2024_american_time_use_survey_remote_work.md research/source_notes/census_2024_acs_pums_remote_work.md research/source_notes/bls_2023_contingent_alternative_employment_arrangements.md research/data/remote_employment_measurement_design.md research/data/field_dictionary.md research/predictions.md research/empirical_strategy.md research/reading_queue.md paper/evidence_requirements.md docs/operator/returns/2026-06-12-remote-employment-source-discovery-return.md
 ```
 

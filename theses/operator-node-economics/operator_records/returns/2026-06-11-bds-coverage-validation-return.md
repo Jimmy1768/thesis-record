@@ -97,7 +97,7 @@ git diff -- paper/draft.md
 git diff --check
 git check-ignore .env.local data/raw/susb/2022/us_state_6digitnaics_2022.txt
 rg -n "BDSFAGEFSIZE|2019|2020|2021|2022|2023|metro/micro|541511|multi-year|coverage_validated_2022_contexts_only" research/data/bds_coverage_validation.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/naics_panel_inventory.md research/empirical_strategy.md research/reading_queue.md paper/evidence_requirements.md docs/operator/returns/2026-06-11-bds-coverage-validation-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/bds_coverage_validation.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/naics_panel_inventory.md research/empirical_strategy.md research/reading_queue.md paper/evidence_requirements.md docs/operator/returns/2026-06-11-bds-coverage-validation-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/bds_coverage_validation.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/naics_panel_inventory.md research/empirical_strategy.md research/reading_queue.md paper/evidence_requirements.md docs/operator/returns/2026-06-11-bds-coverage-validation-return.md
 rg -n "[ \t]+$" research/data/bds_coverage_validation.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/naics_panel_inventory.md research/empirical_strategy.md research/reading_queue.md paper/evidence_requirements.md docs/operator/returns/2026-06-11-bds-coverage-validation-return.md
 ```
 

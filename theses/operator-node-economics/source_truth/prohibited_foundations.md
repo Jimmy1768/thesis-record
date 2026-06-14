@@ -8,13 +8,9 @@ The paper must stand entirely on:
 - technology;
 - empirical evidence.
 
-Do not reference these as foundations:
+Do not use philosophical or religious traditions as foundations, evidence,
+motivation, authority, or prestige framing for this thesis.
 
-- Buddhism;
-- Taoism;
-- Sunyata;
-- dependent origination.
-
-These concepts may contain similar observations, but they are not evidence for
-this paper. If readers later discover parallels, that is their conclusion. The
-paper should not depend on philosophical or religious traditions.
+If a reader later sees an analogy to an outside tradition, that is outside the
+paper's evidentiary basis. The paper should not depend on philosophical or
+religious traditions.

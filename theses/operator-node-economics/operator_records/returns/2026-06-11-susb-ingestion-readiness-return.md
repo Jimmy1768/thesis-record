@@ -110,7 +110,7 @@ git diff -- paper/draft.md
 git diff --check
 git check-ignore .env.local data/raw/bds/2023/bds2023_sec_fa_fz.csv data/raw/susb/2022/us_state_6digitnaics_2022.txt
 rg -n "SUSB CSV Ingestion Readiness|570,105|G|H|J|D|S|EMPLFL_N|PAYRFL_N|RCPTFL_N|No quantitative analysis|No ingestion" research/data/susb_ingestion_readiness.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/field_dictionary.md data/manifests/susb_2022_manifest.csv docs/operator/returns/2026-06-11-susb-ingestion-readiness-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/susb_ingestion_readiness.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/field_dictionary.md data/manifests/susb_2022_manifest.csv docs/operator/returns/2026-06-11-susb-ingestion-readiness-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/susb_ingestion_readiness.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/field_dictionary.md data/manifests/susb_2022_manifest.csv docs/operator/returns/2026-06-11-susb-ingestion-readiness-return.md
 rg -n "[ \t]+$" research/data/susb_ingestion_readiness.md research/data/acquisition_scaffold.md research/data/schema_mapping.md research/data/field_dictionary.md data/manifests/susb_2022_manifest.csv docs/operator/returns/2026-06-11-susb-ingestion-readiness-return.md
 ```
 

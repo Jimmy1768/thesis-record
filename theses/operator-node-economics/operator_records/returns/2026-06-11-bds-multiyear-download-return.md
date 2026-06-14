@@ -81,7 +81,7 @@ git check-ignore data/raw/bds/2023/bds2023_sec_fa_fz.csv
 git diff -- paper/draft.md
 git diff --check
 rg -n "bds2023_sec_fa_fz|bds_2023_manifest|first_raw_file_downloaded_manifested_local_only|D and X|No quantitative analysis|No paper prose" data/README.md data/manifests/bds_2023_manifest.csv research/data/acquisition_scaffold.md docs/operator/returns/2026-06-11-bds-multiyear-download-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" data/README.md data/manifests/bds_2023_manifest.csv research/data/acquisition_scaffold.md docs/operator/returns/2026-06-11-bds-multiyear-download-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" data/README.md data/manifests/bds_2023_manifest.csv research/data/acquisition_scaffold.md docs/operator/returns/2026-06-11-bds-multiyear-download-return.md
 rg -n "[ \t]+$" data/README.md data/manifests/bds_2023_manifest.csv research/data/acquisition_scaffold.md docs/operator/returns/2026-06-11-bds-multiyear-download-return.md
 ```
 

@@ -114,7 +114,7 @@ git diff -- paper/draft.md
 git diff --check
 rg -n "metadata_ready_smoke_test_required|group_metadata_ready_query_validation_required|schema_ready_file_path_required|blocked|No quantitative analysis|No raw data|payroll-transition proxy|TCE-P005" research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-11-data-acquisition-scaffold-return.md
 rg -n "https://api.census.gov/data/2023/nonemp/examples.json|https://api.census.gov/data/2023/aiesnonemp/examples.json|https://api.census.gov/data/timeseries/bds/examples.json|https://www2.census.gov/programs-surveys/susb/datasets/2022/" docs/operator/returns/2026-06-11-data-acquisition-scaffold-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-11-data-acquisition-scaffold-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-11-data-acquisition-scaffold-return.md
 rg -n "[ \t]+$" research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-11-data-acquisition-scaffold-return.md
 git status --short
 ```

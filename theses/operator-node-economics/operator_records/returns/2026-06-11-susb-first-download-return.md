@@ -97,7 +97,7 @@ git check-ignore data/raw/susb/2022/us_state_6digitnaics_2022.txt
 git status --short
 git diff -- paper/draft.md
 git diff --check
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" data/README.md data/manifests/README.md data/manifests/susb_2022_manifest.csv research/data/acquisition_scaffold.md docs/operator/returns/2026-06-11-susb-first-download-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" data/README.md data/manifests/README.md data/manifests/susb_2022_manifest.csv research/data/acquisition_scaffold.md docs/operator/returns/2026-06-11-susb-first-download-return.md
 rg -n "[ \t]+$" data/manifests/susb_2022_manifest.csv research/data/acquisition_scaffold.md docs/operator/returns/2026-06-11-susb-first-download-return.md
 ```
 

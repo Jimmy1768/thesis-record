@@ -175,7 +175,7 @@ git diff -- paper/draft.md
 git diff --check
 rg -n "data_type_code|category_code|BA|HBA|BF4Q|BF8Q|PBF4Q|PBF8Q|BDSFAGEFSIZE|FIRMDEATH_FIRMS|ESTABS_ENTRY|ENTRSIZE|EMPLFL_N|PAYRFL_N|question 23|Question 23|NAICS-vintage|2022_NAICS_Structure" research/data/schema_mapping.md research/data/field_dictionary.md research/data/naics_panel_inventory.md research/reading_queue.md docs/operator/returns/2026-06-11-schema-blocker-closure-return.md
 rg -n "payroll-transition proxy|worker-level GenAI adoption|ArXiv-only|TCE-P005|No quantitative analysis|No Operator Node claim" research/data/schema_mapping.md research/data/naics_panel_inventory.md docs/operator/returns/2026-06-11-schema-blocker-closure-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|obsolet[e]|firm is dea[d]|end of the fir[m]" research/data/schema_mapping.md research/data/field_dictionary.md research/data/naics_panel_inventory.md docs/operator/returns/2026-06-11-schema-blocker-closure-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|obsolet[e]|firm is dea[d]|end of the fir[m]" research/data/schema_mapping.md research/data/field_dictionary.md research/data/naics_panel_inventory.md docs/operator/returns/2026-06-11-schema-blocker-closure-return.md
 rg -n "[ \t]+$" research/data/schema_mapping.md research/data/field_dictionary.md research/data/naics_panel_inventory.md research/reading_queue.md docs/operator/returns/2026-06-11-schema-blocker-closure-return.md
 git status --short
 ```

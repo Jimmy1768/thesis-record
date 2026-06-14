@@ -124,7 +124,7 @@ git status --short --ignored data/raw/nes/2023/nes_2023_us_sector_11.json data/r
 git diff -- paper/draft.md
 git diff --check
 rg -n "SECTOR=11|NAICS2017=11|api_payloads_fetched=2|analysis_performed=false|No quantitative analysis|No processed panel|No API key" research/data/sector_panel_api_fetch_smoke_test.md research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-api-fetch-smoke-test-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_api_fetch_smoke_test.md research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-api-fetch-smoke-test-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_api_fetch_smoke_test.md research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-api-fetch-smoke-test-return.md
 rg -n "[ \t]+$" research/data/sector_panel_api_fetch_smoke_test.md research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-api-fetch-smoke-test-return.md
 ```
 

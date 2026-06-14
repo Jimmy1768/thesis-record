@@ -56,7 +56,7 @@ Paper files:
 - Do not write conclusions.
 - Do not write manifesto language.
 - Do not assume the theory is true.
-- Do not use Buddhism, Taoism, Sunyata, dependent origination, or related
+- Do not use philosophical or religious foundations, or related
   philosophical traditions as foundations.
 - Treat unverified source notes as unavailable for strong claims.
 - Preserve uncertainty and criticism.

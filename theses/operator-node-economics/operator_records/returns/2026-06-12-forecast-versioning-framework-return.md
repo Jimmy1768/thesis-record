@@ -72,7 +72,7 @@ Run after editing:
 git diff -- paper/draft.md
 git diff --check
 rg -n "forecast baseline|versioned forecast|V1|V2|V3|negative updates|company" research/forecast_versioning_framework.md research/predictions.md research/empirical_strategy.md docs/source_truth/falsifiability_contract.md docs/source_truth/core_hypothesis.md paper/evidence_requirements.md paper/outline.md paper/argument_map.md docs/operator/returns/2026-06-12-forecast-versioning-framework-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|firm is dea[d]|end of the fir[m]" research/forecast_versioning_framework.md research/predictions.md research/empirical_strategy.md docs/source_truth/falsifiability_contract.md docs/source_truth/core_hypothesis.md paper/evidence_requirements.md paper/outline.md paper/argument_map.md docs/operator/returns/2026-06-12-forecast-versioning-framework-return.md
+rg -n "philosophical|religious|firm is dea[d]|end of the fir[m]" research/forecast_versioning_framework.md research/predictions.md research/empirical_strategy.md docs/source_truth/falsifiability_contract.md docs/source_truth/core_hypothesis.md paper/evidence_requirements.md paper/outline.md paper/argument_map.md docs/operator/returns/2026-06-12-forecast-versioning-framework-return.md
 rg -n "[ \t]+$" research/forecast_versioning_framework.md research/predictions.md research/empirical_strategy.md docs/source_truth/falsifiability_contract.md docs/source_truth/core_hypothesis.md paper/evidence_requirements.md paper/outline.md paper/argument_map.md docs/operator/returns/2026-06-12-forecast-versioning-framework-return.md
 ```
 

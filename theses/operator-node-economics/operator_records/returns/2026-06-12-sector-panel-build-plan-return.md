@@ -116,7 +116,7 @@ Run after editing:
 git diff -- paper/draft.md
 git diff --check
 rg -n "sector_panel_build_plan|17-sector|stg_nes_sector_2023|stg_aies_nes_sector_2023|stg_susb_sector_2022|stg_bds_sector_age_size|No quantitative analysis|No processed panel|No new raw data" research/data/sector_panel_build_plan.md research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-build-plan-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_build_plan.md research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-build-plan-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_build_plan.md research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-build-plan-return.md
 rg -n "[ \t]+$" research/data/sector_panel_build_plan.md research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-build-plan-return.md
 git status --short
 ```

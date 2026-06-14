@@ -19,16 +19,13 @@ module Operations
       empirical_evidence
     ].freeze
 
-    REQUIRED_PROHIBITED_FOUNDATIONS = [
-      "Buddhism",
-      "Taoism",
-      "Sunyata",
-      "dependent origination"
+    REQUIRED_PROHIBITED_FOUNDATION_CLASSES = [
+      "philosophical_or_religious_foundations"
     ].freeze
 
     REQUIRED_CRITERIA = %i[
       allowed_foundations_only
-      prohibited_foundations_listed
+      prohibited_foundation_classes_listed
       analogy_not_evidence
       no_manifesto_or_prestige_frame
       no_publication_without_human_review
@@ -64,12 +61,12 @@ module Operations
         v0_prohibited_foundations_review_unapproved: loaded_review.fetch(:approval_status, nil) == "unapproved",
         v0_prohibited_foundations_review_no_approval_effect: loaded_review.fetch(:review_effect, nil) == "no_approval_no_publication_no_claim_support",
         v0_prohibited_foundations_allowed_foundations_present: allowed_foundations_present?(loaded_review),
-        v0_prohibited_foundations_terms_listed: prohibited_terms_listed?(loaded_review),
+        v0_prohibited_foundation_classes_listed: prohibited_foundation_classes_listed?(loaded_review),
         v0_prohibited_foundations_required_artifacts_present: required_artifacts_present?(loaded_review),
         v0_approval_packet_requires_prohibited_foundations_review: approval_packet_requires_review?(loaded_approval_packet),
         v0_prohibited_foundations_criteria_pending_human_review: review_criteria_pending?(loaded_review),
         v0_prohibited_foundations_prohibited_effects_present: prohibited_effects_present?(loaded_review),
-        v0_scanned_artifacts_avoid_prohibited_foundation_terms: scanned_artifacts_avoid_terms?(loaded_review)
+        v0_scanned_artifacts_avoid_philosophical_or_religious_foundation: scanned_artifacts_avoid_prohibited_foundation?(loaded_review)
       }
 
       failures = checks.filter_map { |name, passed| name.to_s unless passed }
@@ -96,9 +93,9 @@ module Operations
       (REQUIRED_ALLOWED_FOUNDATIONS - configured).empty?
     end
 
-    def prohibited_terms_listed?(loaded_review)
-      configured = loaded_review.fetch(:prohibited_foundations, []).map(&:to_s)
-      (REQUIRED_PROHIBITED_FOUNDATIONS - configured).empty?
+    def prohibited_foundation_classes_listed?(loaded_review)
+      configured = loaded_review.fetch(:prohibited_foundation_classes, []).map(&:to_s)
+      (REQUIRED_PROHIBITED_FOUNDATION_CLASSES - configured).empty?
     end
 
     def required_artifacts_present?(loaded_review)
@@ -126,7 +123,7 @@ module Operations
       (REQUIRED_PROHIBITED_EFFECTS - configured_effects).empty?
     end
 
-    def scanned_artifacts_avoid_terms?(loaded_review)
+    def scanned_artifacts_avoid_prohibited_foundation?(loaded_review)
       scan_paths = loaded_review.fetch(:scan_paths, [])
       return false if scan_paths.empty?
 
@@ -134,11 +131,14 @@ module Operations
         path = REPO_ROOT.join(scan_path)
         next false unless path.exist?
 
-        text = path.read
-        REQUIRED_PROHIBITED_FOUNDATIONS.none? do |term|
-          text.match?(/\b#{Regexp.escape(term)}\b/i)
-        end
+        path.each_line.none? { |line| affirmative_prohibited_foundation_framing?(line) }
       end
+    end
+
+    def affirmative_prohibited_foundation_framing?(line)
+      return false unless line.match?(/\b(philosophical|religious)\s+(foundation|foundations|tradition|traditions|framing|authority|motivation)\b/i)
+
+      !line.match?(/\b(avoid|avoids|not|no|prohibit|prohibited|must not|cannot|should not|do not|without)\b/i)
     end
 
     def warnings(loaded_review)

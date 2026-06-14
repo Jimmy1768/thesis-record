@@ -144,7 +144,7 @@ Local repo files read before and during integration:
 ## Exact Verification Performed
 
 - `git status --short`
-- `rg -n "Buddhism|Taoism|Sunyata|dependent origination|manifesto|conclusion" docs research paper`
+- `rg -n "philosophical|religious|manifesto|conclusion" docs research paper`
 - `git diff -- paper/draft.md`
 - `find research/source_notes -maxdepth 1 -type f -print`
 

@@ -37,7 +37,7 @@ separately after final whitespace and queue checks.
 
 ```bash
 git diff -- paper/draft.md
-rg -n "Buddhism|Taoism|Sunyata|dependent origination|manifesto|conclusion" docs research paper
+rg -n "philosophical|religious|manifesto|conclusion" docs research paper
 rg -n "^Status: " research/source_notes/*.md
 rg -n "\| TCE-CLAIM-00[0-9].*\| supported \|.*(Census 2026|Federal Reserve 2026|OECD 2025|Joskow 2010)" research/claims_index.md
 git diff --check

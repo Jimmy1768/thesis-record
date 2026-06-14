@@ -116,7 +116,7 @@ git diff -- paper/draft.md
 git diff --check
 git check-ignore .env.local data/raw/bds/2023/bds2023_sec_fa_fz.csv data/raw/susb/2022/us_state_6digitnaics_2022.txt
 rg -n "naics_code_list_qa|17-sector|same-code|changed|Absent From NES|No quantitative analysis|No transformation|55|61" research/data/naics_code_list_qa.md research/data/naics_panel_inventory.md research/data/schema_mapping.md research/empirical_strategy.md paper/evidence_requirements.md research/reading_queue.md docs/operator/returns/2026-06-11-naics-code-list-qa-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/naics_code_list_qa.md research/data/naics_panel_inventory.md research/data/schema_mapping.md research/empirical_strategy.md paper/evidence_requirements.md research/reading_queue.md docs/operator/returns/2026-06-11-naics-code-list-qa-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/naics_code_list_qa.md research/data/naics_panel_inventory.md research/data/schema_mapping.md research/empirical_strategy.md paper/evidence_requirements.md research/reading_queue.md docs/operator/returns/2026-06-11-naics-code-list-qa-return.md
 rg -n "[ \t]+$" research/data/naics_code_list_qa.md research/data/naics_panel_inventory.md research/data/schema_mapping.md research/empirical_strategy.md paper/evidence_requirements.md research/reading_queue.md docs/operator/returns/2026-06-11-naics-code-list-qa-return.md
 ```
 

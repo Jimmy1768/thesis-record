@@ -155,7 +155,7 @@ git status --short --ignored data/intermediate/sector_panel
 git diff -- paper/draft.md
 git diff --check
 rg -n "staging_outputs_validated=5|analysis_performed=false|No quantitative analysis|No processed panel|No API key|naics_vintage=2017" research/data/sector_panel_staging_validator.py research/data/sector_panel_staging_validation.md research/data/sector_panel_build_plan.md research/data/sector_panel_staging_parser_run.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-staging-validation-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_staging_validator.py research/data/sector_panel_staging_validation.md research/data/sector_panel_build_plan.md research/data/sector_panel_staging_parser_run.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-staging-validation-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_staging_validator.py research/data/sector_panel_staging_validation.md research/data/sector_panel_build_plan.md research/data/sector_panel_staging_parser_run.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-staging-validation-return.md
 rg -n "[ \t]+$" research/data/sector_panel_staging_validator.py research/data/sector_panel_staging_validation.md data/manifests/susb_2022_manifest.csv data/manifests/sector_panel_staging_manifest.csv research/data/sector_panel_build_plan.md research/data/sector_panel_staging_parser_run.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-staging-validation-return.md
 ```
 

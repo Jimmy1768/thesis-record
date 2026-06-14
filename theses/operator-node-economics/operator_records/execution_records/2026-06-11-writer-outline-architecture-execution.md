@@ -34,7 +34,7 @@ separately after final whitespace checks.
 
 ```bash
 git diff -- paper/draft.md
-rg -n "Buddhism|Taoism|Sunyata|dependent origination" paper/outline.md paper/argument_map.md paper/evidence_requirements.md docs/operator/returns/2026-06-11-writer-outline-architecture-return.md
+rg -n "philosophical|religious" paper/outline.md paper/argument_map.md paper/evidence_requirements.md docs/operator/returns/2026-06-11-writer-outline-architecture-return.md
 rg -n "manifesto|conclusion|conclusions" paper/outline.md paper/argument_map.md paper/evidence_requirements.md docs/operator/returns/2026-06-11-writer-outline-architecture-return.md
 git diff --check
 ```

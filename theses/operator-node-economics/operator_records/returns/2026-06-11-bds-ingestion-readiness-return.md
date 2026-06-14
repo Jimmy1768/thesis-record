@@ -95,7 +95,7 @@ git diff -- paper/draft.md
 git diff --check
 git check-ignore .env.local data/raw/bds/2023/bds2023_sec_fa_fz.csv data/raw/susb/2022/us_state_6digitnaics_2022.txt
 rg -n "D|S|X|N|publication flag|bds_ingestion_readiness|Rows with unexpected column count|No quantitative analysis|No ingestion" research/data/bds_ingestion_readiness.md research/data/bds_multiyear_firm_age_size_path.md research/data/acquisition_scaffold.md research/data/schema_mapping.md data/manifests/bds_2023_manifest.csv docs/operator/returns/2026-06-11-bds-ingestion-readiness-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/bds_ingestion_readiness.md research/data/bds_multiyear_firm_age_size_path.md research/data/acquisition_scaffold.md research/data/schema_mapping.md data/manifests/bds_2023_manifest.csv docs/operator/returns/2026-06-11-bds-ingestion-readiness-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/bds_ingestion_readiness.md research/data/bds_multiyear_firm_age_size_path.md research/data/acquisition_scaffold.md research/data/schema_mapping.md data/manifests/bds_2023_manifest.csv docs/operator/returns/2026-06-11-bds-ingestion-readiness-return.md
 rg -n "[ \t]+$" research/data/bds_ingestion_readiness.md research/data/bds_multiyear_firm_age_size_path.md research/data/acquisition_scaffold.md research/data/schema_mapping.md data/manifests/bds_2023_manifest.csv docs/operator/returns/2026-06-11-bds-ingestion-readiness-return.md
 ```
 

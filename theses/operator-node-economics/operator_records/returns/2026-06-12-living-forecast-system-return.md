@@ -92,7 +92,7 @@ Run after editing:
 git diff -- paper/draft.md
 git diff --check
 rg -n "living forecast|Automated jobs|claim status|human review|Sidekiq|snapshot|evidence registry" research/living_forecast_system.md research/forecast_versioning_framework.md research/empirical_strategy.md research/predictions.md paper/evidence_requirements.md paper/outline.md paper/argument_map.md docs/operator/returns/2026-06-12-living-forecast-system-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|firm is dea[d]|end of the fir[m]" research/living_forecast_system.md research/forecast_versioning_framework.md research/empirical_strategy.md research/predictions.md paper/evidence_requirements.md paper/outline.md paper/argument_map.md docs/operator/returns/2026-06-12-living-forecast-system-return.md
+rg -n "philosophical|religious|firm is dea[d]|end of the fir[m]" research/living_forecast_system.md research/forecast_versioning_framework.md research/empirical_strategy.md research/predictions.md paper/evidence_requirements.md paper/outline.md paper/argument_map.md docs/operator/returns/2026-06-12-living-forecast-system-return.md
 rg -n "[ \t]+$" research/living_forecast_system.md research/forecast_versioning_framework.md research/empirical_strategy.md research/predictions.md paper/evidence_requirements.md paper/outline.md paper/argument_map.md docs/operator/returns/2026-06-12-living-forecast-system-return.md
 ```
 

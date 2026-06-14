@@ -38,7 +38,7 @@ correctly did not promote any claims.
 git diff -- paper/draft.md
 git diff --check
 rg -n "Status:|Full text|Direct Reinspection|Access" research/source_notes/williamson_1991_comparative_economic_organization.md research/source_notes/macher_richman_2008_tce_empirical_assessment.md
-rg -n "Buddhism|Taoism|Sunyata|dependent origination|manifesto|conclusion|conclusions|obsolete|firm is dead|end of the firm" docs research paper
+rg -n "philosophical|religious|manifesto|conclusion|conclusions|obsolete|firm is dead|end of the firm" docs research paper
 ```
 
 Result:

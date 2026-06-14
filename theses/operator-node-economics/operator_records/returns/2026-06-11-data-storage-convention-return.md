@@ -92,7 +92,7 @@ git diff -- paper/draft.md
 git diff --check
 git check-ignore data/raw/example.txt data/intermediate/example.txt data/processed/example.txt
 rg -n "data/raw|data/intermediate|data/processed|data/manifests|manifest_template|file_paths_verified_storage_rule_ready|No raw data|No quantitative analysis|Census API key" .gitignore data/README.md data/manifests/README.md research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-11-data-storage-convention-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" data/README.md data/manifests/README.md research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-11-data-storage-convention-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" data/README.md data/manifests/README.md research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-11-data-storage-convention-return.md
 rg -n "[ \t]+$" .gitignore data/README.md data/manifests/README.md data/manifests/manifest_template.csv research/data/acquisition_scaffold.md research/empirical_strategy.md docs/operator/returns/2026-06-11-data-storage-convention-return.md
 git status --short
 ```

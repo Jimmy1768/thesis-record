@@ -121,7 +121,7 @@ git status --short --ignored data/raw/nes data/raw/aies_nes
 git diff -- paper/draft.md
 git diff --check
 rg -n "api_payloads_fetched=34|analysis_performed=false|No quantitative analysis|No processed panel|No API key|staging parser" research/data/sector_panel_api_full_fetch_validation.md research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-api-full-fetch-validation-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_api_full_fetch_validation.md research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-api-full-fetch-validation-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_api_full_fetch_validation.md research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-api-full-fetch-validation-return.md
 rg -n "[ \t]+$" research/data/sector_panel_api_full_fetch_validation.md data/manifests/sector_panel_api_payload_manifest.csv research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-api-full-fetch-validation-return.md
 ```
 

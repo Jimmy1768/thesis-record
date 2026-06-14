@@ -73,7 +73,7 @@ Then update:
 - Do not write paper prose.
 - Do not write conclusions.
 - Do not write manifesto language.
-- Do not use Buddhism, Taoism, Sunyata, dependent origination, or related
+- Do not use philosophical or religious foundations, or related
   philosophical traditions as foundations.
 - Do not promote a claim unless the inspected source actually supports it.
 - Do not use source notes marked `unverified_from_deep_research_return` as
@@ -86,7 +86,7 @@ Run:
 
 ```bash
 git diff -- paper/draft.md
-rg -n "Buddhism|Taoism|Sunyata|dependent origination" docs research paper
+rg -n "philosophical|religious" docs research paper
 rg -n "manifesto|conclusion|conclusions" research paper docs/operator/returns
 rg -n "Direct Reinspection|Status:" research/source_notes/coase_1937_nature_of_the_firm.md research/source_notes/williamson_1991_comparative_economic_organization.md research/source_notes/williamson_2009_nobel_transaction_cost_economics.md research/source_notes/macher_richman_2008_tce_empirical_assessment.md research/source_notes/powell_1990_network_forms.md
 git diff --check

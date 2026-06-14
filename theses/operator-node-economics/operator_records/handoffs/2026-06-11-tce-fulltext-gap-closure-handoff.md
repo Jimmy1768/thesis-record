@@ -83,7 +83,7 @@ Update only where the source evidence justifies it:
 - Do not write paper prose.
 - Do not write conclusions.
 - Do not write manifesto language.
-- Do not use Buddhism, Taoism, Sunyata, dependent origination, or related
+- Do not use philosophical or religious foundations, or related
   philosophical traditions as foundations.
 - Do not use unverified source notes as support for strong claims.
 - Do not commit or push.
@@ -97,7 +97,7 @@ git diff -- paper/draft.md
 git diff --check
 rg -n "Status:|Full text|Direct Reinspection|Access" research/source_notes/williamson_1991_comparative_economic_organization.md research/source_notes/macher_richman_2008_tce_empirical_assessment.md
 rg -n "Williamson 1991|Macher|Richman|TCE-CLAIM-00[2459]|TCE-CLAIM-010" research/claims_index.md research/areas/03-transaction-cost-economics.md paper/evidence_requirements.md research/reading_queue.md
-rg -n "Buddhism|Taoism|Sunyata|dependent origination" docs research paper
+rg -n "philosophical|religious" docs research paper
 rg -n "manifesto|conclusion|conclusions|obsolete|firm is dead|end of the firm" research paper docs/operator/returns
 ```
 

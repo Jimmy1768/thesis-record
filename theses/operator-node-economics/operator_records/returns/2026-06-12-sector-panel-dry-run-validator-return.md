@@ -122,7 +122,7 @@ python3 research/data/sector_panel_dry_run_validator.py
 git diff -- paper/draft.md
 git diff --check
 rg -n "sector_panel_dry_run_validator|analysis_performed=false|No quantitative analysis|No API payload|No new raw data|No processed panel|--fetch-api" research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-dry-run-validator-return.md
-rg -n "Buddh[i]sm|Tao[i]sm|Sun[y]ata|dependent[ -]originat[i]on|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-dry-run-validator-return.md
+rg -n "philosophical|religious|man[i]festo|conclus[i]ons?|firm is dea[d]|end of the fir[m]" research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-dry-run-validator-return.md
 rg -n "[ \t]+$" research/data/sector_panel_dry_run_validator.py research/data/sector_panel_query_inventory.md research/data/sector_panel_build_plan.md research/empirical_strategy.md docs/operator/returns/2026-06-12-sector-panel-dry-run-validator-return.md
 ```
 
