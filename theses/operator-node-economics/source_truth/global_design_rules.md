@@ -13,16 +13,16 @@ evidence-review logic.
 
 Current canonical machine-readable file:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 Docs may explain the purpose of a value, but they should not become the source
 that must be edited when a value changes. If a document needs the current value,
 it should reference the canonical policy file rather than duplicating the
 number unless the document is a historical return record.
 
-## V1 Threshold Defaults
+## V0 Threshold Defaults
 
-The V1 values in the canonical policy file are starting defaults for
+The v0 values in the canonical policy file are starting defaults for
 measurement and operations. They are not evidence that the thesis is true.
 
 The policy file currently covers:

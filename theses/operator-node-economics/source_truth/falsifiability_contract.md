@@ -9,11 +9,14 @@ A prediction is not acceptable if it cannot be tested, measured, or contradicted
 Operator Node Economics should be treated as a versioned forecast research
 program.
 
-- V1: publish the thesis, mechanisms, predictions, evidence requirements, and
-  failure conditions before the outcome is known.
-- V2: publish the first evidence check whether results are favorable, mixed,
+- v0: freeze the internal baseline, mechanisms, predictions, indicator
+  universe, evidence requirements, and failure conditions before the outcome is
+  known.
+- v1: publish the first evidence check whether results are favorable, mixed,
   null, or adverse.
-- V3: publish revision, narrowing, or rejection based on the accumulated
+- v2: publish signal-strength review, narrowing, or rejection based on the
+  accumulated evidence.
+- v3: publish confirmation review based on the accumulated
   evidence.
 
 Negative updates are valid research outputs. The program should not hide failed

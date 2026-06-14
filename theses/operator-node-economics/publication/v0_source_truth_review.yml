@@ -1,0 +1,126 @@
+version: v0
+status: source_truth_review_scaffold
+thesis_slug: operator-node-economics
+approval_status: unapproved
+purpose: >
+  Make the v0 source-truth gate concrete before any human approval. This file
+  defines what must be reviewed; it does not approve the source-truth review,
+  public release, claim support, forecast support, or thesis verdict.
+review_effect: no_approval_no_publication_no_claim_support
+required_artifacts:
+  source_truth_docs:
+    - theses/operator-node-economics/source_truth/core_hypothesis.md
+    - theses/operator-node-economics/source_truth/falsifiability_contract.md
+    - theses/operator-node-economics/source_truth/research_contract.md
+    - theses/operator-node-economics/source_truth/operator_node_definition.md
+    - theses/operator-node-economics/source_truth/terminology.md
+  publication_artifacts:
+    - theses/operator-node-economics/publication/v0_claim_set.yml
+    - theses/operator-node-economics/publication/v0_forecast_set.yml
+    - theses/operator-node-economics/publication/v0_indicator_universe.yml
+review_criteria:
+  direct_operator_node_evidence_boundary:
+    status: pending_human_review
+    requirement: V0 must state that direct Operator Node evidence is absent at baseline.
+    artifact_refs:
+      - theses/operator-node-economics/publication/v0_indicator_universe.yml
+      - theses/operator-node-economics/source_truth/operator_node_definition.md
+  indirect_proxy_boundary:
+    status: pending_human_review
+    requirement: Public SUSB, BFS, and BDS context may remain baseline infrastructure only, not claim support.
+    artifact_refs:
+      - theses/operator-node-economics/publication/v0_indicator_universe.yml
+      - theses/operator-node-economics/source_truth/research_contract.md
+  falsifier_coverage:
+    status: pending_human_review
+    requirement: Remote employment, corporate absorption, hierarchy growth, transaction-cost persistence, and missing direct cases must remain adverse or falsifying pathways.
+    artifact_refs:
+      - theses/operator-node-economics/source_truth/falsifiability_contract.md
+      - theses/operator-node-economics/publication/v0_indicator_universe.yml
+  definition_boundary:
+    status: pending_human_review
+    requirement: Operator Node must remain a production architecture, not a legal wrapper, small-business synonym, freelancer, or ordinary remote-worker category.
+    artifact_refs:
+      - theses/operator-node-economics/source_truth/operator_node_definition.md
+      - theses/operator-node-economics/source_truth/terminology.md
+  forecast_ladder_boundary:
+    status: pending_human_review
+    requirement: v0 is internal baseline; v1 is 3-year checkpoint; v2 is 5-year signal-strength checkpoint; v3 is 10-year confirmation checkpoint.
+    artifact_refs:
+      - theses/operator-node-economics/publication/v0_timeline.yml
+      - theses/operator-node-economics/publication/v0_indicator_universe.yml
+  prohibited_foundations_boundary:
+    status: pending_human_review
+    requirement: Source-truth approval cannot rely on prohibited philosophical, religious, prestige, or manifesto foundations.
+    artifact_refs:
+      - theses/operator-node-economics/source_truth/prohibited_foundations.md
+      - theses/operator-node-economics/source_truth/research_contract.md
+indicator_category_mapping:
+  direct_operator_node_emergence:
+    source_truth_refs:
+      - operator_node_definition
+      - falsifiability_contract
+    review_question: Are direct future cases defined tightly enough to avoid relabeling ordinary small firms?
+  diffusion_indicators:
+    source_truth_refs:
+      - core_hypothesis
+      - research_contract
+    review_question: Are adoption and formation proxies prevented from becoming proof?
+  substitution_indicators:
+    source_truth_refs:
+      - falsifiability_contract
+    review_question: Are labor and service substitution indicators tied to comparison groups and failure conditions?
+  transaction_cost_indicators:
+    source_truth_refs:
+      - core_hypothesis
+      - falsifiability_contract
+    review_question: Do indicators test transaction costs rather than task productivity alone?
+  hr_management_coordination_indicators:
+    source_truth_refs:
+      - core_hypothesis
+      - operator_node_definition
+    review_question: Are HR and management indicators treated as coordination-cost tests, not general layoffs?
+  firm_boundary_indicators:
+    source_truth_refs:
+      - core_hypothesis
+      - falsifiability_contract
+    review_question: Are firm-size and boundary shifts separated from AI adoption and macro-cycle noise?
+  nonemployer_one_human_economics_indicators:
+    source_truth_refs:
+      - operator_node_definition
+      - terminology
+    review_question: Are nonemployer and one-human measures kept distinct from direct Operator Node evidence?
+  corporate_absorption_alternative_indicators:
+    source_truth_refs:
+      - falsifiability_contract
+    review_question: Is large-firm absorption preserved as a serious alternative?
+  remote_employment_unbundling_falsifier:
+    source_truth_refs:
+      - core_hypothesis
+      - falsifiability_contract
+    review_question: Is durable remote employment preserved as a falsifier or adverse pathway?
+  economic_class_preference_validation_indicators:
+    source_truth_refs:
+      - core_hypothesis
+      - prohibited_foundations
+    review_question: Are class-taxonomy claims framed as measurable forecasts, not ideology?
+  failure_adverse_indicators:
+    source_truth_refs:
+      - falsifiability_contract
+      - research_contract
+    review_question: Are adverse outcomes first-class publishable outputs?
+prohibited_effects:
+  - source_truth_review_acceptance
+  - claim_status_change
+  - forecast_status_change
+  - prediction_link_creation
+  - claim_review_creation
+  - public_publication
+  - paper_prose_publication
+  - canonical_ingestion
+  - thesis_verdict
+human_review_required_before:
+  - accepting_source_truth_review
+  - approving_frozen_claim_set
+  - approving_frozen_forecast_set
+  - approving_public_v0

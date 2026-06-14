@@ -54,10 +54,10 @@ functions that historically required multi-person firms or management layers.
 
 ## Open Definition Problems
 
-V1 starting thresholds for classification are recorded in the canonical policy
+V0 starting thresholds for classification are recorded in the canonical policy
 file:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 These defaults are measurement rules, not evidence that the thesis is true.
 Empirical validation and revision remain open.

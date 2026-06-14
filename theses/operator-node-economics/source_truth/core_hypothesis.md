@@ -89,10 +89,10 @@ policy paper is authorized.
 
 Unproven. Treat as a versioned forecast hypothesis to test, not a conclusion.
 
-V1 should publish the forecast baseline, mechanisms, prediction horizons,
-evidence requirements, and failure conditions before the answer is known.
-Future versions should report whether the thesis is supported, narrowed,
-contradicted, or rejected.
+V0 should freeze the internal forecast baseline, mechanisms, prediction
+horizons, indicator universe, evidence requirements, and failure conditions
+before the answer is known. v1, v2, and v3 should report whether the thesis is
+supported, narrowed, contradicted, or rejected.
 
 The user's company is one implementation case, not the whole thesis. Its
 success or failure may inform the research program, but any credible successful

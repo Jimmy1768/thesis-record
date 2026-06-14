@@ -12,6 +12,7 @@ module Operations
     V0_CLAIM_SET_PATH = THESIS_ROOT.join("publication", "v0_claim_set.yml")
     V0_FORECAST_SET_PATH = THESIS_ROOT.join("publication", "v0_forecast_set.yml")
     V0_INDICATOR_UNIVERSE_PATH = THESIS_ROOT.join("publication", "v0_indicator_universe.yml")
+    V0_SOURCE_TRUTH_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_source_truth_review.yml")
     V0_APPROVAL_PACKET_PATH = THESIS_ROOT.join("publication", "v0_approval_packet.yml")
 
     REQUIRED_CHECKPOINTS = {
@@ -57,6 +58,7 @@ module Operations
       forecast_set = load_forecast_set
       indicator_universe = load_indicator_universe
       approval_packet = load_approval_packet
+      source_truth_review = Operations::V0SourceTruthReview.call
       checks = {
         thesis_metadata_present: metadata.present?,
         thesis_slug_correct: metadata.fetch(:slug, nil) == THESIS_SLUG,
@@ -70,6 +72,8 @@ module Operations
         v0_indicator_universe_present: indicator_universe.present?,
         v0_indicator_universe_categories_present: indicator_categories_present?(indicator_universe),
         v0_indicator_universe_unapproved: indicator_universe.fetch(:approval_status, nil) == "unapproved",
+        v0_source_truth_review_scaffold_present: V0_SOURCE_TRUTH_REVIEW_PATH.exist?,
+        v0_source_truth_review_scaffold_valid: source_truth_review.passed,
         v0_approval_packet_present: approval_packet.present?,
         v0_approval_packet_unapproved: approval_packet.fetch(:approval_status, nil) == "unapproved",
         v0_baseline_evidence_accepted: approval_gate_status(approval_packet, :baseline_evidence_review) == "accepted",
@@ -228,6 +232,7 @@ module Operations
         warnings << "v0_forecast_set_candidate_only" if forecast_set.fetch(:status, nil) == "candidate_inventory"
         warnings << "v0_approval_packet_scaffold_only" if approval_packet.fetch(:status, nil) == "approval_packet_scaffold"
         warnings << "v0_indicator_universe_unapproved" if V0_INDICATOR_UNIVERSE_PATH.exist?
+        warnings << "v0_source_truth_review_unapproved" if V0_SOURCE_TRUTH_REVIEW_PATH.exist?
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
       end
     end
