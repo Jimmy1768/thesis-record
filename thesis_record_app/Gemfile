@@ -16,6 +16,7 @@ gem "bcrypt", "~> 3.1"
 # Run recurring evidence jobs without allowing jobs to promote claims or write prose.
 gem "sidekiq", "~> 7.3"
 gem "sidekiq-scheduler", "~> 6.0"
+gem "connection_pool", "~> 2.5"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
