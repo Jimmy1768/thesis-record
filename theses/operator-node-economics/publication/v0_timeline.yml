@@ -1,11 +1,13 @@
 version: v0
-status: draft_scaffold
+status: internal_target_scaffold
 thesis_slug: operator-node-economics
 publication:
   title: Operator Nodes
   subtitle: AI, Transaction Costs, and the Future of the Firm
   category: Economics / Organizational Theory
   public_path: /thesis/operator-node-economics
+  mode: internal_v0_first
+  target_internal_publication_date: "2026-06-30"
   publication_date: null
   approval_status: unapproved
   paper_prose_status: not_imported
@@ -14,24 +16,33 @@ publication:
 forecast_clock:
   measurement_atom: calendar_quarter
   first_measurement_period_rule: first_full_calendar_quarter_after_v0_publication
-  first_measurement_period: null
+  first_measurement_period: "2026-Q3"
+  date_basis: target_internal_publication_date
+  date_status: provisional_until_publication_approval
   quarterly_updates_are_verdicts: false
 checkpoints:
   v2:
     label: 3_year_checkpoint
     quarters_after_v0: 12
-    target_date: null
+    target_period: "2029-Q2"
+    target_date: "2029-06-30"
+    review_window_starts: "2029-07-01"
   v3:
     label: 5_year_checkpoint
     quarters_after_v0: 20
-    target_date: null
+    target_period: "2031-Q2"
+    target_date: "2031-06-30"
+    review_window_starts: "2031-07-01"
   v4:
     label: 10_year_checkpoint
     quarters_after_v0: 40
-    target_date: null
+    target_period: "2036-Q2"
+    target_date: "2036-06-30"
+    review_window_starts: "2036-07-01"
 annual_snapshot:
   frequency_quarters: 4
-  first_snapshot_period: null
+  first_snapshot_period: "2027-Q2"
+  first_review_window_starts: "2027-07-01"
 automation:
   sidekiq_schedule_status: scaffolded
   canonical_ingestion_environment: production_postgresql_only

@@ -44,6 +44,12 @@ quarter:
 The exact calendar dates should be derived from the v0 publication date and
 recorded before v0 is published.
 
+Current operating assumption: ThesisRecord will prepare an internal v0 first,
+using 2026-06-30 as the target internal publication date. This makes 2026-Q3 the
+first provisional measurement quarter and yields provisional 3, 5, and 10 year
+checkpoint dates. Those dates remain provisional until the v0 publication date
+is approved.
+
 ## Evidence Automation
 
 The Rails app already has Sidekiq scheduler scaffolds for:

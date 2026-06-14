@@ -43,6 +43,8 @@ module Operations
         draft_status_resolved: metadata.dig(:paper, :draft_status) != "held_back_initially",
         v0_publication_scaffold_present: V0_ARTIFACT_PATH.exist?,
         v0_timeline_scaffold_present: timeline.present?,
+        v0_internal_target_date_set: timeline.dig(:publication, :target_internal_publication_date).present?,
+        v0_first_measurement_period_set: timeline.dig(:forecast_clock, :first_measurement_period).present?,
         v0_publication_approved: timeline.dig(:publication, :approval_status) == "approved",
         v0_publication_date_set: timeline.dig(:publication, :publication_date).present?,
         v0_checkpoint_dates_set: checkpoint_dates_set?(timeline),
@@ -148,7 +150,8 @@ module Operations
     def warnings(metadata, timeline)
       [].tap do |warnings|
         warnings << "paper_draft_is_archive_only" if metadata.dig(:paper, :draft_status) == "held_back_initially"
-        warnings << "v0_publication_scaffold_only" if timeline.fetch(:status, nil) == "draft_scaffold"
+        warnings << "v0_publication_scaffold_only" if %w[draft_scaffold internal_target_scaffold].include?(timeline.fetch(:status, nil))
+        warnings << "v0_dates_are_provisional" if timeline.dig(:forecast_clock, :date_status) == "provisional_until_publication_approval"
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
       end
     end

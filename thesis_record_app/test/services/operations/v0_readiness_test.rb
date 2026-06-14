@@ -9,13 +9,16 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert_includes result.blockers, "draft_status_resolved"
     assert result.checks.fetch(:v0_publication_scaffold_present)
     assert result.checks.fetch(:v0_timeline_scaffold_present)
+    assert result.checks.fetch(:v0_internal_target_date_set)
+    assert result.checks.fetch(:v0_first_measurement_period_set)
+    assert result.checks.fetch(:v0_checkpoint_dates_set)
     assert_includes result.blockers, "v0_publication_approved"
     assert_includes result.blockers, "v0_publication_date_set"
-    assert_includes result.blockers, "v0_checkpoint_dates_set"
     assert_includes result.blockers, "v0_claim_set_approved"
     assert_includes result.blockers, "v0_forecast_set_approved"
     assert_includes result.warnings, "paper_draft_is_archive_only"
     assert_includes result.warnings, "v0_publication_scaffold_only"
+    assert_includes result.warnings, "v0_dates_are_provisional"
   end
 
   test "keeps safety checks green under current policy" do
@@ -30,11 +33,12 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:public_path_target_configured)
   end
 
-  test "requires all v0 checkpoint dates before publication is ready" do
+  test "accepts provisional v0 checkpoint dates before publication approval" do
     result = Operations::V0Readiness.call
 
-    assert_not result.checks.fetch(:v0_checkpoint_dates_set)
-    assert_includes result.blockers, "v0_checkpoint_dates_set"
+    assert result.checks.fetch(:v0_checkpoint_dates_set)
+    assert_not_includes result.blockers, "v0_checkpoint_dates_set"
+    assert_includes result.blockers, "v0_publication_date_set"
   end
 
   test "fails when checkpoint offsets drift" do
