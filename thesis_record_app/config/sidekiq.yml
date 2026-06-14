@@ -1,6 +1,9 @@
 <%
-policy = Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys
-scheduled_jobs = policy.fetch(:scheduler).fetch(:jobs)
+require "yaml"
+
+policy_path = ENV.fetch("THESIS_RECORD_POLICY_PATH", File.expand_path("config/thesis_record_policy.yml", Dir.pwd))
+policy = YAML.safe_load_file(policy_path).fetch("shared")
+scheduled_jobs = policy.fetch("scheduler").fetch("jobs")
 %>
 
 :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 5) %>
@@ -15,17 +18,17 @@ scheduled_jobs = policy.fetch(:scheduler).fetch(:jobs)
 :scheduler:
   :schedule:
     source_release_check:
-      cron: "<%= scheduled_jobs.fetch(:source_release_check).fetch(:cron) %>"
-      class: "<%= scheduled_jobs.fetch(:source_release_check).fetch(:class_name) %>"
-      queue: <%= scheduled_jobs.fetch(:source_release_check).fetch(:queue) %>
-      description: "<%= scheduled_jobs.fetch(:source_release_check).fetch(:description) %>"
+      cron: "<%= scheduled_jobs.fetch("source_release_check").fetch("cron") %>"
+      class: "<%= scheduled_jobs.fetch("source_release_check").fetch("class_name") %>"
+      queue: <%= scheduled_jobs.fetch("source_release_check").fetch("queue") %>
+      description: "<%= scheduled_jobs.fetch("source_release_check").fetch("description") %>"
     quarterly_indicator_checkpoint:
-      cron: "<%= scheduled_jobs.fetch(:quarterly_indicator_checkpoint).fetch(:cron) %>"
-      class: "<%= scheduled_jobs.fetch(:quarterly_indicator_checkpoint).fetch(:class_name) %>"
-      queue: <%= scheduled_jobs.fetch(:quarterly_indicator_checkpoint).fetch(:queue) %>
-      description: "<%= scheduled_jobs.fetch(:quarterly_indicator_checkpoint).fetch(:description) %>"
+      cron: "<%= scheduled_jobs.fetch("quarterly_indicator_checkpoint").fetch("cron") %>"
+      class: "<%= scheduled_jobs.fetch("quarterly_indicator_checkpoint").fetch("class_name") %>"
+      queue: <%= scheduled_jobs.fetch("quarterly_indicator_checkpoint").fetch("queue") %>
+      description: "<%= scheduled_jobs.fetch("quarterly_indicator_checkpoint").fetch("description") %>"
     annual_snapshot_candidate:
-      cron: "<%= scheduled_jobs.fetch(:annual_snapshot_candidate).fetch(:cron) %>"
-      class: "<%= scheduled_jobs.fetch(:annual_snapshot_candidate).fetch(:class_name) %>"
-      queue: <%= scheduled_jobs.fetch(:annual_snapshot_candidate).fetch(:queue) %>
-      description: "<%= scheduled_jobs.fetch(:annual_snapshot_candidate).fetch(:description) %>"
+      cron: "<%= scheduled_jobs.fetch("annual_snapshot_candidate").fetch("cron") %>"
+      class: "<%= scheduled_jobs.fetch("annual_snapshot_candidate").fetch("class_name") %>"
+      queue: <%= scheduled_jobs.fetch("annual_snapshot_candidate").fetch("queue") %>
+      description: "<%= scheduled_jobs.fetch("annual_snapshot_candidate").fetch("description") %>"
