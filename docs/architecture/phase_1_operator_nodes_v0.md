@@ -76,7 +76,13 @@ operating Thesis 1.
 
 ## Next Engineering Gate
 
-Before v0 publication, add an operator readiness check that reports:
+Before v0 publication, run the operator readiness check:
+
+```bash
+bin/rails operator:v0_readiness
+```
+
+It reports:
 
 - v0 publication artifact path;
 - draft/prose status;

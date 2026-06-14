@@ -1,0 +1,36 @@
+require "test_helper"
+
+class Operations::V0ReadinessTest < ActiveSupport::TestCase
+  test "reports expected current v0 blockers" do
+    result = Operations::V0Readiness.call
+
+    assert_not result.passed
+    assert_includes result.blockers, "thesis_status_ready_for_v0"
+    assert_includes result.blockers, "draft_status_resolved"
+    assert_includes result.blockers, "v0_publication_artifact_present"
+    assert_includes result.blockers, "v0_timeline_present"
+    assert_includes result.warnings, "paper_draft_is_archive_only"
+  end
+
+  test "keeps safety checks green under current policy" do
+    result = Operations::V0Readiness.call
+
+    assert result.checks.fetch(:forecast_clock_policy_present)
+    assert result.checks.fetch(:checkpoint_offsets_present)
+    assert result.checks.fetch(:sidekiq_schedule_present)
+    assert result.checks.fetch(:canonical_data_promotion_disabled)
+    assert result.checks.fetch(:claim_review_gate_disabled)
+    assert result.checks.fetch(:no_automatic_claim_promotion)
+    assert result.checks.fetch(:public_path_target_configured)
+  end
+
+  test "fails when checkpoint offsets drift" do
+    policy = Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys
+    policy[:forecast_clock][:checkpoint_quarters_after_v1][:v2] = 10
+
+    result = Operations::V0Readiness.call(policy: policy)
+
+    assert_not result.checks.fetch(:checkpoint_offsets_present)
+    assert_includes result.blockers, "checkpoint_offsets_present"
+  end
+end

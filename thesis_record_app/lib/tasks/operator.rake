@@ -102,4 +102,17 @@ namespace :operator do
     puts "latest_audit_event_at=#{summary.latest_audit_event_at&.iso8601 || "(none)"}"
     puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
   end
+
+  desc "Report blockers for publishing Operator Nodes v0"
+  task v0_readiness: :environment do
+    result = Operations::V0Readiness.call
+
+    puts "Operator Nodes v0 readiness"
+    puts "passed=#{result.passed}"
+    result.checks.each do |name, passed|
+      puts "check.#{name}=#{passed}"
+    end
+    puts "blockers=#{result.blockers.empty? ? "(none)" : result.blockers.join(",")}"
+    puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
+  end
 end
