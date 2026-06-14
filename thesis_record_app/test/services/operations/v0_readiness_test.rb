@@ -18,6 +18,10 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_source_truth_review_scaffold_valid)
     assert result.checks.fetch(:v0_prohibited_foundations_review_scaffold_present)
     assert result.checks.fetch(:v0_prohibited_foundations_review_scaffold_valid)
+    assert result.checks.fetch(:v0_prose_review_scaffold_present)
+    assert result.checks.fetch(:v0_prose_review_scaffold_valid)
+    assert result.checks.fetch(:v0_public_release_review_scaffold_present)
+    assert result.checks.fetch(:v0_public_release_review_scaffold_valid)
     assert result.checks.fetch(:v0_approval_packet_present)
     assert result.checks.fetch(:v0_approval_packet_unapproved)
     assert result.checks.fetch(:v0_baseline_evidence_accepted)
@@ -39,6 +43,8 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert_includes result.warnings, "v0_indicator_universe_unapproved"
     assert_includes result.warnings, "v0_source_truth_review_unapproved"
     assert_includes result.warnings, "v0_prohibited_foundations_review_unapproved"
+    assert_includes result.warnings, "v0_prose_review_unapproved"
+    assert_includes result.warnings, "v0_public_release_review_unapproved"
     assert_includes result.warnings, "v0_approval_packet_scaffold_only"
   end
 

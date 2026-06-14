@@ -119,6 +119,8 @@ The current pre-v0 scaffolds are:
 - `theses/operator-node-economics/publication/v0_indicator_universe.yml`;
 - `theses/operator-node-economics/publication/v0_source_truth_review.yml`;
 - `theses/operator-node-economics/publication/v0_prohibited_foundations_review.yml`;
+- `theses/operator-node-economics/publication/v0_prose_review.yml`;
+- `theses/operator-node-economics/publication/v0_public_release_review.yml`;
 - `theses/operator-node-economics/publication/v0_collection_plan.yml`;
 - `theses/operator-node-economics/publication/v0_approval_packet.yml`;
 - `theses/operator-node-economics/evidence/assimilation_plan.md`;

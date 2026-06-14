@@ -14,6 +14,8 @@ module Operations
     V0_INDICATOR_UNIVERSE_PATH = THESIS_ROOT.join("publication", "v0_indicator_universe.yml")
     V0_SOURCE_TRUTH_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_source_truth_review.yml")
     V0_PROHIBITED_FOUNDATIONS_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_prohibited_foundations_review.yml")
+    V0_PROSE_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_prose_review.yml")
+    V0_PUBLIC_RELEASE_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_public_release_review.yml")
     V0_APPROVAL_PACKET_PATH = THESIS_ROOT.join("publication", "v0_approval_packet.yml")
 
     REQUIRED_CHECKPOINTS = {
@@ -61,6 +63,8 @@ module Operations
       approval_packet = load_approval_packet
       source_truth_review = Operations::V0SourceTruthReview.call
       prohibited_foundations_review = Operations::V0ProhibitedFoundationsReview.call
+      prose_review = Operations::V0ProseReview.call
+      public_release_review = Operations::V0PublicReleaseReview.call
       checks = {
         thesis_metadata_present: metadata.present?,
         thesis_slug_correct: metadata.fetch(:slug, nil) == THESIS_SLUG,
@@ -78,6 +82,10 @@ module Operations
         v0_source_truth_review_scaffold_valid: source_truth_review.passed,
         v0_prohibited_foundations_review_scaffold_present: V0_PROHIBITED_FOUNDATIONS_REVIEW_PATH.exist?,
         v0_prohibited_foundations_review_scaffold_valid: prohibited_foundations_review.passed,
+        v0_prose_review_scaffold_present: V0_PROSE_REVIEW_PATH.exist?,
+        v0_prose_review_scaffold_valid: prose_review.passed,
+        v0_public_release_review_scaffold_present: V0_PUBLIC_RELEASE_REVIEW_PATH.exist?,
+        v0_public_release_review_scaffold_valid: public_release_review.passed,
         v0_approval_packet_present: approval_packet.present?,
         v0_approval_packet_unapproved: approval_packet.fetch(:approval_status, nil) == "unapproved",
         v0_baseline_evidence_accepted: approval_gate_status(approval_packet, :baseline_evidence_review) == "accepted",
@@ -238,6 +246,8 @@ module Operations
         warnings << "v0_indicator_universe_unapproved" if V0_INDICATOR_UNIVERSE_PATH.exist?
         warnings << "v0_source_truth_review_unapproved" if V0_SOURCE_TRUTH_REVIEW_PATH.exist?
         warnings << "v0_prohibited_foundations_review_unapproved" if V0_PROHIBITED_FOUNDATIONS_REVIEW_PATH.exist?
+        warnings << "v0_prose_review_unapproved" if V0_PROSE_REVIEW_PATH.exist?
+        warnings << "v0_public_release_review_unapproved" if V0_PUBLIC_RELEASE_REVIEW_PATH.exist?
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
       end
     end
