@@ -23,7 +23,7 @@ Adjustable thresholds, cadence values, and operations defaults must be defined
 once in the canonical policy file before app code or workflow docs depend on
 them:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 This is now a global design rule. Research docs may describe why a threshold
 exists, but the policy file is the current-value source.
@@ -149,7 +149,7 @@ retention, disclosure, and redaction rules are implemented.
 | Prediction registry | Link indicators to predictions without changing claim status. | `PredictionLink`, `CriticismLink`, `OpenQuestionLink` |
 | Claim review | Require human review for status changes. | `ClaimReview`, `ReviewDecision`, `ReviewNote` |
 | Failure records | Preserve adverse, null, missing, or contradictory evidence as research outputs. | `FailureRecord` |
-| Snapshot registry | Freeze V1, V2, V3, and later evidence states. | `EvidenceSnapshot`, `SnapshotArtifact`, `SnapshotManifest` |
+| Snapshot registry | Freeze v0, v1, v2, v3, and later evidence states. | `EvidenceSnapshot`, `SnapshotArtifact`, `SnapshotManifest` |
 | Export controls | Produce reviewed aggregate artifacts for the repo. | `ExportJob`, `ExportArtifact`, `RedactionCheck` |
 | Audit log | Preserve who changed what and when. | `AuditEvent` |
 
@@ -196,7 +196,7 @@ The company operator network pilot should start as a governed source in
 | `ComputeRemoteSubstitutionIndicatorsJob` | Track remote employee, vendor, node, contractor, owner-operator, and AI labor-service shifts. | Metric observations. | Replacement-destination review. |
 | `ComputeExperiencerIndicatorsJob` | Track compensated human evaluation tasks and substitution by telemetry or synthetic users. | Metric observations. | Category-definition review. |
 | `RedactAndAggregateExportJob` | Produce publishable aggregates or redacted artifacts. | Export artifacts. | Disclosure and minimum-cell review. |
-| `GenerateEvidenceSnapshotJob` | Freeze reviewed evidence for V1/V2/V3 releases. | Snapshot manifests. | Human publication review. |
+| `GenerateEvidenceSnapshotJob` | Freeze reviewed evidence for v1/v2/v3 releases. | Snapshot manifests. | Human publication review. |
 | `StaleSourceCheckJob` | Identify sources, API schemas, or credentials requiring refresh. | Maintenance tickets or source flags. | Source-truth correction review. |
 
 ## Private Evidence Workflow
@@ -271,9 +271,11 @@ Exports should never include raw private rows.
 
 The app should support scheduled versions such as:
 
-- `v1`: baseline thesis, forecast definitions, and initial source registry;
-- `v2`: first major evidence update after a predefined interval;
-- `v3`: longer-run update after additional data accrues;
+- `v0`: internal baseline thesis, forecast definitions, indicator universe,
+  and initial source registry;
+- `v1`: 3-year public checkpoint;
+- `v2`: 5-year signal-strength checkpoint;
+- `v3`: 10-year confirmation checkpoint;
 - later versions: continued updates or error classification.
 
 Each version should preserve adverse evidence. A failed prediction is an output
@@ -384,7 +386,7 @@ Exit criteria:
 
 Deliverables:
 
-- V1/V2/V3 snapshot registry;
+- v0/v1/v2/v3 snapshot registry;
 - snapshot manifests;
 - reviewed export bundles;
 - dashboard or appendix-data exports.

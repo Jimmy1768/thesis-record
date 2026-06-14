@@ -13,7 +13,7 @@ under the V1 guardrails defined in:
 
 - `research/data/susb_metric_computation_design.md`
 - `research/data/susb_quality_review_policy.md`
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 ## Rails Task
 

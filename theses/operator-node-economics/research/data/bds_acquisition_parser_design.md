@@ -31,7 +31,7 @@ rows.
 
 Current values live in:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
   under `public_ingestion_v1.bds_sector_age_size_public_file`.
 
 Relevant policy sections:

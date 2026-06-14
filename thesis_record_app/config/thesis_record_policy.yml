@@ -7,12 +7,12 @@ shared:
 
   forecast_clock:
     measurement_atom: calendar_quarter
-    first_measurement_period_rule: first_full_calendar_quarter_after_v1_publication
+    first_measurement_period_rule: first_full_calendar_quarter_after_v0_internal_publication
     annual_snapshot_frequency_quarters: 4
-    checkpoint_quarters_after_v1:
-      v2: 12
-      v3: 20
-      v4: 40
+    checkpoint_quarters_after_v0:
+      v1: 12
+      v2: 20
+      v3: 40
     thesis_verdict_requires_scheduled_checkpoint: true
     quarterly_updates_are_verdicts: false
 

@@ -7,9 +7,9 @@ prose.
 Run date: 2026-06-12.
 
 Purpose: define how Operator Node Economics can become a living forecast
-program: a recurring data and evidence pipeline that supports V1, V2, V3, and
-later updates without allowing automation to silently convert indicators into
-claims.
+program: a recurring data and evidence pipeline that supports v0, v1, v2, v3,
+and later updates without allowing automation to silently convert indicators
+into claims.
 
 ## Core Principle
 
@@ -171,7 +171,7 @@ Question: what can be written publicly?
 Only reviewed findings can enter:
 
 - annual evidence snapshot;
-- V2/V3/V4 checkpoint;
+- v1/v2/v3 checkpoint;
 - appendix;
 - dashboard;
 - paper update.
@@ -194,7 +194,7 @@ collected material.
 | Measurement layer | Stable indicators, denominators, missing cells, and QA flags. | Automatable after design approval. | Required for new metrics or changed formulas. |
 | Analysis layer | Descriptive summaries, comparison tests, forecast checks, and sensitivity runs. | Automatable after analysis design approval. | Required before interpretation. |
 | Evidence registry | Links sources and metrics to predictions, criticisms, and claim candidates. | Partially automatable for traceability. | Required for status changes. |
-| Publication layer | V1/V2/V3 reports, appendices, dashboards, and update notes. | Partially automatable for tables. | Required for prose and claims. |
+| Publication layer | v0/v1/v2/v3 reports, appendices, dashboards, and update notes. | Partially automatable for tables. | Required for prose and claims. |
 
 ## Suggested Job Families
 
@@ -209,7 +209,7 @@ If implemented in a Rails stack, recurring Sidekiq jobs could include:
 | `ComputeSectorIndicatorsJob` | Recompute approved descriptive indicators. | Ignored analysis outputs and tracked manifests. | Claim status. |
 | `ComputeExposureIndicatorsJob` | Recompute approved AI-exposure variables after source design approval. | Exposure tables, manifests, QA reports. | Causal labels or sector rankings unless authorized. |
 | `UpdateForecastDashboardJob` | Refresh dashboards from reviewed metrics. | Dashboard data artifacts. | Paper prose or thesis verdicts. |
-| `GenerateEvidenceSnapshotJob` | Freeze a reproducible evidence snapshot for V2/V3 review. | Snapshot manifests and appendix tables. | Final interpretation. |
+| `GenerateEvidenceSnapshotJob` | Freeze a reproducible evidence snapshot for v1/v2/v3 review. | Snapshot manifests and appendix tables. | Final interpretation. |
 
 ## Data Tracks
 
@@ -374,10 +374,10 @@ Failure-output policy:
 
 ## Version Snapshot Rule
 
-Current V1 cadence and threshold values are controlled by the canonical policy
+Current cadence and threshold values are controlled by the canonical policy
 file:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 This document describes the rule structure. The policy file is the value source
 for adjustable cadence and threshold settings.
@@ -399,11 +399,11 @@ Cadence, currently represented in policy:
 
 - quarterly measurement updates;
 - annual public evidence snapshots;
-- V2 at 12 full quarters after V1;
-- V3 at 20 full quarters after V1;
-- V4 at 40 full quarters after V1.
+- v1 at 12 full quarters after v0;
+- v2 at 20 full quarters after v0;
+- v3 at 40 full quarters after v0.
 
-V2, V3, and V4 should compare against prior snapshots, not against a moving
+v1, v2, and v3 should compare against prior snapshots, not against a moving
 dashboard. Annual snapshots can report directional movement, but thesis
 verdicts should wait for the scheduled checkpoints.
 
@@ -468,7 +468,7 @@ Minimum implementation prerequisites:
 - privacy/disclosure policy for company or node data;
 - source-specific private-data governance for HRIS, payroll, procurement,
   node, AI-labor-service, and experiencer/evaluation data;
-- scheduled snapshot policy for V1/V2/V3.
+- scheduled snapshot policy for v0/v1/v2/v3.
 
 First selected private-data pilot:
 

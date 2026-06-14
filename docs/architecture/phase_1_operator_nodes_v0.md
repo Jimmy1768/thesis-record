@@ -7,28 +7,39 @@ Phase 1 is to make Thesis 1, Operator Nodes, a durable living thesis record.
 
 The target is:
 
-1. publish an initial v0 thesis record;
+1. establish an internal v0 baseline record;
 2. freeze the v0 thesis state;
 3. establish the forecast timeline;
 4. start controlled evidence collection and assimilation;
-5. let scheduled jobs accumulate records toward 3, 5, and 10 year checkpoints;
+5. let scheduled jobs accumulate records toward v1, v2, and v3 checkpoints;
 6. defer public product/workspace features until after Thesis 1 has a stable
    operating loop.
 
 ## V0 Publication Target
 
-The v0 publication should define:
+The v0 record should define:
 
 - the public title, subtitle, category, and slug;
 - the frozen v0 thesis claims and predictions;
+- the candidate indicator universe and indirect proxy boundaries;
 - the source-truth rules that govern evidence interpretation;
 - the evidence already available at publication time;
 - known limitations and falsifiers;
 - the checkpoint clock start date.
 
-The v0 thesis does not need to prove Operator Nodes are real or inevitable. It
-must state the thesis, evidence standard, forecast commitments, and review
+V0 is an internal baseline and precommitment, not a public checkpoint. It does
+not need to prove Operator Nodes are real or inevitable. It must state the
+thesis, evidence standard, forecast commitments, indicator universe, and review
 boundaries clearly enough that future updates can be compared against it.
+
+The scheduled public checkpoint ladder is:
+
+- v1: 3-year checkpoint, expected to be noisy and potentially weakened by an AI
+  bubble cycle or delayed adoption;
+- v2: 5-year signal-strength checkpoint, where the thesis should be narrowed,
+  weakened, or treated as wrong if directional evidence fails;
+- v3: 10-year confirmation checkpoint, suitable for peer-review submission only
+  if the forecast record survives earlier checkpoints.
 
 ## Forecast Timeline
 
@@ -36,9 +47,9 @@ The current policy source of truth defines forecast measurement by calendar
 quarter:
 
 - first measurement period: first full calendar quarter after v0 publication;
-- 3-year checkpoint: 12 quarters after v0 publication;
-- 5-year checkpoint: 20 quarters after v0 publication;
-- 10-year checkpoint: 40 quarters after v0 publication;
+- v1 3-year checkpoint: 12 quarters after v0 publication;
+- v2 5-year checkpoint: 20 quarters after v0 publication;
+- v3 10-year checkpoint: 40 quarters after v0 publication;
 - annual snapshot candidates every 4 quarters.
 
 The exact calendar dates should be derived from the v0 publication date and
@@ -46,9 +57,9 @@ recorded before v0 is published.
 
 Current operating assumption: ThesisRecord sets internal canonical v0 on
 2026-06-15 UTC. This makes 2026-Q3 the first full measurement quarter and yields
-3, 5, and 10 year checkpoint targets in 2029-Q2, 2031-Q2, and 2036-Q2. Public
-prose can lag this internal v0 record; claim, forecast, and prose approval
-remain separate gates.
+v1, v2, and v3 checkpoint targets in 2029-Q2, 2031-Q2, and 2036-Q2.
+Public prose can lag this internal v0 record; claim, forecast, and prose
+approval remain separate gates.
 
 ## Evidence Automation
 
@@ -105,6 +116,7 @@ The current pre-v0 scaffolds are:
 - `theses/operator-node-economics/publication/v0_timeline.yml`;
 - `theses/operator-node-economics/publication/v0_claim_set.yml`;
 - `theses/operator-node-economics/publication/v0_forecast_set.yml`;
+- `theses/operator-node-economics/publication/v0_indicator_universe.yml`;
 - `theses/operator-node-economics/publication/v0_collection_plan.yml`;
 - `theses/operator-node-economics/publication/v0_approval_packet.yml`;
 - `theses/operator-node-economics/evidence/assimilation_plan.md`;

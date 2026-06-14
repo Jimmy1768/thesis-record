@@ -86,7 +86,7 @@ A failure record should be created when:
 
 - a predeclared failure condition is triggered;
 - a scheduled annual snapshot finds adverse movement;
-- V2/V3/V4 evidence is mixed, adverse, null, or inconclusive;
+- v1/v2/v3 evidence is mixed, adverse, null, or inconclusive;
 - a required metric is missing, suppressed, not comparable, or fails
   validation;
 - an alternative explanation is stronger than the Operator Node mechanism;
@@ -113,7 +113,7 @@ Annual snapshots should report:
 - source downgrades;
 - unresolved alternatives.
 
-V2/V3/V4 checkpoints should report:
+v1/v2/v3 checkpoints should report:
 
 - which predictions survived;
 - which predictions weakened;

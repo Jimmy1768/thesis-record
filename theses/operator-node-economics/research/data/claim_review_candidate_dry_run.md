@@ -16,7 +16,7 @@ This is not claim review. It creates no `PredictionLink` rows, no
 
 Canonical values live in:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 Policy section:
 

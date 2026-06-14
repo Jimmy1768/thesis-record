@@ -11,13 +11,28 @@ module Operations
     V0_TIMELINE_PATH = THESIS_ROOT.join("publication", "v0_timeline.yml")
     V0_CLAIM_SET_PATH = THESIS_ROOT.join("publication", "v0_claim_set.yml")
     V0_FORECAST_SET_PATH = THESIS_ROOT.join("publication", "v0_forecast_set.yml")
+    V0_INDICATOR_UNIVERSE_PATH = THESIS_ROOT.join("publication", "v0_indicator_universe.yml")
     V0_APPROVAL_PACKET_PATH = THESIS_ROOT.join("publication", "v0_approval_packet.yml")
 
     REQUIRED_CHECKPOINTS = {
-      v2: 12,
-      v3: 20,
-      v4: 40
+      v1: 12,
+      v2: 20,
+      v3: 40
     }.freeze
+
+    REQUIRED_INDICATOR_CATEGORIES = %i[
+      direct_operator_node_emergence
+      diffusion_indicators
+      substitution_indicators
+      transaction_cost_indicators
+      hr_management_coordination_indicators
+      firm_boundary_indicators
+      nonemployer_one_human_economics_indicators
+      corporate_absorption_alternative_indicators
+      remote_employment_unbundling_falsifier
+      economic_class_preference_validation_indicators
+      failure_adverse_indicators
+    ].freeze
 
     REQUIRED_SCHEDULED_JOBS = %i[
       source_release_check
@@ -40,6 +55,7 @@ module Operations
       timeline = load_timeline
       claim_set = load_claim_set
       forecast_set = load_forecast_set
+      indicator_universe = load_indicator_universe
       approval_packet = load_approval_packet
       checks = {
         thesis_metadata_present: metadata.present?,
@@ -51,6 +67,9 @@ module Operations
         v0_timeline_scaffold_present: timeline.present?,
         v0_claim_set_present: claim_set.present?,
         v0_forecast_set_present: forecast_set.present?,
+        v0_indicator_universe_present: indicator_universe.present?,
+        v0_indicator_universe_categories_present: indicator_categories_present?(indicator_universe),
+        v0_indicator_universe_unapproved: indicator_universe.fetch(:approval_status, nil) == "unapproved",
         v0_approval_packet_present: approval_packet.present?,
         v0_approval_packet_unapproved: approval_packet.fetch(:approval_status, nil) == "unapproved",
         v0_baseline_evidence_accepted: approval_gate_status(approval_packet, :baseline_evidence_review) == "accepted",
@@ -119,6 +138,12 @@ module Operations
       YAML.safe_load_file(V0_APPROVAL_PACKET_PATH).deep_symbolize_keys
     end
 
+    def load_indicator_universe
+      return {} unless V0_INDICATOR_UNIVERSE_PATH.exist?
+
+      YAML.safe_load_file(V0_INDICATOR_UNIVERSE_PATH).deep_symbolize_keys
+    end
+
     def forecast_clock
       policy.fetch(:forecast_clock, {})
     end
@@ -137,10 +162,15 @@ module Operations
     end
 
     def checkpoint_offsets_present?
-      configured_offsets = forecast_clock.fetch(:checkpoint_quarters_after_v1, {})
+      configured_offsets = forecast_clock.fetch(:checkpoint_quarters_after_v0, {})
       REQUIRED_CHECKPOINTS.all? do |checkpoint, expected_offset|
         configured_offsets.fetch(checkpoint, nil) == expected_offset
       end
+    end
+
+    def indicator_categories_present?(indicator_universe)
+      categories = indicator_universe.fetch(:indicator_categories, {})
+      REQUIRED_INDICATOR_CATEGORIES.all? { |category| categories.key?(category) }
     end
 
     def checkpoint_dates_set?(timeline)
@@ -197,6 +227,7 @@ module Operations
         warnings << "v0_claim_set_candidate_only" if claim_set.fetch(:status, nil) == "candidate_inventory"
         warnings << "v0_forecast_set_candidate_only" if forecast_set.fetch(:status, nil) == "candidate_inventory"
         warnings << "v0_approval_packet_scaffold_only" if approval_packet.fetch(:status, nil) == "approval_packet_scaffold"
+        warnings << "v0_indicator_universe_unapproved" if V0_INDICATOR_UNIVERSE_PATH.exist?
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
       end
     end

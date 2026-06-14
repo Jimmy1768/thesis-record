@@ -18,4 +18,5 @@ publication:
   v0_timeline: theses/operator-node-economics/publication/v0_timeline.yml
   v0_claim_set: theses/operator-node-economics/publication/v0_claim_set.yml
   v0_forecast_set: theses/operator-node-economics/publication/v0_forecast_set.yml
+  v0_indicator_universe: theses/operator-node-economics/publication/v0_indicator_universe.yml
   v0_approval_packet: theses/operator-node-economics/publication/v0_approval_packet.yml

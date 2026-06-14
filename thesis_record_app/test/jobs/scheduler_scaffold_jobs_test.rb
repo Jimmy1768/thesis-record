@@ -54,7 +54,7 @@ class SchedulerScaffoldJobsTest < ActiveJob::TestCase
 
     assert_equal "v1", policy.fetch(:policy_version)
     assert_equal "calendar_quarter", policy.dig(:forecast_clock, :measurement_atom)
-    assert_equal 12, policy.dig(:forecast_clock, :checkpoint_quarters_after_v1, :v2)
+    assert_equal 12, policy.dig(:forecast_clock, :checkpoint_quarters_after_v0, :v1)
     assert_equal 5, policy.dig(:privacy_thresholds_v1, :minimum_public_cell_size)
     assert_equal 1, policy.dig(:operator_node_classification_v1, :max_human_operators)
     assert_not policy.dig(:production_operations_v1, :private_ingestion_enabled_default)

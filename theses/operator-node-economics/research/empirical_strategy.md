@@ -9,10 +9,10 @@ to support, weaken, or reject firm-boundary predictions.
 ## Forecast Program Status
 
 Operator Node Economics is a versioned forecast research program. The current
-paper should be treated as V1: a forecast baseline, not a completed empirical
-finding.
+internal record should be treated as v0: a forecast baseline, not a completed
+empirical finding or public checkpoint.
 
-V1 should define:
+V0 should define:
 
 - mechanisms;
 - sector boundaries;
@@ -21,7 +21,7 @@ V1 should define:
 - feasibility evidence requirements;
 - diffusion evidence requirements;
 - failure conditions;
-- update rules for V2 and V3.
+- update rules for v1, v2, and v3.
 
 Current Census work provides baseline measurement infrastructure for later
 versions. It does not prove the thesis. A later version should publish the

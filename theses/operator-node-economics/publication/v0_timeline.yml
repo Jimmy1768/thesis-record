@@ -25,24 +25,30 @@ forecast_clock:
   date_status: internal_canonical_public_prose_pending
   quarterly_updates_are_verdicts: false
 checkpoints:
-  v2:
+  v1:
     label: 3_year_checkpoint
     quarters_after_v0: 12
     target_period: "2029-Q2"
     target_date: "2029-06-30"
     review_window_starts: "2029-07-01"
-  v3:
+    publication_role: first_public_checkpoint
+    expected_signal_strength: early_noisy_signal
+  v2:
     label: 5_year_checkpoint
     quarters_after_v0: 20
     target_period: "2031-Q2"
     target_date: "2031-06-30"
     review_window_starts: "2031-07-01"
-  v4:
+    publication_role: signal_strength_checkpoint
+    expected_signal_strength: decisive_directional_evidence_or_failure
+  v3:
     label: 10_year_checkpoint
     quarters_after_v0: 40
     target_period: "2036-Q2"
     target_date: "2036-06-30"
     review_window_starts: "2036-07-01"
+    publication_role: confirmation_checkpoint
+    expected_signal_strength: peer_review_candidate_if_survives
 annual_snapshot:
   frequency_quarters: 4
   first_snapshot_period: "2027-Q2"

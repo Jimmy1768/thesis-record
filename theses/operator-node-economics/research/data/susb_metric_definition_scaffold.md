@@ -9,7 +9,7 @@ Run date: 2026-06-12.
 
 Draft SUSB metric definitions are controlled by:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 Current definitions:
 

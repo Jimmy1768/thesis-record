@@ -10,7 +10,7 @@ Run date: 2026-06-12.
 
 Adjustable operations defaults are controlled by:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 This runbook explains how to operate those defaults. Change the policy file
 first when changing cadence, thresholds, bootstrap env names, or ingestion

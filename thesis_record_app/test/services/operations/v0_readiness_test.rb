@@ -11,6 +11,9 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_timeline_scaffold_present)
     assert result.checks.fetch(:v0_claim_set_present)
     assert result.checks.fetch(:v0_forecast_set_present)
+    assert result.checks.fetch(:v0_indicator_universe_present)
+    assert result.checks.fetch(:v0_indicator_universe_categories_present)
+    assert result.checks.fetch(:v0_indicator_universe_unapproved)
     assert result.checks.fetch(:v0_approval_packet_present)
     assert result.checks.fetch(:v0_approval_packet_unapproved)
     assert result.checks.fetch(:v0_baseline_evidence_accepted)
@@ -29,6 +32,7 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert_includes result.warnings, "paper_draft_is_archive_only"
     assert_includes result.warnings, "v0_claim_set_candidate_only"
     assert_includes result.warnings, "v0_forecast_set_candidate_only"
+    assert_includes result.warnings, "v0_indicator_universe_unapproved"
     assert_includes result.warnings, "v0_approval_packet_scaffold_only"
   end
 
@@ -64,7 +68,7 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
 
   test "fails when checkpoint offsets drift" do
     policy = Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys
-    policy[:forecast_clock][:checkpoint_quarters_after_v1][:v2] = 10
+    policy[:forecast_clock][:checkpoint_quarters_after_v0][:v1] = 10
 
     result = Operations::V0Readiness.call(policy: policy)
 

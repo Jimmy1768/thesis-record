@@ -1,0 +1,319 @@
+version: v0
+status: candidate_indicator_universe
+thesis_slug: operator-node-economics
+approval_status: unapproved
+purpose: >
+  Define the v0 target-value universe before future checkpoints interpret
+  indirect evidence. V0 does not assert that Operator Nodes exist. Direct
+  Operator Node evidence is expected to be unavailable at baseline and must
+  emerge, if at all, at later checkpoints.
+current_baseline_boundary:
+  production_coverage: SUSB, BFS, and BDS public-source context only
+  direct_operator_node_evidence_at_v0: absent
+  private_or_platform_data_at_v0: absent
+  interpretation_effect: no_claim_support
+checkpoint_ladder:
+  v0:
+    role: internal_baseline_precommitment
+    date_basis: "2026-06-15 UTC"
+  v1:
+    role: 3_year_public_checkpoint
+    expected_signal_strength: early_noisy_signal
+    target_period: "2029-Q2"
+  v2:
+    role: 5_year_signal_strength_checkpoint
+    expected_signal_strength: decide_wrong_or_keep_tracking
+    target_period: "2031-Q2"
+  v3:
+    role: 10_year_confirmation_checkpoint
+    expected_signal_strength: peer_review_candidate_if_survives
+    target_period: "2036-Q2"
+evidence_strength_classes:
+  direct_future: Direct evidence that Operator Node-like production units exist.
+  indirect_baseline: Public context available at v0 but not claim support.
+  weak_proxy: Directionally relevant proxy with high confounding risk.
+  private_data_required: Requires firm, platform, payment, or workflow records.
+  third_party_required: Requires external vendor, marketplace, or survey data.
+  unavailable_currently: Not available at v0 and not inferable from current data.
+indicator_categories:
+  direct_operator_node_emergence:
+    category_role: future_direct_detection
+    current_production_coverage: not_covered
+    indicators:
+      - id: ON-DIRECT-001
+        target_value: identifiable_one_human_ai_native_firm
+        expected_direction_if_thesis_right: count_increases_by_v2_and_v3
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: direct_future
+        source_candidates: [case_studies, platform_records, company_filings, founder_interviews]
+        linked_forecasts: [TCE-P001, TCE-P002, TCE-P008]
+        confounders: [ordinary_microfirms, agencies_rebranded_as_ai, contractor_teams_hidden_behind_one_brand]
+        falsification_or_adverse_condition: no_identifiable_cases_by_v3_despite_broad_ai_diffusion
+      - id: ON-DIRECT-002
+        target_value: autonomous_multi_function_workflow_owned_by_one_operator
+        expected_direction_if_thesis_right: workflow_scope_expands
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [workflow_logs, agent_run_records, repo_activity, CRM_and_billing_records]
+        linked_forecasts: [TCE-P004, TCE-P008]
+        confounders: [outsourced_staff, hidden_manual_ops, templated_SaaS_without_autonomy]
+        falsification_or_adverse_condition: scope_expansion_requires_more_humans_not_more_automation
+  diffusion_indicators:
+    category_role: AI_capability_and_use_diffusion
+    current_production_coverage: partial
+    indicators:
+      - id: ON-DIFF-001
+        target_value: AI_tool_adoption_by_small_firms_and_independent_workers
+        expected_direction_if_thesis_right: adoption_rises_before_direct_operator_node_counts
+        checkpoint_relevance: [v1, v2]
+        evidence_strength_class: third_party_required
+        source_candidates: [BLS_surveys, Census_BTOS, private_SaaS_surveys, platform_usage_reports]
+        linked_forecasts: [TCE-P001, TCE-P004]
+        confounders: [novelty_usage, bundle_inclusion, low_productive_use]
+        falsification_or_adverse_condition: adoption_rises_without_productivity_or_scope_change
+      - id: ON-DIFF-002
+        target_value: AI_exposed_business_applications_and_formations
+        expected_direction_if_thesis_right: high_propensity_and_AI_adjacent_applications_rise
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: weak_proxy
+        current_production_coverage: partial
+        source_candidates: [Census_BFS, NAICS_AI_exposure_crosswalks, state_business_registries]
+        linked_forecasts: [TCE-P009, TCE-P010]
+        confounders: [macro_cycle, tax_changes, registration_noise, sector_reclassification]
+        falsification_or_adverse_condition: formation_growth_concentrates_only_in_ordinary_employer_firms
+  substitution_indicators:
+    category_role: labor_and_service_substitution
+    current_production_coverage: not_covered
+    indicators:
+      - id: ON-SUB-001
+        target_value: support_function_labor_share
+        expected_direction_if_thesis_right: declines_in_AI_exposed_small_firms
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [payroll_data, job_postings, firm_surveys, occupational_employment_data]
+        linked_forecasts: [TCE-P002, TCE-P005]
+        confounders: [offshoring, layoffs_from_demand_shocks, outsourcing]
+        falsification_or_adverse_condition: support_headcount_scales_linearly_with_revenue
+      - id: ON-SUB-002
+        target_value: outsourced_service_spend_per_revenue
+        expected_direction_if_thesis_right: decreases_for_repetitive_coordination_services
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [accounting_exports, procurement_records, vendor_spend_data]
+        linked_forecasts: [TCE-P004, TCE-P006]
+        confounders: [service_price_changes, software_subscriptions_replacing_services]
+        falsification_or_adverse_condition: AI_adoption_increases_external_service_dependency
+  transaction_cost_indicators:
+    category_role: search_contracting_monitoring_and_dispute_costs
+    current_production_coverage: not_covered
+    indicators:
+      - id: ON-TC-001
+        target_value: customer_or_supplier_search_cost
+        expected_direction_if_thesis_right: decreases_for_one_operator_firms
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [CRM_records, ad_spend, sales_cycle_logs, marketplace_conversion_data]
+        linked_forecasts: [TCE-P004, TCE-P008]
+        confounders: [paid_acquisition_efficiency, brand_effects, marketplace_ranking]
+        falsification_or_adverse_condition: search_cost_declines_only_for_large_platform_firms
+      - id: ON-TC-002
+        target_value: contracting_cycle_time_and_legal_cost
+        expected_direction_if_thesis_right: declines_or_becomes_template_driven
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [contract_management_records, legal_invoice_data, procurement_logs]
+        linked_forecasts: [TCE-P004, TCE-P008]
+        confounders: [standardized_market_contracts, platform_terms_of_service]
+        falsification_or_adverse_condition: legal_and_contract_costs_rise_with_AI_enabled_scope
+      - id: ON-TC-003
+        target_value: monitoring_rework_dispute_and_payment_delay_cost
+        expected_direction_if_thesis_right: declines_with_agentic_execution_and_verification
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [ticketing_systems, payment_records, dispute_logs, project_management_data]
+        linked_forecasts: [TCE-P004, TCE-P008]
+        confounders: [platform_escrow, customer_mix, product_simplicity]
+        falsification_or_adverse_condition: autonomous_workflows_raise_rework_or_dispute_rates
+  hr_management_coordination_indicators:
+    category_role: internal_coordination_and_people_operations_costs
+    current_production_coverage: not_covered
+    indicators:
+      - id: ON-HR-001
+        target_value: HR_spending_share_of_revenue
+        expected_direction_if_thesis_right: decreases_for_AI_enabled_small_firms
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [accounting_records, HRIS_exports, payroll_benchmarks]
+        linked_forecasts: [TCE-P002, TCE-P005]
+        confounders: [PEO_adoption, outsourced_HR, compliance_changes]
+        falsification_or_adverse_condition: HR_spending_share_rises_as_AI_scope_expands
+      - id: ON-HR-002
+        target_value: recruiting_cost_and_time_to_hire
+        expected_direction_if_thesis_right: decreases_or_becomes_less_central
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [ATS_records, recruiting_invoices, job_posting_data]
+        linked_forecasts: [TCE-P002, TCE-P005]
+        confounders: [labor_market_cycle, hiring_freezes, wage_compression]
+        falsification_or_adverse_condition: AI_native_firms_still_require_fast_human_hiring_to_scale
+      - id: ON-HR-003
+        target_value: manager_to_worker_ratio_and_span_of_control
+        expected_direction_if_thesis_right: fewer_middle_layers_and_wider_spans
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [org_charts, payroll_occupations, LinkedIn_workforce_data]
+        linked_forecasts: [TCE-P005]
+        confounders: [outsourcing, title_inflation, matrix_orgs]
+        falsification_or_adverse_condition: AI_adoption_creates_more_management_layers
+      - id: ON-HR-004
+        target_value: support_staff_ratio_and_HR_FTE_per_employee
+        expected_direction_if_thesis_right: decreases_with_automation
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [HRIS_exports, payroll_occupation_data, benchmarking_surveys]
+        linked_forecasts: [TCE-P002, TCE-P005]
+        confounders: [outsourcing, employee_benefit_complexity, compliance_load]
+        falsification_or_adverse_condition: support_staff_ratios_do_not_fall_in_AI_exposed_firms
+      - id: ON-HR-005
+        target_value: organization_depth
+        expected_direction_if_thesis_right: declines_or_stays_flat_while_scope_expands
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [org_charts, management_titles, reporting_structure_exports]
+        linked_forecasts: [TCE-P005, TCE-P008]
+        confounders: [holding_company_structure, regulatory_management_roles]
+        falsification_or_adverse_condition: AI_native_scaling_requires_deeper_hierarchy
+  firm_boundary_indicators:
+    category_role: make_buy_and_boundary_shift
+    current_production_coverage: partial
+    indicators:
+      - id: ON-FB-001
+        target_value: employer_firm_size_distribution
+        expected_direction_if_thesis_right: pressure_toward_smaller_high_output_firms
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: indirect_baseline
+        current_production_coverage: covered
+        source_candidates: [Census_SUSB, Census_BDS]
+        linked_forecasts: [TCE-P007, TCE-P010]
+        confounders: [sector_mix, macro_cycle, consolidation, regulation]
+        falsification_or_adverse_condition: gains_concentrate_only_in_large_employer_firms
+      - id: ON-FB-002
+        target_value: make_buy_boundary_for_coordination_tasks
+        expected_direction_if_thesis_right: one_operator_firms_internalize_more_coordination_with_agents
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [procurement_logs, vendor_lists, workflow_records, interviews]
+        linked_forecasts: [TCE-P004, TCE-P006]
+        confounders: [platform_bundling, vendor_price_declines, outsourcing_cycles]
+        falsification_or_adverse_condition: AI_increases_vendor_dependence_for_core_coordination
+  nonemployer_one_human_economics_indicators:
+    category_role: nonemployer_and_one_human_firm_performance
+    current_production_coverage: partial
+    indicators:
+      - id: ON-NE-001
+        target_value: nonemployer_revenue_per_firm
+        expected_direction_if_thesis_right: rises_in_AI_exposed_service_categories
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: weak_proxy
+        source_candidates: [Census_NES, IRS_SOI, Census_BFS, platform_income_data]
+        linked_forecasts: [TCE-P001, TCE-P009]
+        confounders: [inflation, classification_change, pass_through_revenue, gig_platform_rules]
+        falsification_or_adverse_condition: nonemployer_revenue_stagnates_while_employer_firms_capture_gains
+      - id: ON-NE-002
+        target_value: one_human_revenue_per_operator_and_margin
+        expected_direction_if_thesis_right: increases_by_v2_and_v3
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [accounting_exports, tax_records, platform_payouts, founder_surveys]
+        linked_forecasts: [TCE-P001, TCE-P002]
+        confounders: [selection_bias, survivorship, owner_labor_underpricing]
+        falsification_or_adverse_condition: output_growth_requires_hiring_human_staff
+  corporate_absorption_alternative_indicators:
+    category_role: alternative_that_large_firms_absorb_AI_gains
+    current_production_coverage: partial
+    indicators:
+      - id: ON-CA-001
+        target_value: large_firm_share_of_AI_productivity_and_revenue_gains
+        expected_direction_if_thesis_right: does_not_fully_absorb_gains
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: indirect_baseline
+        current_production_coverage: partial
+        source_candidates: [Census_SUSB, Census_BDS, Compustat, earnings_calls, patent_and_AI_capex_data]
+        linked_forecasts: [TCE-P006, TCE-P010]
+        confounders: [cloud_platform_market_power, data_advantages, regulatory_moats]
+        falsification_or_adverse_condition: AI_gains_are_persistently_concentrated_in_large_incumbents
+      - id: ON-CA-002
+        target_value: acquisition_or_acqui_hire_rate_of_AI_native_microfirms
+        expected_direction_if_thesis_right: may_rise_but_not_eliminate_independent_operator_node_growth
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: third_party_required
+        source_candidates: [Crunchbase, PitchBook, SEC_filings, press_releases]
+        linked_forecasts: [TCE-P006, TCE-P010]
+        confounders: [venture_cycle, acqui_hire_fashion, talent_shortages]
+        falsification_or_adverse_condition: promising_operator_nodes_are_systematically_absorbed_before_scaling
+  remote_employment_unbundling_falsifier:
+    category_role: distinguish_operator_nodes_from_remote_work
+    current_production_coverage: not_covered
+    indicators:
+      - id: ON-RE-001
+        target_value: remote_employee_or_contractor_unbundling_share
+        expected_direction_if_thesis_right: not_sufficient_as_explanation
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: third_party_required
+        source_candidates: [ACS, BLS_ATUS, job_postings, payroll_classification_data]
+        linked_forecasts: [TCE-P011]
+        confounders: [post_pandemic_remote_work, contractor_misclassification, offshoring]
+        falsification_or_adverse_condition: apparent_operator_nodes_are_only_remote_or_contract_labor_repackaging
+  economic_class_preference_validation_indicators:
+    category_role: validate_class_taxonomy_and_preferences
+    current_production_coverage: not_covered
+    indicators:
+      - id: ON-EC-001
+        target_value: preference_for_autonomous_one_operator_work
+        expected_direction_if_thesis_right: grows_among_AI_enabled_high_skill_workers
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: third_party_required
+        source_candidates: [surveys, labor_platform_profiles, founder_interviews, community_panels]
+        linked_forecasts: [TCE-P012]
+        confounders: [layoff_push, lifestyle_business_selection, wage_premiums]
+        falsification_or_adverse_condition: workers_prefer_standard_employment_when_AI_tools_are_available
+      - id: ON-EC-002
+        target_value: economic_class_transition_from_employee_to_operator
+        expected_direction_if_thesis_right: detectable_transition_path_emerges
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [longitudinal_surveys, tax_records, platform_identity_graphs]
+        linked_forecasts: [TCE-P012]
+        confounders: [gig_work, unemployment_spells, retirement_or_side_income]
+        falsification_or_adverse_condition: transitions_do_not_persist_or_do_not_raise_scope_income_or_autonomy
+  failure_adverse_indicators:
+    category_role: adverse_outcomes_and_falsification
+    current_production_coverage: partial
+    indicators:
+      - id: ON-FAIL-001
+        target_value: no_direct_operator_node_cases_by_checkpoint
+        expected_direction_if_thesis_right: should_not_persist_through_v3
+        checkpoint_relevance: [v1, v2, v3]
+        evidence_strength_class: direct_future
+        source_candidates: [case_registry, platform_records, interviews, public_company_records]
+        linked_forecasts: [TCE-P001, TCE-P002, TCE-P008]
+        confounders: [measurement_gap, terminology_drift, private_operation]
+        falsification_or_adverse_condition: no_cases_by_v3_after_reasonable_search
+      - id: ON-FAIL-002
+        target_value: AI_bubble_or_capability_reversal
+        expected_direction_if_thesis_right: may_delay_v1_but_should_not_destroy_v2_or_v3_signal
+        checkpoint_relevance: [v1, v2]
+        evidence_strength_class: third_party_required
+        source_candidates: [AI_capex, model_benchmark_costs, startup_failures, enterprise_AI_spend]
+        linked_forecasts: [TCE-P001, TCE-P004, TCE-P009]
+        confounders: [interest_rates, GPU_supply, hype_cycle]
+        falsification_or_adverse_condition: AI_capabilities_or_economics_recede_enough_to_break_operator_node_feasibility
+      - id: ON-FAIL-003
+        target_value: hierarchy_and_coordination_costs_rise
+        expected_direction_if_thesis_right: should_not_be_the_dominant_long_run_pattern
+        checkpoint_relevance: [v2, v3]
+        evidence_strength_class: private_data_required
+        source_candidates: [org_charts, payroll, support_staff_ratios, management_surveys]
+        linked_forecasts: [TCE-P005, TCE-P008]
+        confounders: [compliance, cybersecurity, AI_governance_overhead]
+        falsification_or_adverse_condition: AI_requires_more_management_and_control_than_it_removes

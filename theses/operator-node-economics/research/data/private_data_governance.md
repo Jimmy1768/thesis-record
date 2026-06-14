@@ -89,7 +89,7 @@ Hard storage classification is defined in:
 Minimum public-cell rule:
 
 - The current minimum public-cell threshold is defined in
-  `living_dissertation_app/config/living_dissertation_policy.yml`.
+  `thesis_record_app/config/thesis_record_policy.yml`.
 - Do not publish a private-data aggregate below that threshold for underlying
   clients, workers, evaluators, suppliers, or transactions unless the subject
   has explicitly approved identification and the approval is recorded outside

@@ -28,6 +28,7 @@ approval_gates:
       - theses/operator-node-economics/source_truth/research_contract.md
       - theses/operator-node-economics/source_truth/operator_node_definition.md
       - theses/operator-node-economics/source_truth/terminology.md
+      - theses/operator-node-economics/publication/v0_indicator_universe.yml
     approval_effect: allow_public_v0_review
   prohibited_foundations_review:
     status: pending
@@ -49,6 +50,7 @@ approval_gates:
     status: pending
     required_artifacts:
       - theses/operator-node-economics/publication/v0_forecast_set.yml
+      - theses/operator-node-economics/publication/v0_indicator_universe.yml
     approval_effect: approve_internal_v0_forecast_inventory
   prose_review:
     status: pending

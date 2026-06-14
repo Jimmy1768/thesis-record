@@ -16,7 +16,7 @@ authorizing computation.
 
 Draft BFS metric definitions are controlled by:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 Policy sections:
 

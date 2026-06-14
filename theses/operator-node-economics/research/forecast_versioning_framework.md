@@ -6,19 +6,19 @@ prose.
 Run date: 2026-06-12.
 
 Purpose: define Operator Node Economics as a versioned forecast research
-program. V1 should publish the thesis, mechanisms, predictions, evidence
-requirements, and failure conditions before the answer is known. Later versions
-should update the record whether the thesis is supported, narrowed,
-contradicted, or rejected.
+program. V0 should freeze the internal baseline, mechanisms, predictions,
+evidence requirements, indicator universe, and failure conditions before the
+answer is known. Later versions should update the record whether the thesis is
+supported, narrowed, contradicted, or rejected.
 
 ## Core Reframe
 
 The central thesis is a forward prediction about a possible organizational
-form. Current evidence is not expected to prove the full thesis at V1.
+form. Current evidence is not expected to prove the full thesis at v0.
 
-V1 should not claim that Operator Nodes already exist at scale or that the
-corporation is declining. V1 should state the forecast clearly enough that V2
-and V3 can test it.
+V0 should not claim that Operator Nodes already exist at scale or that the
+corporation is declining. V0 should state the forecast clearly enough that v1,
+v2, and v3 can test it.
 
 Class-structure implications should also be framed as forecast taxonomy, not
 as conclusion. If the thesis predicts a shift toward creators, niche human
@@ -50,9 +50,9 @@ platform, or institutional form could provide stronger evidence.
 
 ## Forecast Clock
 
-Current V1 cadence values are controlled by the canonical policy file:
+Current cadence values are controlled by the canonical policy file:
 
-- `living_dissertation_app/config/living_dissertation_policy.yml`
+- `thesis_record_app/config/thesis_record_policy.yml`
 
 Research prose may describe the clock, but adjustable quarter counts and
 scheduler cadence should be changed in that policy file first.
@@ -70,25 +70,25 @@ Reason:
 
 Default clock, as currently represented in policy:
 
-- `T0`: V1 publication date and frozen forecast baseline.
+- `T0`: v0 internal canonical publication date and frozen forecast baseline.
 - `T0 + 4 quarters`: annual evidence snapshot 1.
 - `T0 + 8 quarters`: annual evidence snapshot 2.
-- `T0 + 12 quarters`: V2, the 3-year early structural-signal checkpoint.
+- `T0 + 12 quarters`: v1, the 3-year early structural-signal checkpoint.
 - `T0 + 16 quarters`: annual evidence snapshot 4.
-- `T0 + 20 quarters`: V3, the 5-year intermediate thesis checkpoint.
-- `T0 + 40 quarters`: V4, the 10-year major structural-verdict checkpoint.
+- `T0 + 20 quarters`: v2, the 5-year signal-strength checkpoint.
+- `T0 + 40 quarters`: v3, the 10-year confirmation checkpoint.
 
 Quarterly updates are measurement updates, not thesis verdicts. Annual
 snapshots may report whether indicators are directionally consistent, mixed,
-adverse, or inconclusive. V2/V3/V4 are the scheduled thesis checkpoints.
+adverse, or inconclusive. v1/v2/v3 are the scheduled thesis checkpoints.
 
-If V1 is published other than on a quarter end, the forecast clock should use
-the first full calendar quarter after publication as the first measurement
-quarter while preserving the V1 publication date as `T0`.
+If v0 is established other than on a quarter end, the forecast clock should use
+the first full calendar quarter after v0 as the first measurement quarter while
+preserving the internal canonical v0 date as `T0`.
 
 ## Version Structure
 
-### V1: Forecast Baseline
+### V0: Internal Forecast Baseline
 
 Purpose:
 
@@ -96,6 +96,7 @@ Purpose:
 - Define the Operator Node category.
 - State mechanisms and boundary conditions.
 - Publish predictions across 3-, 5-, and 10-year horizons.
+- Freeze the candidate indicator universe.
 - Publish evidence requirements and failure conditions.
 - Record the current evidence base and gaps.
 
@@ -112,15 +113,15 @@ Not allowed:
 - Claiming current Census baselines show AI-caused boundary shifts.
 - Treating the user's company as proof of the broad thesis.
 
-### V2: First Evidence Check
+### V1: First Public Checkpoint
 
 Trigger:
 
-- 12 full quarters after V1, with data-release lags documented in the snapshot.
+- 12 full quarters after v0, with data-release lags documented in the snapshot.
 
 Purpose:
 
-- Compare observed evidence against V1 predictions.
+- Compare observed evidence against v0 predictions.
 - Publish supportive, mixed, null, or adverse results.
 - Identify whether errors were measurement errors, timing errors, sector-scope
   errors, mechanism errors, or core-theory errors.
@@ -134,11 +135,15 @@ Allowed outcomes:
 - Contradict.
 - Reject.
 
-### V3: Revision, Narrowing, Or Rejection
+v1 should not be expected to be decisive. Early signals may be weak or noisy,
+and an AI bubble cycle may make the thesis look worse before stronger evidence
+is available.
+
+### V2: Signal Strength, Narrowing, Or Rejection
 
 Trigger:
 
-- 20 full quarters after V1, with data-release lags documented in the snapshot.
+- 20 full quarters after v0, with data-release lags documented in the snapshot.
 
 Purpose:
 
@@ -153,11 +158,11 @@ Possible outcomes:
 - Company/network implementation failed but broader thesis remains viable.
 - Broader thesis contradicted and should be scrapped or replaced.
 
-### V4: Major Structural Verdict
+### V3: Confirmation Checkpoint
 
 Trigger:
 
-- 40 full quarters after V1, with business-cycle conditions, data-release lags,
+- 40 full quarters after v0, with business-cycle conditions, data-release lags,
   and major measurement changes documented.
 
 Purpose:
@@ -228,7 +233,7 @@ than one-time manual data pulls.
 
 System architecture is defined in `research/living_forecast_system.md`.
 Adjustable operating defaults and thresholds are defined in
-`living_dissertation_app/config/living_dissertation_policy.yml`.
+`thesis_record_app/config/thesis_record_policy.yml`.
 
 Core boundary:
 
@@ -239,13 +244,13 @@ Core boundary:
   `research/living_forecast_system.md`: collect, verify, validate, compute,
   classify, review, publish.
 
-Each V2/V3 publication should freeze a reproducible snapshot of code, manifests,
-ignored-output hashes, source statuses, prediction tables, criticism tables,
-and claim-review records.
+Each v1/v2/v3 publication should freeze a reproducible snapshot of code,
+manifests, ignored-output hashes, source statuses, prediction tables, criticism
+tables, and claim-review records.
 
 ## Error Taxonomy
 
-When evidence diverges from V1, classify the error:
+When evidence diverges from v0, classify the error:
 
 | Error Type | Meaning | Response |
 | --- | --- | --- |
@@ -259,7 +264,7 @@ When evidence diverges from V1, classify the error:
 
 ## Forecast Horizons
 
-V1 should distinguish:
+V0 should distinguish:
 
 - 3-year signals: early feasibility, case evidence, adoption context, and
   measurable precursor indicators, including remote-work unbundling metrics
@@ -282,9 +287,9 @@ V1 should distinguish:
 | Linked administrative data | Strongest test when AI use, outcomes, survival, and boundary changes are linked. | Still needs confounder control and comparison groups. |
 | Economic-class implication data | Possible movement into creator, niche human provider, or experiencer roles. | Proof of Operator Node diffusion unless linked to AI-enabled production and firm-boundary change. |
 
-## Minimum V1 Prediction Fields
+## Minimum V0 Prediction Fields
 
-Every V1 prediction should specify:
+Every v0 prediction should specify:
 
 - horizon: 3, 5, or 10 years;
 - unit: firm, node, sector, transaction, network, or labor market;
@@ -312,7 +317,7 @@ Principles:
 
 ## Immediate Implication For The Paper
 
-The paper should be structured as V1: a forecast baseline and evidence agenda.
-It can argue the thesis as a directional forecast, but it should state that the
-current evidence base is incomplete and that future versions will test,
-revise, narrow, or reject the thesis.
+The paper should be structured from v0: a forecast baseline and evidence
+agenda. It can argue the thesis as a directional forecast, but it should state
+that the current evidence base is incomplete and that future versions will
+test, revise, narrow, or reject the thesis.

@@ -228,7 +228,7 @@ ingested. They are defined in `research/data/private_data_governance.md`.
 | `privacy_classification` | governance_field | Public, aggregated public, redacted public, internal, or confidential | all private tracks | Confidential and internal data cannot be committed raw. |
 | `disclosure_status` | governance_field | Whether source role and evidence origin may be disclosed | all private tracks | Company-derived evidence must be identified when used publicly. |
 | `retention_rule` | governance_field | How long private source data may be retained | all private tracks | Must be set before ingestion. |
-| `public_aggregation_rule` | governance_field | Aggregation or redaction rule for any public artifact | all private tracks | Minimum public cell size is controlled by `living_dissertation_app/config/living_dissertation_policy.yml` unless explicit approval exists. |
+| `public_aggregation_rule` | governance_field | Aggregation or redaction rule for any public artifact | all private tracks | Minimum public cell size is controlled by `thesis_record_app/config/thesis_record_policy.yml` unless explicit approval exists. |
 | `identity_fields_removed` | governance_field | Whether client, worker, evaluator, supplier, and account identifiers were removed or hashed | all private tracks | Public artifacts must not expose raw identities. |
 | `baseline_defined_before_outcome_review` | governance_field | Whether comparison baseline was recorded before outcomes were evaluated | TCE-P004, TCE-P011, TCE-P012 | Prevents ex post baseline selection. |
 

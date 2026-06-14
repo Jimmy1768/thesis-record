@@ -129,9 +129,9 @@ Current timeline state:
 - internal canonical publication date: 2026-06-15 UTC
 - public release status: not public
 - first provisional measurement quarter: 2026-Q3
-- 3-year checkpoint target: 2029-06-30
-- 5-year checkpoint target: 2031-06-30
-- 10-year checkpoint target: 2036-06-30
+- v1 3-year checkpoint target: 2029-06-30
+- v2 5-year checkpoint target: 2031-06-30
+- v3 10-year checkpoint target: 2036-06-30
 - date status: internal canonical; public prose pending
 
 The timeline gives the system an internal canonical forecast clock. It does not

@@ -8,17 +8,18 @@ Operator Node Economics is a versioned forecast research program, not a
 settled empirical conclusion. The governing framework is
 `research/forecast_versioning_framework.md`.
 
-V1 should publish the thesis, mechanisms, predictions, current evidence,
-missing evidence, and failure conditions before the answer is known. The
-forecast clock uses quarters as the smallest measurement atom: quarterly
-measurement updates, annual evidence snapshots, V2 at 12 full quarters after
-V1, V3 at 20 full quarters after V1, and V4 at 40 full quarters after V1.
-Later versions should update the record even if the thesis is weakened,
-narrowed, contradicted, or rejected.
+V0 is the internal baseline and precommitment, not a public checkpoint.
+It should freeze the thesis, mechanisms, predictions, current evidence,
+missing evidence, indicator universe, and failure conditions before the answer
+is known. The forecast clock uses quarters as the smallest measurement atom:
+quarterly measurement updates, annual evidence snapshots, v1 at 12 full
+quarters after v0, v2 at 20 full quarters after v0, and v3 at 40 full quarters
+after v0. Later versions should update the record even if the thesis is
+weakened, narrowed, contradicted, or rejected.
 
 Prediction status should therefore distinguish:
 
-- `forecast_baseline`: suitable for V1 as an explicit forecast, not evidence.
+- `forecast_baseline`: suitable for v0 as an explicit forecast, not evidence.
 - `leading_indicator`: a precursor signal consistent with the forecast, not
   proof.
 - `feasibility_case`: a node-like case works in a bounded context, but does
