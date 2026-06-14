@@ -103,6 +103,36 @@ namespace :operator do
     puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
   end
 
+  desc "Print a read-only Operator Nodes v0 baseline summary"
+  task v0_baseline_summary: :environment do
+    summary = Operations::V0BaselineSummary.call
+
+    puts "Operator Nodes v0 baseline summary"
+    puts "generated_at=#{summary.generated_at.iso8601}"
+    puts "thesis_slug=#{summary.thesis_slug}"
+    puts "baseline_manifest_present=#{summary.baseline_manifest_present}"
+    puts "baseline_status=#{summary.baseline_status || "(unknown)"}"
+    puts "claim_set_present=#{summary.claim_set_present}"
+    puts "claim_set_status=#{summary.claim_set_status || "(unknown)"}"
+    puts "claim_set_approval_status=#{summary.claim_set_approval_status || "(unknown)"}"
+    puts "claim_count=#{summary.claim_count}"
+    puts "forecast_set_present=#{summary.forecast_set_present}"
+    puts "forecast_set_status=#{summary.forecast_set_status || "(unknown)"}"
+    puts "forecast_set_approval_status=#{summary.forecast_set_approval_status || "(unknown)"}"
+    puts "forecast_count=#{summary.forecast_count}"
+    puts "timeline_present=#{summary.timeline_present}"
+    summary.source_coverage.each do |source_kind, present|
+      puts "source_coverage.#{source_kind}=#{present}"
+    end
+    summary.table_counts.each do |table_name, count|
+      puts "count.#{table_name}=#{count}"
+    end
+    puts "production_health_passed=#{summary.production_health_passed}"
+    puts "v0_readiness_passed=#{summary.v0_readiness_passed}"
+    puts "v0_readiness_blockers=#{summary.v0_readiness_blockers.empty? ? "(none)" : summary.v0_readiness_blockers.join(",")}"
+    puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
+  end
+
   desc "Report blockers for publishing Operator Nodes v0"
   task v0_readiness: :environment do
     result = Operations::V0Readiness.call

@@ -180,6 +180,7 @@ Run from `thesis_record_app`:
 
 ```bash
 bin/rails operator:production_summary
+bin/rails operator:v0_baseline_summary
 bin/rails operator:v0_readiness
 bin/rails operator:verify_operations_policy
 bin/rails operator:verify_claim_review_gate
