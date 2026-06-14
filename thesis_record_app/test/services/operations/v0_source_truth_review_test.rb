@@ -1,12 +1,13 @@
 require "test_helper"
 
 class Operations::V0SourceTruthReviewTest < ActiveSupport::TestCase
-  test "passes current unapproved source-truth review scaffold" do
+  test "passes current accepted source-truth gate while preserving the no-effect review scaffold" do
     result = Operations::V0SourceTruthReview.call
 
     assert result.passed
     assert result.checks.fetch(:v0_source_truth_review_scaffold_present)
     assert result.checks.fetch(:v0_source_truth_review_unapproved)
+    assert result.checks.fetch(:v0_source_truth_review_gate_accepted)
     assert result.checks.fetch(:v0_source_truth_review_no_approval_effect)
     assert result.checks.fetch(:v0_source_truth_required_artifacts_present)
     assert result.checks.fetch(:v0_approval_packet_requires_source_truth_review)
@@ -16,7 +17,7 @@ class Operations::V0SourceTruthReviewTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_direct_future_evidence_required)
     assert result.checks.fetch(:v0_source_truth_criteria_pending_human_review)
     assert result.checks.fetch(:v0_source_truth_prohibited_effects_present)
-    assert_includes result.warnings, "v0_source_truth_review_unapproved"
+    assert_not_includes result.warnings, "v0_source_truth_review_unapproved"
   end
 
   test "fails when an indicator loses its falsification condition" do
