@@ -67,6 +67,7 @@ module Operations
         metric_computation_not_authorized: plan.fetch(:metric_computation_authorized, true) == false,
         no_claim_or_publication_effects: no_claim_or_publication_effects?(plan),
         allowed_sources_scoped: allowed_sources_scoped?(plan),
+        source_freshness_authorized_for_all_sources: source_freshness_authorized_for_all_sources?(plan),
         source_rows_not_authorized: source_rows_not_authorized?(plan),
         canonical_ingestion_requirements_present: canonical_ingestion_requirements_present?(plan),
         prohibited_effects_present: prohibited_effects_present?(plan),
@@ -140,6 +141,12 @@ module Operations
       end
     end
 
+    def source_freshness_authorized_for_all_sources?(plan)
+      plan.fetch(:allowed_sources, []).all? do |source|
+        source.fetch(:source_freshness_dry_run_authorized, false) == true
+      end
+    end
+
     def canonical_ingestion_requirements_present?(plan)
       configured = plan.fetch(:required_before_canonical_ingestion, []).map(&:to_sym)
 
@@ -175,10 +182,14 @@ module Operations
       [].tap do |warnings|
         warnings << "collection_plan_missing" unless plan.present?
         warnings << "metadata_refresh_candidate_only" if plan.fetch(:metadata_refresh_authorized, false)
-        warnings << "first_live_collection_source_pending" if plan.dig(:decision_gap, :first_live_collection_source) == "pending"
-        warnings << "first_live_collection_mode_pending" if plan.dig(:decision_gap, :first_live_collection_mode) == "pending"
+        warnings << "first_live_collection_source_pending" if pending_decision?(plan.dig(:decision_gap, :first_live_collection_source))
+        warnings << "first_live_collection_mode_pending" if pending_decision?(plan.dig(:decision_gap, :first_live_collection_mode))
         warnings << "canonical_collection_env_gate_enabled" if env.fetch("THESIS_RECORD_ALLOW_V0_CANONICAL_COLLECTION", "false") == "true"
       end
+    end
+
+    def pending_decision?(value)
+      value.to_s.start_with?("pending")
     end
   end
 end

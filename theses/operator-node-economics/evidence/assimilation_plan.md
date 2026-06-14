@@ -66,6 +66,7 @@ Run from `thesis_record_app`:
 bin/rails operator:production_summary
 bin/rails operator:v0_baseline_summary
 bin/rails operator:v0_collection_readiness
+bin/rails operator:v0_source_freshness_dry_run
 bin/rails operator:v0_readiness
 bin/rails operator:verify_claim_review_gate
 bin/rails operator:verify_operations_policy

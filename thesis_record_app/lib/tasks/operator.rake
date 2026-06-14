@@ -147,6 +147,32 @@ namespace :operator do
     puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
   end
 
+  desc "Dry-run Operator Nodes v0 source freshness across SUSB, BFS, and BDS without row writes"
+  task v0_source_freshness_dry_run: :environment do
+    network_enabled = ActiveModel::Type::Boolean.new.cast(ENV["THESIS_RECORD_V0_SOURCE_FRESHNESS_NETWORK"])
+    result = Operations::V0SourceFreshnessDryRun.call(network_enabled: network_enabled)
+
+    puts "Operator Nodes v0 source freshness dry run"
+    puts "passed=#{result.passed}"
+    puts "network_enabled=#{result.network_enabled}"
+    result.sources.each do |source|
+      puts "#{source.source_kind}.policy_key=#{source.policy_key}"
+      source.checks.each do |name, passed|
+        puts "#{source.source_kind}.check.#{name}=#{passed}"
+      end
+      source.endpoints.each do |endpoint|
+        puts "#{source.source_kind}.endpoint.#{endpoint.name}.configured=#{endpoint.configured}"
+        puts "#{source.source_kind}.endpoint.#{endpoint.name}.network_checked=#{endpoint.network_checked}"
+        puts "#{source.source_kind}.endpoint.#{endpoint.name}.status=#{endpoint.status || "(not_checked)"}"
+        puts "#{source.source_kind}.endpoint.#{endpoint.name}.last_modified=#{endpoint.last_modified || "(unknown)"}"
+        puts "#{source.source_kind}.endpoint.#{endpoint.name}.content_length=#{endpoint.content_length || "(unknown)"}"
+        puts "#{source.source_kind}.endpoint.#{endpoint.name}.error=#{endpoint.error || "(none)"}"
+      end
+    end
+    puts "blockers=#{result.blockers.empty? ? "(none)" : result.blockers.join(",")}"
+    puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
+  end
+
   desc "Report blockers for publishing Operator Nodes v0"
   task v0_readiness: :environment do
     result = Operations::V0Readiness.call

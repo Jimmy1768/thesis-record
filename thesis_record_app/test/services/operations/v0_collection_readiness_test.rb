@@ -11,6 +11,7 @@ class Operations::V0CollectionReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:metadata_refresh_candidate_read_only)
     assert result.checks.fetch(:canonical_ingestion_not_authorized)
     assert result.checks.fetch(:row_ingestion_not_authorized)
+    assert result.checks.fetch(:source_freshness_authorized_for_all_sources)
     assert result.checks.fetch(:metadata_refresh_has_no_row_effects)
     assert result.checks.fetch(:metric_computation_not_authorized)
     assert result.checks.fetch(:no_claim_or_publication_effects)

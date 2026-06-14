@@ -16,16 +16,19 @@ allowed_sources:
   - source_kind: census_susb_public_file
     current_baseline_table: susb_public_file_rows
     allowed_preapproval_action: source_release_check
+    source_freshness_dry_run_authorized: true
     row_ingestion_authorized: false
     first_live_run_decision: pending
   - source_kind: census_bfs_api
     current_baseline_table: bfs_api_rows
     allowed_preapproval_action: source_release_check
+    source_freshness_dry_run_authorized: true
     row_ingestion_authorized: false
     first_live_run_decision: pending
   - source_kind: census_bds_public_file
     current_baseline_table: bds_public_file_rows
     allowed_preapproval_action: source_release_check
+    source_freshness_dry_run_authorized: true
     row_ingestion_authorized: false
     first_live_run_decision: pending
 run_modes:
@@ -71,7 +74,7 @@ prohibited_effects:
   - thesis_verdict
   - publication
 decision_gap:
-  first_live_collection_source: pending
-  first_live_collection_mode: pending
+  first_live_collection_source: pending_after_source_freshness_dry_run
+  first_live_collection_mode: pending_after_source_freshness_dry_run
   expected_row_count_delta: pending
   collection_manifest_path: pending
