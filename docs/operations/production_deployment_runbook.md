@@ -33,6 +33,18 @@ Expected app paths:
 - env file: `/etc/thesis-record/thesis-record.env`
 - backup manifest path: `/var/backups/thesis-record/thesis-record`
 
+Current interim deployment on `sourcecombatives-web` uses user-level systemd
+because passwordless sudo is not available from the deployment session:
+
+- app directory: `/home/jimmy1768_user/Projects/thesis-record/thesis_record_app`
+- env file: `/home/jimmy1768_user/.config/thesis-record/thesis-record.env`
+- service examples:
+  `thesis_record_app/config/deploy/systemd/user/`
+- service manager: `systemctl --user`
+- process supervision: enabled user services with linger already active
+
+Promote to the root-owned paths above when sudo access is available.
+
 ## Required Environment
 
 The server env file must be created on the droplet only. Do not commit real
@@ -100,6 +112,39 @@ default.
     Use the tunnel for private checks only. The initial raw Puma verification is
     `http://127.0.0.1:3400/up`; do not assume the public `/thesis` browser path
     is reachable until nginx or another mount layer is added.
+
+## User-Level Systemd Fallback
+
+Use this fallback only when root-owned systemd installation is blocked by sudo.
+It is acceptable for the current private runtime because the SSH user has
+systemd user services and linger enabled.
+
+Install service files:
+
+```bash
+mkdir -p ~/.config/systemd/user
+cp thesis_record_app/config/deploy/systemd/user/thesis-record-web.service.example \
+  ~/.config/systemd/user/thesis-record-web.service
+cp thesis_record_app/config/deploy/systemd/user/thesis-record-sidekiq.service.example \
+  ~/.config/systemd/user/thesis-record-sidekiq.service
+systemctl --user daemon-reload
+systemctl --user enable --now thesis-record-web.service thesis-record-sidekiq.service
+```
+
+Verify:
+
+```bash
+systemctl --user status thesis-record-web.service
+systemctl --user status thesis-record-sidekiq.service
+curl -fsS http://127.0.0.1:3400/up
+bin/rails operator:verify_operations_policy
+bin/rails operator:verify_deployment_config
+bin/rails operator:health_check
+```
+
+This fallback does not replace the final root-owned service target. Before a
+public web surface is enabled, move the app/env/services to the root-owned
+paths or explicitly accept the operational risk.
 
 ## Data Promotion Guardrails
 

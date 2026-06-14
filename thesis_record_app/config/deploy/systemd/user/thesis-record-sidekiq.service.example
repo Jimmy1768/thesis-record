@@ -1,0 +1,15 @@
+[Unit]
+Description=ThesisRecord Sidekiq worker process (user service)
+After=network.target redis-server.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Projects/thesis-record/thesis_record_app
+EnvironmentFile=%h/.config/thesis-record/thesis-record.env
+ExecStart=/bin/bash -lc 'bundle exec sidekiq -C config/sidekiq.yml'
+Restart=always
+RestartSec=5
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=default.target
