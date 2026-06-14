@@ -11,7 +11,7 @@ class Operations::V0FrozenForecastSetReviewTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_frozen_forecast_set_review_no_approval_effect)
     assert result.checks.fetch(:v0_frozen_forecast_set_required_artifacts_present)
     assert result.checks.fetch(:v0_approval_packet_requires_frozen_forecast_set_review)
-    assert result.checks.fetch(:v0_forecast_set_unapproved_candidate_inventory)
+    assert result.checks.fetch(:v0_forecast_set_internal_inventory_approved)
     assert result.checks.fetch(:v0_forecast_inventory_complete)
     assert result.checks.fetch(:v0_forecast_ids_unique)
     assert result.checks.fetch(:v0_forecast_items_reviewable)

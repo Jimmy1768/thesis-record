@@ -1,12 +1,12 @@
 version: v0
-status: candidate_inventory
+status: internal_v0_inventory
 thesis_slug: operator-node-economics
-approval_status: unapproved
+approval_status: approved
 source_index: theses/operator-node-economics/research/predictions.md
 timeline_ref: theses/operator-node-economics/publication/v0_timeline.yml
 scope:
   purpose: Freeze candidate forecast IDs for v0 review before publication.
-  forecast_status_effect: unchanged
+  forecast_status_effect: internal_inventory_approved_no_forecast_support
   quarterly_updates_are_verdicts: false
   automatic_verdicts_authorized: false
 review_requirements:

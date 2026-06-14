@@ -95,7 +95,7 @@ module Operations
         v0_public_release_review_scaffold_present: V0_PUBLIC_RELEASE_REVIEW_PATH.exist?,
         v0_public_release_review_scaffold_valid: public_release_review.passed,
         v0_approval_packet_present: approval_packet.present?,
-        v0_approval_packet_unapproved: approval_packet.fetch(:approval_status, nil) == "unapproved",
+        v0_approval_packet_approved: approval_packet.fetch(:approval_status, nil) == "approved",
         v0_baseline_evidence_accepted: approval_gate_status(approval_packet, :baseline_evidence_review) == "accepted",
         v0_source_truth_review_accepted: approval_gate_status(approval_packet, :source_truth_review) == "accepted",
         v0_prohibited_foundations_review_accepted: approval_gate_status(approval_packet, :prohibited_foundations_review) == "accepted",
@@ -256,8 +256,8 @@ module Operations
         warnings << "v0_prohibited_foundations_review_unapproved" if V0_PROHIBITED_FOUNDATIONS_REVIEW_PATH.exist? && approval_gate_status(approval_packet, :prohibited_foundations_review) != "accepted"
         warnings << "v0_frozen_claim_set_review_unapproved" if V0_FROZEN_CLAIM_SET_REVIEW_PATH.exist? && approval_gate_status(approval_packet, :frozen_claim_set_review) != "accepted"
         warnings << "v0_frozen_forecast_set_review_unapproved" if V0_FROZEN_FORECAST_SET_REVIEW_PATH.exist? && approval_gate_status(approval_packet, :frozen_forecast_set_review) != "accepted"
-        warnings << "v0_prose_review_unapproved" if V0_PROSE_REVIEW_PATH.exist?
-        warnings << "v0_public_release_review_unapproved" if V0_PUBLIC_RELEASE_REVIEW_PATH.exist?
+        warnings << "v0_prose_review_unapproved" if V0_PROSE_REVIEW_PATH.exist? && approval_gate_status(approval_packet, :prose_review) != "accepted"
+        warnings << "v0_public_release_review_unapproved" if V0_PUBLIC_RELEASE_REVIEW_PATH.exist? && approval_gate_status(approval_packet, :public_release_review) != "accepted"
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
       end
     end

@@ -1,0 +1,32 @@
+version: v0
+record_type: public_release_control_acceptance
+thesis_slug: operator-node-economics
+accepted_at_utc: "2026-06-15"
+accepted_gate: public_release_review
+approval_status_effect:
+  approval_packet_gate: accepted
+  public_release_status: unchanged_not_public
+  public_release_review_scaffold: unchanged_unapproved
+scope: release_control_only
+basis:
+  review_artifact: theses/operator-node-economics/publication/v0_public_release_review.yml
+  timeline_artifact: theses/operator-node-economics/publication/v0_timeline.yml
+  approval_packet_artifact: theses/operator-node-economics/publication/v0_approval_packet.yml
+accepted_boundaries:
+  - Public release status remains not_public.
+  - The target future public path remains /thesis/operator-node-economics.
+  - No nginx, Caddy, or public web surface is implied by this acceptance.
+  - Public release requires a later explicit status change.
+explicit_non_effects:
+  - no_public_release
+  - no_public_route_enablement
+  - no_claim_status_change
+  - no_forecast_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_canonical_ingestion_authorization
+  - no_thesis_verdict
+required_next_checks:
+  - bin/rails operator:verify_v0_public_release_review
+  - bin/rails operator:v0_gate_summary
+  - bin/rails operator:v0_readiness

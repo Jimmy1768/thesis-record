@@ -1,11 +1,11 @@
 version: v0
-status: approval_packet_scaffold
+status: internal_v0_approved
 thesis_slug: operator-node-economics
 internal_canonical_publication_date_utc: "2026-06-15"
 public_release_status: not_public
 baseline_status: accepted_internal_v0_baseline
-approval_status: unapproved
-purpose: Centralize remaining approvals before public v0 or claim/forecast approval.
+approval_status: approved
+purpose: Centralize approvals for internal v0 and remaining controls before public release.
 decision_log:
   v0_date:
     decision: Use 2026-06-15 UTC as internal canonical v0 date.
@@ -35,6 +35,26 @@ decision_log:
     decision: Accept the v0 frozen forecast-set review for internal v0 sequencing.
     approval_status: accepted
     manifest: theses/operator-node-economics/publication/v0_frozen_forecast_set_acceptance_2026-06-15.yml
+  prose:
+    decision: Accept v0.md as the internal v0 control record.
+    approval_status: accepted
+    manifest: theses/operator-node-economics/publication/v0_prose_acceptance_2026-06-15.yml
+  claim_inventory:
+    decision: Approve the v0 claim set as the internal v0 claim inventory only.
+    approval_status: accepted
+    manifest: theses/operator-node-economics/publication/v0_claim_inventory_acceptance_2026-06-15.yml
+  forecast_inventory:
+    decision: Approve the v0 forecast set as the internal v0 forecast inventory only.
+    approval_status: accepted
+    manifest: theses/operator-node-economics/publication/v0_forecast_inventory_acceptance_2026-06-15.yml
+  public_release_control:
+    decision: Accept the public-release control review while keeping v0 not public.
+    approval_status: accepted
+    manifest: theses/operator-node-economics/publication/v0_public_release_control_acceptance_2026-06-15.yml
+  internal_v0:
+    decision: Approve internal v0 as ready for baseline collection and future checkpoint measurement.
+    approval_status: approved
+    manifest: theses/operator-node-economics/publication/v0_internal_approval_2026-06-15.yml
 approval_gates:
   source_truth_review:
     status: accepted
@@ -78,17 +98,19 @@ approval_gates:
       - theses/operator-node-economics/publication/v0_frozen_forecast_set_acceptance_2026-06-15.yml
     approval_effect: approve_internal_v0_forecast_inventory
   prose_review:
-    status: pending
+    status: accepted
     required_artifacts:
       - theses/operator-node-economics/publication/v0.md
       - theses/operator-node-economics/publication/v0_prose_review.yml
+      - theses/operator-node-economics/publication/v0_prose_acceptance_2026-06-15.yml
     approval_effect: approve_public_or_internal_publication_text
   public_release_review:
-    status: pending
+    status: accepted
     required_artifacts:
       - theses/operator-node-economics/publication/v0.md
       - theses/operator-node-economics/publication/v0_timeline.yml
       - theses/operator-node-economics/publication/v0_public_release_review.yml
+      - theses/operator-node-economics/publication/v0_public_release_control_acceptance_2026-06-15.yml
     approval_effect: approve_public_release
 required_before_public_release:
   - source_truth_review

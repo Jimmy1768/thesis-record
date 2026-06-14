@@ -10,12 +10,12 @@ publication:
   internal_canonical_publication_date_utc: "2026-06-15"
   target_internal_publication_date: "2026-06-15"
   publication_date: "2026-06-15"
-  approval_status: unapproved
+  approval_status: approved
   public_release_status: not_public
   paper_prose_status: not_imported
-  claims_status: unapproved
+  claims_status: approved
   claim_set_path: theses/operator-node-economics/publication/v0_claim_set.yml
-  forecasts_status: unapproved
+  forecasts_status: approved
   forecast_set_path: theses/operator-node-economics/publication/v0_forecast_set.yml
 forecast_clock:
   measurement_atom: calendar_quarter

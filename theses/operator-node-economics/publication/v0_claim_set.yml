@@ -1,12 +1,12 @@
 version: v0
-status: candidate_inventory
+status: internal_v0_inventory
 thesis_slug: operator-node-economics
-approval_status: unapproved
+approval_status: approved
 source_index: theses/operator-node-economics/research/claims_index.md
 scope:
   purpose: Freeze candidate claim IDs for v0 review before publication.
   prose_status: not_publication_prose
-  claim_status_effect: unchanged
+  claim_status_effect: internal_inventory_approved_no_claim_support
   automatic_promotion_authorized: false
 review_requirements:
   - source_truth_review

@@ -60,6 +60,7 @@ module Operations
       checks = {
         v0_public_release_review_scaffold_present: loaded_review.present?,
         v0_public_release_review_unapproved: loaded_review.fetch(:approval_status, nil) == "unapproved",
+        v0_public_release_review_gate_accepted: approval_gate_accepted?(loaded_approval_packet),
         v0_public_release_review_no_approval_effect: loaded_review.fetch(:review_effect, nil) == "no_approval_no_publication_no_claim_support",
         v0_public_release_required_artifacts_present: required_artifacts_present?(loaded_review),
         v0_public_release_prerequisites_listed: release_prerequisites_listed?(loaded_review),
@@ -75,7 +76,7 @@ module Operations
         passed: failures.empty?,
         checks: checks,
         failures: failures,
-        warnings: warnings(loaded_review)
+        warnings: warnings(loaded_review, loaded_approval_packet)
       )
     end
 
@@ -106,6 +107,10 @@ module Operations
       required_artifacts.include?(REVIEW_ARTIFACT_REF)
     end
 
+    def approval_gate_accepted?(loaded_approval_packet)
+      loaded_approval_packet.dig(:approval_gates, :public_release_review, :status) == "accepted"
+    end
+
     def release_status_not_public?(loaded_approval_packet, loaded_timeline)
       loaded_approval_packet.fetch(:public_release_status, nil) == "not_public" &&
         loaded_timeline.dig(:publication, :public_release_status) == "not_public"
@@ -128,9 +133,9 @@ module Operations
       (REQUIRED_PROHIBITED_EFFECTS - configured_effects).empty?
     end
 
-    def warnings(loaded_review)
+    def warnings(loaded_review, loaded_approval_packet)
       [].tap do |warnings|
-        warnings << "v0_public_release_review_unapproved" if loaded_review.fetch(:approval_status, nil) == "unapproved"
+        warnings << "v0_public_release_review_unapproved" if loaded_review.fetch(:approval_status, nil) == "unapproved" && !approval_gate_accepted?(loaded_approval_packet)
       end
     end
   end

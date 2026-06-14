@@ -53,7 +53,7 @@ module Operations
         v0_frozen_claim_set_review_no_approval_effect: loaded_review.fetch(:review_effect, nil) == "no_approval_no_publication_no_claim_support",
         v0_frozen_claim_set_required_artifacts_present: required_artifacts_present?(loaded_review),
         v0_approval_packet_requires_frozen_claim_set_review: approval_packet_requires_review?(loaded_approval_packet),
-        v0_claim_set_unapproved_candidate_inventory: claim_set_unapproved_candidate_inventory?(loaded_claim_set),
+        v0_claim_set_internal_inventory_approved: claim_set_internal_inventory_approved?(loaded_claim_set),
         v0_claim_inventory_complete: claim_inventory_complete?(loaded_review, loaded_claim_set),
         v0_claim_ids_unique: ids_unique?(loaded_claim_set.fetch(:claims, [])),
         v0_claim_items_reviewable: claim_items_reviewable?(loaded_claim_set),
@@ -97,9 +97,9 @@ module Operations
       loaded_approval_packet.dig(:approval_gates, :frozen_claim_set_review, :status) == "accepted"
     end
 
-    def claim_set_unapproved_candidate_inventory?(loaded_claim_set)
-      loaded_claim_set.fetch(:status, nil) == "candidate_inventory" &&
-        loaded_claim_set.fetch(:approval_status, nil) == "unapproved"
+    def claim_set_internal_inventory_approved?(loaded_claim_set)
+      loaded_claim_set.fetch(:status, nil) == "internal_v0_inventory" &&
+        loaded_claim_set.fetch(:approval_status, nil) == "approved"
     end
 
     def claim_inventory_complete?(loaded_review, loaded_claim_set)
@@ -125,7 +125,7 @@ module Operations
     end
 
     def no_automatic_promotion?(loaded_claim_set)
-      loaded_claim_set.dig(:scope, :claim_status_effect) == "unchanged" &&
+      loaded_claim_set.dig(:scope, :claim_status_effect) == "internal_inventory_approved_no_claim_support" &&
         loaded_claim_set.dig(:scope, :automatic_promotion_authorized) == false
     end
 

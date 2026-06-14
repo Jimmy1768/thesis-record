@@ -19,7 +19,7 @@ class Operations::V0BaselineSummaryTest < ActiveSupport::TestCase
     )
     v0_readiness = FakeV0Readiness.new(
       passed: false,
-      blockers: %w[v0_publication_approved v0_claim_set_approved v0_forecast_set_approved]
+      blockers: %w[v0_publication_approved]
     )
 
     summary = Operations::V0BaselineSummary.call(
@@ -31,12 +31,12 @@ class Operations::V0BaselineSummaryTest < ActiveSupport::TestCase
     assert summary.baseline_manifest_present
     assert_equal "accepted internal v0 baseline", summary.baseline_status
     assert summary.claim_set_present
-    assert_equal "candidate_inventory", summary.claim_set_status
-    assert_equal "unapproved", summary.claim_set_approval_status
+    assert_equal "internal_v0_inventory", summary.claim_set_status
+    assert_equal "approved", summary.claim_set_approval_status
     assert_equal 15, summary.claim_count
     assert summary.forecast_set_present
-    assert_equal "candidate_inventory", summary.forecast_set_status
-    assert_equal "unapproved", summary.forecast_set_approval_status
+    assert_equal "internal_v0_inventory", summary.forecast_set_status
+    assert_equal "approved", summary.forecast_set_approval_status
     assert_equal 12, summary.forecast_count
     assert summary.collection_plan_present
     assert summary.timeline_present
@@ -46,8 +46,8 @@ class Operations::V0BaselineSummaryTest < ActiveSupport::TestCase
     assert summary.production_health_passed
     assert_not summary.v0_readiness_passed
     assert_includes summary.v0_readiness_blockers, "v0_publication_approved"
-    assert_includes summary.warnings, "claim_set_unapproved"
-    assert_includes summary.warnings, "forecast_set_unapproved"
+    assert_not_includes summary.warnings, "claim_set_unapproved"
+    assert_not_includes summary.warnings, "forecast_set_unapproved"
     assert_includes summary.warnings, "v0_not_ready"
   end
 

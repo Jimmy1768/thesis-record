@@ -11,7 +11,7 @@ class Operations::V0FrozenClaimSetReviewTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_frozen_claim_set_review_no_approval_effect)
     assert result.checks.fetch(:v0_frozen_claim_set_required_artifacts_present)
     assert result.checks.fetch(:v0_approval_packet_requires_frozen_claim_set_review)
-    assert result.checks.fetch(:v0_claim_set_unapproved_candidate_inventory)
+    assert result.checks.fetch(:v0_claim_set_internal_inventory_approved)
     assert result.checks.fetch(:v0_claim_inventory_complete)
     assert result.checks.fetch(:v0_claim_ids_unique)
     assert result.checks.fetch(:v0_claim_items_reviewable)

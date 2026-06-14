@@ -1,0 +1,35 @@
+version: v0
+record_type: prose_acceptance
+thesis_slug: operator-node-economics
+accepted_at_utc: "2026-06-15"
+accepted_gate: prose_review
+approval_status_effect:
+  approval_packet_gate: accepted
+  prose_review_scaffold: unchanged_unapproved
+  v0_artifact_status: internal_v0_control_record
+scope: internal_v0_record_only
+basis:
+  review_artifact: theses/operator-node-economics/publication/v0_prose_review.yml
+  v0_artifact: theses/operator-node-economics/publication/v0.md
+  production_gate_summary_command: bin/rails operator:v0_gate_summary
+accepted_boundaries:
+  - v0.md is accepted as the internal v0 control record.
+  - v0.md is not public paper prose.
+  - The archived paper draft remains intentionally not imported.
+  - Source-truth, falsifier, indirect-proxy, and prohibited-foundation boundaries remain visible.
+  - Baseline public data is context infrastructure only, not proof that Operator Nodes exist.
+explicit_non_effects:
+  - no_public_release
+  - no_paper_draft_import
+  - no_claim_status_change
+  - no_forecast_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_canonical_ingestion_authorization
+  - no_thesis_verdict
+remaining_pending_gates:
+  - public_release_review
+required_next_checks:
+  - bin/rails operator:verify_v0_prose_review
+  - bin/rails operator:v0_gate_summary
+  - bin/rails operator:v0_readiness

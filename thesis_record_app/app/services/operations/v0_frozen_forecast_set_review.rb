@@ -57,7 +57,7 @@ module Operations
         v0_frozen_forecast_set_review_no_approval_effect: loaded_review.fetch(:review_effect, nil) == "no_approval_no_publication_no_claim_support",
         v0_frozen_forecast_set_required_artifacts_present: required_artifacts_present?(loaded_review),
         v0_approval_packet_requires_frozen_forecast_set_review: approval_packet_requires_review?(loaded_approval_packet),
-        v0_forecast_set_unapproved_candidate_inventory: forecast_set_unapproved_candidate_inventory?(loaded_forecast_set),
+        v0_forecast_set_internal_inventory_approved: forecast_set_internal_inventory_approved?(loaded_forecast_set),
         v0_forecast_inventory_complete: forecast_inventory_complete?(loaded_review, loaded_forecast_set),
         v0_forecast_ids_unique: ids_unique?(loaded_forecast_set.fetch(:forecasts, [])),
         v0_forecast_items_reviewable: forecast_items_reviewable?(loaded_forecast_set),
@@ -102,9 +102,9 @@ module Operations
       loaded_approval_packet.dig(:approval_gates, :frozen_forecast_set_review, :status) == "accepted"
     end
 
-    def forecast_set_unapproved_candidate_inventory?(loaded_forecast_set)
-      loaded_forecast_set.fetch(:status, nil) == "candidate_inventory" &&
-        loaded_forecast_set.fetch(:approval_status, nil) == "unapproved"
+    def forecast_set_internal_inventory_approved?(loaded_forecast_set)
+      loaded_forecast_set.fetch(:status, nil) == "internal_v0_inventory" &&
+        loaded_forecast_set.fetch(:approval_status, nil) == "approved"
     end
 
     def forecast_inventory_complete?(loaded_review, loaded_forecast_set)
@@ -137,7 +137,7 @@ module Operations
     end
 
     def no_automatic_verdicts?(loaded_forecast_set)
-      loaded_forecast_set.dig(:scope, :forecast_status_effect) == "unchanged" &&
+      loaded_forecast_set.dig(:scope, :forecast_status_effect) == "internal_inventory_approved_no_forecast_support" &&
         loaded_forecast_set.dig(:scope, :quarterly_updates_are_verdicts) == false &&
         loaded_forecast_set.dig(:scope, :automatic_verdicts_authorized) == false
     end

@@ -1,0 +1,28 @@
+version: v0
+record_type: forecast_inventory_acceptance
+thesis_slug: operator-node-economics
+accepted_at_utc: "2026-06-15"
+accepted_scope: internal_v0_forecast_inventory
+approval_status_effect:
+  v0_forecast_set_approval_status: approved
+  timeline_forecasts_status: approved
+  individual_forecast_statuses: unchanged_candidate_unapproved
+scope: forecast_inventory_only
+basis:
+  forecast_set_artifact: theses/operator-node-economics/publication/v0_forecast_set.yml
+  frozen_forecast_set_acceptance: theses/operator-node-economics/publication/v0_frozen_forecast_set_acceptance_2026-06-15.yml
+accepted_boundaries:
+  - TCE-P001 through TCE-P012 are approved as the internal v0 forecast inventory.
+  - Individual forecasts remain candidate_unapproved.
+  - Set-level approval is not forecast support and not a thesis verdict.
+  - Quarterly updates remain measurement checkpoints, not verdicts.
+  - Automatic verdicts remain disabled.
+explicit_non_effects:
+  - no_individual_forecast_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_claim_status_change
+  - no_public_release
+  - no_publication_approval
+  - no_canonical_ingestion_authorization
+  - no_thesis_verdict

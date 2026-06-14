@@ -3,9 +3,10 @@ status: prose_review_scaffold
 thesis_slug: operator-node-economics
 approval_status: unapproved
 purpose: >
-  Make the v0 prose gate concrete before any prose approval. This file defines
-  what must be checked; it does not import paper/draft.md, approve publication
-  text, approve claims, approve forecasts, or make v0 public.
+  Make the v0 prose gate concrete before any public prose approval. This file
+  defines what must be checked for the internal v0 record; it does not import
+  paper/draft.md, approve public publication text, approve claims, approve
+  forecasts, or make v0 public.
 review_effect: no_approval_no_publication_no_claim_support
 required_artifacts:
   - theses/operator-node-economics/publication/v0.md
@@ -20,9 +21,9 @@ review_criteria:
   archived_draft_not_imported:
     status: pending_human_review
     requirement: The archived paper draft must remain absent until a separate import/rewrite decision.
-  scaffold_not_public_prose:
+  internal_record_not_public_prose:
     status: pending_human_review
-    requirement: v0.md may remain a control artifact but cannot be treated as final thesis prose.
+    requirement: v0.md may serve as the internal v0 control record but cannot be treated as final public thesis prose.
   no_claim_or_forecast_approval:
     status: pending_human_review
     requirement: Prose review cannot approve claim status, forecast status, prediction links, or thesis verdicts.

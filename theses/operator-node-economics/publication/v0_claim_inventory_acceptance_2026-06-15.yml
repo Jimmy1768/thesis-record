@@ -1,0 +1,27 @@
+version: v0
+record_type: claim_inventory_acceptance
+thesis_slug: operator-node-economics
+accepted_at_utc: "2026-06-15"
+accepted_scope: internal_v0_claim_inventory
+approval_status_effect:
+  v0_claim_set_approval_status: approved
+  timeline_claims_status: approved
+  individual_claim_statuses: unchanged_candidate_unapproved
+scope: claim_inventory_only
+basis:
+  claim_set_artifact: theses/operator-node-economics/publication/v0_claim_set.yml
+  frozen_claim_set_acceptance: theses/operator-node-economics/publication/v0_frozen_claim_set_acceptance_2026-06-15.yml
+accepted_boundaries:
+  - TCE-CLAIM-001 through TCE-CLAIM-015 are approved as the internal v0 claim inventory.
+  - Individual claims remain candidate_unapproved.
+  - Set-level approval is not evidence support and not a thesis verdict.
+  - Automatic claim promotion remains disabled.
+explicit_non_effects:
+  - no_individual_claim_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_forecast_status_change
+  - no_public_release
+  - no_publication_approval
+  - no_canonical_ingestion_authorization
+  - no_thesis_verdict

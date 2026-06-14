@@ -14,7 +14,7 @@ module Operations
 
     REQUIRED_CRITERIA = %i[
       archived_draft_not_imported
-      scaffold_not_public_prose
+      internal_record_not_public_prose
       no_claim_or_forecast_approval
       source_truth_boundaries_visible
       no_baseline_as_proof
@@ -50,11 +50,12 @@ module Operations
       checks = {
         v0_prose_review_scaffold_present: loaded_review.present?,
         v0_prose_review_unapproved: loaded_review.fetch(:approval_status, nil) == "unapproved",
+        v0_prose_review_gate_accepted: approval_gate_accepted?(loaded_approval_packet),
         v0_prose_review_no_approval_effect: loaded_review.fetch(:review_effect, nil) == "no_approval_no_publication_no_claim_support",
         v0_prose_required_artifacts_present: required_artifacts_present?(loaded_review),
         v0_prose_held_back_artifacts_absent: held_back_artifacts_absent?(loaded_review),
         v0_approval_packet_requires_prose_review: approval_packet_requires_review?(loaded_approval_packet),
-        v0_publication_artifact_remains_scaffold: publication_artifact_remains_scaffold?,
+        v0_publication_artifact_internal_record: publication_artifact_internal_record?,
         v0_prose_criteria_pending_human_review: review_criteria_pending?(loaded_review),
         v0_prose_prohibited_effects_present: prohibited_effects_present?(loaded_review)
       }
@@ -64,7 +65,7 @@ module Operations
         passed: failures.empty?,
         checks: checks,
         failures: failures,
-        warnings: warnings(loaded_review)
+        warnings: warnings(loaded_review, loaded_approval_packet)
       )
     end
 
@@ -96,14 +97,21 @@ module Operations
       required_artifacts.include?(REVIEW_ARTIFACT_REF)
     end
 
-    def publication_artifact_remains_scaffold?
+    def approval_gate_accepted?(loaded_approval_packet)
+      loaded_approval_packet.dig(:approval_gates, :prose_review, :status) == "accepted"
+    end
+
+    def publication_artifact_internal_record?
       return false unless V0_ARTIFACT_PATH.exist?
 
       text = V0_ARTIFACT_PATH.read
-      text.include?("Status: draft scaffold only.") &&
+      text.include?("Status: internal v0 control record.") &&
         text.include?("does not import the archived `paper/draft.md`") &&
-        text.include?("Approval status: unapproved") &&
-        text.include?("Public release status: not public")
+        text.include?("Public release status: not public") &&
+        text.include?("Direct Operator Node evidence is absent at v0") &&
+        text.include?("The claim and forecast sets are approved as internal v0 inventories") &&
+        text.include?("individual claim and forecast items") &&
+        text.include?("remain `candidate_unapproved`")
     end
 
     def review_criteria_pending?(loaded_review)
@@ -119,9 +127,9 @@ module Operations
       (REQUIRED_PROHIBITED_EFFECTS - configured_effects).empty?
     end
 
-    def warnings(loaded_review)
+    def warnings(loaded_review, loaded_approval_packet)
       [].tap do |warnings|
-        warnings << "v0_prose_review_unapproved" if loaded_review.fetch(:approval_status, nil) == "unapproved"
+        warnings << "v0_prose_review_unapproved" if loaded_review.fetch(:approval_status, nil) == "unapproved" && !approval_gate_accepted?(loaded_approval_packet)
       end
     end
   end

@@ -1,0 +1,35 @@
+version: v0
+record_type: internal_v0_approval
+thesis_slug: operator-node-economics
+approved_at_utc: "2026-06-15"
+approval_scope: internal_v0_not_public
+approval_status_effect:
+  thesis_status: v0_ready
+  approval_packet_status: approved
+  timeline_publication_approval_status: approved
+  public_release_status: unchanged_not_public
+basis:
+  v0_artifact: theses/operator-node-economics/publication/v0.md
+  approval_packet_artifact: theses/operator-node-economics/publication/v0_approval_packet.yml
+  timeline_artifact: theses/operator-node-economics/publication/v0_timeline.yml
+  baseline_manifest: theses/operator-node-economics/evidence/manifests/v0_baseline_snapshot_2026-06-14.md
+approved_boundaries:
+  - Internal v0 is ready for baseline collection and future checkpoint measurement.
+  - V0 remains not public.
+  - The archived paper draft remains intentionally not imported.
+  - Claim and forecast inventories are approved only as internal v0 inventories.
+  - Individual claims and forecasts remain candidate_unapproved.
+  - Quarterly updates are not thesis verdicts.
+explicit_non_effects:
+  - no_public_release
+  - no_paper_draft_import
+  - no_individual_claim_status_change
+  - no_individual_forecast_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_thesis_verdict
+required_next_checks:
+  - bin/rails operator:v0_gate_summary
+  - bin/rails operator:v0_baseline_summary
+  - bin/rails operator:v0_collection_readiness
+  - bin/rails operator:v0_readiness

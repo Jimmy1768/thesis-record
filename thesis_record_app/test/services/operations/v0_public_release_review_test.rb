@@ -1,12 +1,13 @@
 require "test_helper"
 
 class Operations::V0PublicReleaseReviewTest < ActiveSupport::TestCase
-  test "passes current unapproved public-release review scaffold" do
+  test "passes accepted public-release control while keeping v0 not public" do
     result = Operations::V0PublicReleaseReview.call
 
     assert result.passed
     assert result.checks.fetch(:v0_public_release_review_scaffold_present)
     assert result.checks.fetch(:v0_public_release_review_unapproved)
+    assert result.checks.fetch(:v0_public_release_review_gate_accepted)
     assert result.checks.fetch(:v0_public_release_review_no_approval_effect)
     assert result.checks.fetch(:v0_public_release_required_artifacts_present)
     assert result.checks.fetch(:v0_public_release_prerequisites_listed)
@@ -15,7 +16,7 @@ class Operations::V0PublicReleaseReviewTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_public_path_declared)
     assert result.checks.fetch(:v0_public_release_criteria_pending_human_review)
     assert result.checks.fetch(:v0_public_release_prohibited_effects_present)
-    assert_includes result.warnings, "v0_public_release_review_unapproved"
+    assert_not_includes result.warnings, "v0_public_release_review_unapproved"
   end
 
   test "fails when release status is already public" do
