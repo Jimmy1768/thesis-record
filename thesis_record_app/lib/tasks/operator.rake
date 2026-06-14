@@ -224,6 +224,29 @@ namespace :operator do
     puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
   end
 
+  desc "Print a consolidated Operator Nodes v0 approval-gate summary"
+  task v0_gate_summary: :environment do
+    summary = Operations::V0GateSummary.call
+
+    puts "Operator Nodes v0 gate summary"
+    puts "generated_at=#{summary.generated_at.iso8601}"
+    puts "thesis_slug=#{summary.thesis_slug}"
+    puts "approval_status=#{summary.approval_status || "(unknown)"}"
+    puts "public_release_status=#{summary.public_release_status || "(unknown)"}"
+    puts "baseline_status=#{summary.baseline_status || "(unknown)"}"
+    puts "scaffolds_passed=#{summary.scaffolds_passed}"
+    puts "v0_readiness_passed=#{summary.v0_readiness_passed}"
+    puts "v0_readiness_blockers=#{summary.v0_readiness_blockers.empty? ? "(none)" : summary.v0_readiness_blockers.join(",")}"
+    summary.gates.each do |gate|
+      puts "gate.#{gate.name}.approval_status=#{gate.approval_status || "(unknown)"}"
+      puts "gate.#{gate.name}.validator_passed=#{gate.validator_passed}"
+      puts "gate.#{gate.name}.required_artifacts=#{gate.required_artifacts.empty? ? "(none)" : gate.required_artifacts.join(",")}"
+      puts "gate.#{gate.name}.failures=#{gate.failures.empty? ? "(none)" : gate.failures.join(",")}"
+      puts "gate.#{gate.name}.warnings=#{gate.warnings.empty? ? "(none)" : gate.warnings.join(",")}"
+    end
+    puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
+  end
+
   desc "Report whether Operator Nodes v0 collection remains safely blocked before source approval"
   task v0_collection_readiness: :environment do
     result = Operations::V0CollectionReadiness.call

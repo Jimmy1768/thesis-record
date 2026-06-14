@@ -87,6 +87,7 @@ prohibited_until_approved:
   - canonical_ingestion
   - thesis_verdict
 operator_checks:
+  - bin/rails operator:v0_gate_summary
   - bin/rails operator:v0_baseline_summary
   - bin/rails operator:v0_collection_readiness
   - bin/rails operator:v0_readiness
