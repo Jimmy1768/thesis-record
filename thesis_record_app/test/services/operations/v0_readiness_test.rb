@@ -49,7 +49,7 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert_includes result.warnings, "v0_indicator_universe_unapproved"
     assert_not_includes result.warnings, "v0_source_truth_review_unapproved"
     assert_not_includes result.warnings, "v0_prohibited_foundations_review_unapproved"
-    assert_includes result.warnings, "v0_frozen_claim_set_review_unapproved"
+    assert_not_includes result.warnings, "v0_frozen_claim_set_review_unapproved"
     assert_includes result.warnings, "v0_frozen_forecast_set_review_unapproved"
     assert_includes result.warnings, "v0_prose_review_unapproved"
     assert_includes result.warnings, "v0_public_release_review_unapproved"

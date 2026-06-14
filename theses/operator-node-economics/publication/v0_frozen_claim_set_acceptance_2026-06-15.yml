@@ -1,0 +1,38 @@
+version: v0
+record_type: frozen_claim_set_acceptance
+thesis_slug: operator-node-economics
+accepted_at_utc: "2026-06-15"
+accepted_gate: frozen_claim_set_review
+approval_status_effect:
+  approval_packet_gate: accepted
+  frozen_claim_set_review_scaffold: unchanged_unapproved
+  claim_set_status: unchanged_candidate_inventory
+scope: frozen_claim_set_gate_only
+basis:
+  review_artifact: theses/operator-node-economics/publication/v0_frozen_claim_set_review.yml
+  claim_set_artifact: theses/operator-node-economics/publication/v0_claim_set.yml
+  production_gate_summary_command: bin/rails operator:v0_gate_summary
+accepted_boundaries:
+  - TCE-CLAIM-001 through TCE-CLAIM-015 are the v0 candidate claim IDs for internal sequencing.
+  - Every claim remains candidate_unapproved.
+  - The claim set remains candidate inventory, not public prose and not claim support.
+  - Every claim keeps a source-truth reference and review note.
+  - Automatic claim promotion remains disabled.
+explicit_non_effects:
+  - no_claim_status_change
+  - no_forecast_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_prose_approval
+  - no_public_release
+  - no_publication_approval
+  - no_canonical_ingestion_authorization
+  - no_thesis_verdict
+remaining_pending_gates:
+  - frozen_forecast_set_review
+  - prose_review
+  - public_release_review
+required_next_checks:
+  - bin/rails operator:verify_v0_frozen_claim_set_review
+  - bin/rails operator:v0_gate_summary
+  - bin/rails operator:v0_readiness

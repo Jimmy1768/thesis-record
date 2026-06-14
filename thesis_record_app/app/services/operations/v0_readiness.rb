@@ -254,7 +254,7 @@ module Operations
         warnings << "v0_indicator_universe_unapproved" if V0_INDICATOR_UNIVERSE_PATH.exist?
         warnings << "v0_source_truth_review_unapproved" if V0_SOURCE_TRUTH_REVIEW_PATH.exist? && approval_gate_status(approval_packet, :source_truth_review) != "accepted"
         warnings << "v0_prohibited_foundations_review_unapproved" if V0_PROHIBITED_FOUNDATIONS_REVIEW_PATH.exist? && approval_gate_status(approval_packet, :prohibited_foundations_review) != "accepted"
-        warnings << "v0_frozen_claim_set_review_unapproved" if V0_FROZEN_CLAIM_SET_REVIEW_PATH.exist?
+        warnings << "v0_frozen_claim_set_review_unapproved" if V0_FROZEN_CLAIM_SET_REVIEW_PATH.exist? && approval_gate_status(approval_packet, :frozen_claim_set_review) != "accepted"
         warnings << "v0_frozen_forecast_set_review_unapproved" if V0_FROZEN_FORECAST_SET_REVIEW_PATH.exist?
         warnings << "v0_prose_review_unapproved" if V0_PROSE_REVIEW_PATH.exist?
         warnings << "v0_public_release_review_unapproved" if V0_PUBLIC_RELEASE_REVIEW_PATH.exist?

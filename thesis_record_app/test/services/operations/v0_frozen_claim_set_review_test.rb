@@ -1,12 +1,13 @@
 require "test_helper"
 
 class Operations::V0FrozenClaimSetReviewTest < ActiveSupport::TestCase
-  test "passes current unapproved frozen claim-set review scaffold" do
+  test "passes current accepted frozen claim-set gate while preserving candidate claims" do
     result = Operations::V0FrozenClaimSetReview.call
 
     assert result.passed
     assert result.checks.fetch(:v0_frozen_claim_set_review_scaffold_present)
     assert result.checks.fetch(:v0_frozen_claim_set_review_unapproved)
+    assert result.checks.fetch(:v0_frozen_claim_set_review_gate_accepted)
     assert result.checks.fetch(:v0_frozen_claim_set_review_no_approval_effect)
     assert result.checks.fetch(:v0_frozen_claim_set_required_artifacts_present)
     assert result.checks.fetch(:v0_approval_packet_requires_frozen_claim_set_review)
@@ -17,7 +18,7 @@ class Operations::V0FrozenClaimSetReviewTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_claim_set_no_automatic_promotion)
     assert result.checks.fetch(:v0_frozen_claim_set_criteria_pending_human_review)
     assert result.checks.fetch(:v0_frozen_claim_set_prohibited_effects_present)
-    assert_includes result.warnings, "v0_frozen_claim_set_review_unapproved"
+    assert_not_includes result.warnings, "v0_frozen_claim_set_review_unapproved"
   end
 
   test "fails when a claim is approved early" do

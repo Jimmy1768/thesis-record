@@ -49,6 +49,7 @@ module Operations
       checks = {
         v0_frozen_claim_set_review_scaffold_present: loaded_review.present?,
         v0_frozen_claim_set_review_unapproved: loaded_review.fetch(:approval_status, nil) == "unapproved",
+        v0_frozen_claim_set_review_gate_accepted: approval_gate_accepted?(loaded_approval_packet),
         v0_frozen_claim_set_review_no_approval_effect: loaded_review.fetch(:review_effect, nil) == "no_approval_no_publication_no_claim_support",
         v0_frozen_claim_set_required_artifacts_present: required_artifacts_present?(loaded_review),
         v0_approval_packet_requires_frozen_claim_set_review: approval_packet_requires_review?(loaded_approval_packet),
@@ -66,7 +67,7 @@ module Operations
         passed: failures.empty?,
         checks: checks,
         failures: failures,
-        warnings: warnings(loaded_review)
+        warnings: warnings(loaded_review, loaded_approval_packet)
       )
     end
 
@@ -90,6 +91,10 @@ module Operations
     def approval_packet_requires_review?(loaded_approval_packet)
       required_artifacts = loaded_approval_packet.dig(:approval_gates, :frozen_claim_set_review, :required_artifacts).to_a
       required_artifacts.include?(REVIEW_ARTIFACT_REF)
+    end
+
+    def approval_gate_accepted?(loaded_approval_packet)
+      loaded_approval_packet.dig(:approval_gates, :frozen_claim_set_review, :status) == "accepted"
     end
 
     def claim_set_unapproved_candidate_inventory?(loaded_claim_set)
@@ -137,9 +142,9 @@ module Operations
       (REQUIRED_PROHIBITED_EFFECTS - configured_effects).empty?
     end
 
-    def warnings(loaded_review)
+    def warnings(loaded_review, loaded_approval_packet)
       [].tap do |warnings|
-        warnings << "v0_frozen_claim_set_review_unapproved" if loaded_review.fetch(:approval_status, nil) == "unapproved"
+        warnings << "v0_frozen_claim_set_review_unapproved" if loaded_review.fetch(:approval_status, nil) == "unapproved" && !approval_gate_accepted?(loaded_approval_packet)
       end
     end
   end
