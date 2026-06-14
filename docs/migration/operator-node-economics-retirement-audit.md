@@ -2,21 +2,26 @@
 
 ## Scope
 
-This audit covers the old project repository:
+This audit covers the old project repository originally located at:
 
 `/Users/jimmy1768/Projects/operator-node-economics`
+
+It was archived after the audit to:
+
+`/Volumes/DevSSD/Projects/archive/operator-node-economics`
 
 It compares the old repository to the migrated ThesisRecord repository:
 
 `/Users/jimmy1768/Projects/thesis-record`
 
-The old repository was inspected read-only. No files were edited, deleted, or
-copied during this audit.
+The old repository was inspected read-only during the audit. After the audit,
+the whole repository was moved intact to DevSSD archive storage. No files inside
+the old repository were edited, deleted, pruned, or copied selectively.
 
 ## Current Git State
 
 - ThesisRecord: clean on `main`
-- Old repository: clean on `main`
+- Old repository archive: clean on `main`
 
 ## Migration Status
 
@@ -92,15 +97,15 @@ the ThesisRecord production example in `thesis_record_app/`.
 
 ## Retirement Recommendation
 
-Do not delete `/Users/jimmy1768/Projects/operator-node-economics` yet.
+Do not delete `/Volumes/DevSSD/Projects/archive/operator-node-economics` yet.
 
 Recommended transition:
 
-1. Keep the old repo read-only as archival/reference.
+1. Keep the old repo read-only as archival/reference on DevSSD.
 2. Decide explicitly whether to copy `paper/draft.md`.
 3. Decide whether any of the 45 old raw/generated data files need curated
    evidence-artifact promotion.
-4. After those decisions, archive the old repo or delete it only after a final
+4. After those decisions, delete the archived old repo only after a final
    approval.
 
 The old repo is no longer the system of record for structured evidence data.
@@ -118,4 +123,4 @@ Delete the old repo only after all of these are true:
   explicitly abandoned.
 - No active docs, scripts, or operator handoffs reference the old path as an
   operational source.
-- A final human approval says the local old repo may be deleted.
+- A final human approval says the archived old repo may be deleted.
