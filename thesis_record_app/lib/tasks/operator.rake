@@ -82,4 +82,24 @@ namespace :operator do
       abort "Health checks failed:\n- #{result.failures.join("\n- ")}"
     end
   end
+
+  desc "Print a read-only ThesisRecord production health and evidence summary"
+  task production_summary: :environment do
+    summary = Operations::ProductionSummary.call
+
+    puts "ThesisRecord production summary"
+    puts "generated_at=#{summary.generated_at.iso8601}"
+    puts "rails_env=#{summary.rails_env}"
+    puts "relative_url_root=#{summary.relative_url_root || "(unset)"}"
+    puts "canonical_data_promotion_disabled=#{summary.canonical_data_promotion_disabled}"
+    puts "health_passed=#{summary.health_passed}"
+    summary.health_checks.each do |name, passed|
+      puts "health.#{name}=#{passed}"
+    end
+    summary.table_counts.each do |table_name, count|
+      puts "count.#{table_name}=#{count}"
+    end
+    puts "latest_audit_event_at=#{summary.latest_audit_event_at&.iso8601 || "(none)"}"
+    puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
+  end
 end

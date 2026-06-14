@@ -152,6 +152,21 @@ This fallback does not replace the final root-owned service target. Before a
 public web surface is enabled, move the app/env/services to the root-owned
 paths or explicitly accept the operational risk.
 
+## Routine Production Summary
+
+Use the read-only production summary task for a quick operator check after
+deploys, data promotions, service restarts, and before starting a new evidence
+workflow:
+
+```bash
+bin/rails operator:production_summary
+```
+
+The task reports app health, deployment environment assumptions, key evidence
+table counts, the latest audit event timestamp, and warnings such as missing
+operator users or accidental canonical data-promotion enablement. It must not
+print secret values.
+
 ## Data Promotion Guardrails
 
 Production PostgreSQL is the only canonical system of record.
