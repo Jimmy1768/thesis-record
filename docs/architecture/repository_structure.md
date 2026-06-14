@@ -39,7 +39,8 @@ For Thesis 1:
 - `theses/operator-node-economics/research/` stores research body and source
   notes.
 - `theses/operator-node-economics/evidence/` stores thesis-specific evidence
-  material and public source manifests.
+  intake, manifests, future snapshots, and rejected intake records. Its
+  `README.md` is the local index for evidence placement.
 - `theses/operator-node-economics/paper/` stores paper scaffolding. The draft is
   intentionally held back until explicitly approved.
 - `theses/operator-node-economics/operator_records/` stores historical operator
