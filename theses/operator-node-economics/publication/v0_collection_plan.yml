@@ -1,0 +1,77 @@
+version: v0
+status: dry_run_only
+thesis_slug: operator-node-economics
+approval_status: unapproved
+purpose: Prepare the first v0 baseline collection controls without authorizing new canonical rows.
+default_run_mode: dry_run_read_only
+canonical_ingestion_authorized: false
+metadata_refresh_authorized: false
+row_ingestion_authorized: false
+metric_computation_authorized: false
+claim_review_authorized: false
+prediction_link_authorized: false
+paper_prose_change_authorized: false
+publication_authorized: false
+allowed_sources:
+  - source_kind: census_susb_public_file
+    current_baseline_table: susb_public_file_rows
+    allowed_preapproval_action: source_release_check
+    row_ingestion_authorized: false
+    first_live_run_decision: pending
+  - source_kind: census_bfs_api
+    current_baseline_table: bfs_api_rows
+    allowed_preapproval_action: source_release_check
+    row_ingestion_authorized: false
+    first_live_run_decision: pending
+  - source_kind: census_bds_public_file
+    current_baseline_table: bds_public_file_rows
+    allowed_preapproval_action: source_release_check
+    row_ingestion_authorized: false
+    first_live_run_decision: pending
+run_modes:
+  dry_run_read_only:
+    default: true
+    database_writes_allowed: false
+    network_fetch_allowed: false
+    row_count_changes_allowed: false
+    description: Validate plan, source registry, and current baseline counts without fetching or writing rows.
+  metadata_refresh_candidate:
+    default: false
+    database_writes_allowed: false
+    network_fetch_allowed: true
+    row_count_changes_allowed: false
+    requires_human_approval: true
+    description: Check public source availability or release metadata without storing canonical rows.
+  canonical_ingestion_candidate:
+    default: false
+    database_writes_allowed: true
+    network_fetch_allowed: true
+    row_count_changes_allowed: true
+    requires_human_approval: true
+    requires_env_gate: THESIS_RECORD_ALLOW_V0_CANONICAL_COLLECTION
+    description: Future mode only; not authorized for the current v0 chunk.
+required_before_canonical_ingestion:
+  - explicit_source_selection
+  - production_postgresql_target
+  - pre_collection_backup
+  - restore_test_or_backup_integrity_check
+  - collection_manifest_path
+  - expected_row_count_delta
+  - dry_run_output_review
+  - row_count_reconciliation
+  - post_collection_production_summary
+  - post_collection_v0_baseline_summary
+  - post_collection_v0_readiness
+prohibited_effects:
+  - claim_status_change
+  - prediction_link_creation
+  - claim_review_creation
+  - export_creation
+  - paper_prose_change
+  - thesis_verdict
+  - publication
+decision_gap:
+  first_live_collection_source: pending
+  first_live_collection_mode: pending
+  expected_row_count_delta: pending
+  collection_manifest_path: pending

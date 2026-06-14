@@ -133,6 +133,19 @@ namespace :operator do
     puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
   end
 
+  desc "Report whether Operator Nodes v0 collection remains safely blocked before source approval"
+  task v0_collection_readiness: :environment do
+    result = Operations::V0CollectionReadiness.call
+
+    puts "Operator Nodes v0 collection readiness"
+    puts "passed=#{result.passed}"
+    result.checks.each do |name, passed|
+      puts "check.#{name}=#{passed}"
+    end
+    puts "blockers=#{result.blockers.empty? ? "(none)" : result.blockers.join(",")}"
+    puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
+  end
+
   desc "Report blockers for publishing Operator Nodes v0"
   task v0_readiness: :environment do
     result = Operations::V0Readiness.call
