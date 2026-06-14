@@ -69,6 +69,10 @@ module Operations
         allowed_sources_scoped: allowed_sources_scoped?(plan),
         source_freshness_authorized_for_all_sources: source_freshness_authorized_for_all_sources?(plan),
         source_rows_not_authorized: source_rows_not_authorized?(plan),
+        first_live_collection_source_selected: !pending_decision?(plan.dig(:decision_gap, :first_live_collection_source)),
+        first_live_collection_mode_metadata_refresh: plan.dig(:decision_gap, :first_live_collection_mode) == OPTIONAL_METADATA_REFRESH_ACTION,
+        metadata_refresh_expected_zero_row_delta: plan.dig(:decision_gap, :expected_row_count_delta) == 0,
+        metadata_refresh_manifest_present: metadata_refresh_manifest_present?(plan),
         canonical_ingestion_requirements_present: canonical_ingestion_requirements_present?(plan),
         prohibited_effects_present: prohibited_effects_present?(plan),
         production_policy_ingestion_disabled: production_policy_ingestion_disabled?,
@@ -151,6 +155,11 @@ module Operations
       configured = plan.fetch(:required_before_canonical_ingestion, []).map(&:to_sym)
 
       (REQUIRED_CANONICAL_INGESTION_STEPS - configured).empty?
+    end
+
+    def metadata_refresh_manifest_present?(plan)
+      manifest_path = plan.dig(:decision_gap, :collection_manifest_path).to_s
+      manifest_path.present? && !pending_decision?(manifest_path) && Rails.root.join("..", manifest_path).exist?
     end
 
     def prohibited_effects_present?(plan)

@@ -76,5 +76,5 @@ prohibited_effects:
 decision_gap:
   first_live_collection_source: all_v0_public_sources
   first_live_collection_mode: metadata_refresh_candidate
-  expected_row_count_delta: pending
-  collection_manifest_path: pending
+  expected_row_count_delta: 0
+  collection_manifest_path: theses/operator-node-economics/evidence/manifests/v0_metadata_refresh_2026-06-15.md

@@ -13,6 +13,10 @@ class Operations::V0CollectionReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:row_ingestion_not_authorized)
     assert result.checks.fetch(:source_freshness_authorized_for_all_sources)
     assert result.checks.fetch(:metadata_refresh_has_no_row_effects)
+    assert result.checks.fetch(:first_live_collection_source_selected)
+    assert result.checks.fetch(:first_live_collection_mode_metadata_refresh)
+    assert result.checks.fetch(:metadata_refresh_expected_zero_row_delta)
+    assert result.checks.fetch(:metadata_refresh_manifest_present)
     assert result.checks.fetch(:metric_computation_not_authorized)
     assert result.checks.fetch(:no_claim_or_publication_effects)
     assert result.checks.fetch(:production_policy_ingestion_disabled)
@@ -29,6 +33,15 @@ class Operations::V0CollectionReadinessTest < ActiveSupport::TestCase
       assert_not result.passed
       assert_includes result.blockers, "metadata_refresh_candidate_read_only"
       assert_includes result.blockers, "metadata_refresh_has_no_row_effects"
+    end
+  end
+
+  test "fails when metadata refresh manifest is still pending" do
+    with_collection_plan_override(decision_gap: { collection_manifest_path: "pending" }) do |collection_plan_path|
+      result = Operations::V0CollectionReadiness.call(collection_plan_path: collection_plan_path)
+
+      assert_not result.passed
+      assert_includes result.blockers, "metadata_refresh_manifest_present"
     end
   end
 
@@ -66,10 +79,11 @@ class Operations::V0CollectionReadinessTest < ActiveSupport::TestCase
 
   private
 
-  def with_collection_plan_override(metadata_mode:)
+  def with_collection_plan_override(metadata_mode: {}, decision_gap: {})
     path = Operations::V0CollectionReadiness::COLLECTION_PLAN_PATH
     plan = YAML.safe_load_file(path).deep_symbolize_keys
     plan[:run_modes][:metadata_refresh_candidate].merge!(metadata_mode)
+    plan[:decision_gap].merge!(decision_gap)
 
     Tempfile.create(%w[v0_collection_plan .yml]) do |file|
       file.write(plan.deep_stringify_keys.to_yaml)
