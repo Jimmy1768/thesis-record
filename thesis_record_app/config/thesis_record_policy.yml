@@ -200,6 +200,13 @@ shared:
     deployment_model: single_droplet_rails_postgresql_redis_sidekiq
     database_system_of_record: production_postgresql
     secrets_store: server_environment_or_managed_secret_store
+    public_path_target: sourcegridlabs.com/thesis
+    rails_relative_url_root: /thesis
+    puma_port: 3400
+    puma_bind: 127.0.0.1
+    nginx_required_initially: false
+    initial_operator_access: ssh_tunnel_only
+    force_ssl_initially: false
     linux_user: thesis-record
     deploy_path: /var/www/thesis-record/thesis_record_app
     env_file_path: /etc/thesis-record/thesis-record.env
@@ -215,12 +222,22 @@ shared:
     process_supervision: systemd_or_equivalent
     web_unit_name: thesis-record-web.service
     sidekiq_unit_name: thesis-record-sidekiq.service
+    sidekiq_process_name: thesis-record-sidekiq
+    redis_namespace: thesis-record-production
     backup_required_before_private_ingestion: true
     restore_test_required_before_private_ingestion: true
     health_check_path: /up
     public_ingestion_enabled_default: false
     private_ingestion_enabled_default: false
     production_data_on_laptop_allowed: false
+    local_database_role: dev_only_rehearsal_not_system_of_record
+    canonical_data_promotion_default: disabled
+    canonical_data_promotion_requires:
+      - production_postgresql_target
+      - pre_promotion_backup
+      - migration_manifest
+      - row_count_reconciliation
+      - post_promotion_health_check
     deploy_or_push_authority_default: none
 
   public_ingestion_v1:

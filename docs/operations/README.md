@@ -3,6 +3,10 @@
 Production operations are part of ThesisRecord, but committed examples must stay
 sanitized.
 
+The first deployment target is a private droplet runtime, documented in
+`production_deployment_runbook.md`. Nginx is not required until a public web
+surface is approved.
+
 Allowed:
 
 - `.env.production.example`

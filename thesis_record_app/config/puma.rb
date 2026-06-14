@@ -23,8 +23,10 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch("PORT", 3000)
+# ThesisRecord initially runs without a public reverse proxy. Bind Puma to
+# localhost and expose it through SSH tunneling until a web surface is approved.
+port_number = ENV.fetch("PORT", 3400)
+bind "tcp://#{ENV.fetch("THESIS_RECORD_BIND", "127.0.0.1")}:#{port_number}"
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart

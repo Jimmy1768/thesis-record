@@ -26,6 +26,17 @@ namespace :operator do
     end
   end
 
+  desc "Verify production deployment env matches ThesisRecord droplet assumptions"
+  task verify_deployment_config: :environment do
+    result = Operations::DeploymentCheck.call
+
+    if result.passed
+      puts "Deployment config guardrails passed"
+    else
+      abort "Deployment config guardrails failed:\n- #{result.failures.join("\n- ")}"
+    end
+  end
+
   desc "Verify claim-review gate remains design-only and disables automatic claim promotion"
   task verify_claim_review_gate: :environment do
     result = Evidence::ClaimReviewGateDesignCheck.call
