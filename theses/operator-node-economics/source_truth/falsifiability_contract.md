@@ -72,7 +72,7 @@ The theory weakens if evidence shows:
 - legal, capital, trust, liability, or market-access constraints dominate;
 - protocol-based networks fail to maintain quality or accountability;
 - operator nodes cannot scale beyond narrow services;
-- transaction costs move rather than collapse.
+- transaction costs move rather than collapse;
 - large firms capture most AI productivity gains;
 - high-performing nodes convert into firms;
 - remote salaried employment remains durable or grows in AI-exposed,

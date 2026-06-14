@@ -29,6 +29,7 @@ approval_gates:
       - theses/operator-node-economics/source_truth/operator_node_definition.md
       - theses/operator-node-economics/source_truth/terminology.md
       - theses/operator-node-economics/publication/v0_source_truth_review.yml
+      - theses/operator-node-economics/publication/v0_source_truth_approval_review_2026-06-15.yml
       - theses/operator-node-economics/publication/v0_indicator_universe.yml
     approval_effect: allow_public_v0_review
   prohibited_foundations_review:
