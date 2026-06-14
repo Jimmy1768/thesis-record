@@ -18,8 +18,8 @@ class Operations::V0CollectionReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:production_policy_ingestion_disabled)
     assert result.checks.fetch(:claim_review_gate_disabled)
     assert_includes result.warnings, "metadata_refresh_candidate_only"
-    assert_includes result.warnings, "first_live_collection_source_pending"
-    assert_includes result.warnings, "first_live_collection_mode_pending"
+    assert_not_includes result.warnings, "first_live_collection_source_pending"
+    assert_not_includes result.warnings, "first_live_collection_mode_pending"
   end
 
   test "fails when metadata refresh can write rows" do
