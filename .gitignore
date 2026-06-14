@@ -11,11 +11,7 @@
 !/thesis_record_app/.env.example
 !/thesis_record_app/.env.production.example
 /thesis_record_app/log/*
-!/thesis_record_app/log/.keep
 /thesis_record_app/tmp/*
-!/thesis_record_app/tmp/.keep
-!/thesis_record_app/tmp/pids/
-!/thesis_record_app/tmp/pids/.keep
 /thesis_record_app/storage/*
 /thesis_record_app/db/*.sqlite3
 /thesis_record_app/db/*.sqlite3-*
