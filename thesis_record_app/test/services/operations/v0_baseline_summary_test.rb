@@ -29,7 +29,7 @@ class Operations::V0BaselineSummaryTest < ActiveSupport::TestCase
 
     assert_equal "operator-node-economics", summary.thesis_slug
     assert summary.baseline_manifest_present
-    assert_equal "review draft", summary.baseline_status
+    assert_equal "accepted internal v0 baseline", summary.baseline_status
     assert summary.claim_set_present
     assert_equal "candidate_inventory", summary.claim_set_status
     assert_equal "unapproved", summary.claim_set_approval_status

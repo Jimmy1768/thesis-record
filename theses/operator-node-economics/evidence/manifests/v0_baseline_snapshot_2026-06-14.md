@@ -1,17 +1,17 @@
 # Operator Nodes V0 Baseline Snapshot: 2026-06-14
 
-Status: review draft.
+Status: accepted internal v0 baseline.
 
 ## Scope
 
-This manifest records the first v0 baseline snapshot for the Operator Nodes
-thesis. It freezes what the ThesisRecord production database currently knows
-before v0 publication approval.
+This manifest records the accepted internal v0 baseline snapshot for the
+Operator Nodes thesis. It freezes what the ThesisRecord production database
+currently knows at internal v0.
 
-This is a baseline manifest, not a publication approval, claim review, thesis
-verdict, paper draft, or evidence promotion. It does not authorize automatic
-claim promotion, prediction-link creation, claim-review creation, exports, paper
-prose edits, or public publication.
+This is a baseline manifest, not a public publication approval, claim review,
+thesis verdict, paper draft, or evidence promotion. It does not authorize
+automatic claim promotion, prediction-link creation, claim-review creation,
+exports, paper prose edits, or public publication.
 
 ## System Of Record
 
@@ -162,14 +162,14 @@ publish public prose or approve claims/forecasts.
 - It does not resolve the missing direct evidence for AI-enabled one-human
   firm-boundary change.
 
-## Review Gates Before Approval
+## Remaining Gates After Baseline Acceptance
 
-Before this baseline can support v0 approval, review must decide:
+This baseline is accepted as the internal v0 evidence state. Before public v0
+publication or claim/forecast approval, review must still decide:
 
 - whether the current claim inventory is the correct v0 claim set;
 - whether the current forecast inventory is the correct v0 forecast set;
 - whether the source limitations are sufficiently visible in the v0 record;
-- whether the internal target date becomes the canonical v0 publication date;
 - whether the v0 paper/prose artifact is created from scratch or adapted from
   the archived draft;
 - whether any production operator account is needed before publication.

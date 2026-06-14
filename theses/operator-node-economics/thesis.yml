@@ -2,7 +2,7 @@ slug: operator-node-economics
 title: Operator Nodes
 subtitle: AI, Transaction Costs, and the Future of the Firm
 category: Economics / Organizational Theory
-status: v0_preparation
+status: internal_v0_baseline
 public_path: /thesis/operator-node-economics
 boundaries:
   - Do not assume the thesis is true.
@@ -13,7 +13,7 @@ paper:
   draft_status: held_back_initially
   later_path: theses/operator-node-economics/paper/draft.md
 publication:
-  v0_status: scaffolded_unapproved
+  v0_status: internal_baseline_accepted
   v0_artifact: theses/operator-node-economics/publication/v0.md
   v0_timeline: theses/operator-node-economics/publication/v0_timeline.yml
   v0_claim_set: theses/operator-node-economics/publication/v0_claim_set.yml
