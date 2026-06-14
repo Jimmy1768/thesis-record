@@ -11,6 +11,13 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_timeline_scaffold_present)
     assert result.checks.fetch(:v0_claim_set_present)
     assert result.checks.fetch(:v0_forecast_set_present)
+    assert result.checks.fetch(:v0_approval_packet_present)
+    assert result.checks.fetch(:v0_approval_packet_unapproved)
+    assert result.checks.fetch(:v0_baseline_evidence_accepted)
+    assert_includes result.blockers, "v0_source_truth_review_accepted"
+    assert_includes result.blockers, "v0_prohibited_foundations_review_accepted"
+    assert_includes result.blockers, "v0_prose_review_accepted"
+    assert_includes result.blockers, "v0_public_release_review_accepted"
     assert result.checks.fetch(:v0_internal_target_date_set)
     assert result.checks.fetch(:v0_first_measurement_period_set)
     assert result.checks.fetch(:v0_checkpoint_dates_set)
@@ -22,6 +29,7 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert_includes result.warnings, "paper_draft_is_archive_only"
     assert_includes result.warnings, "v0_claim_set_candidate_only"
     assert_includes result.warnings, "v0_forecast_set_candidate_only"
+    assert_includes result.warnings, "v0_approval_packet_scaffold_only"
   end
 
   test "keeps safety checks green under current policy" do

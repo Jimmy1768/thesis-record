@@ -1,0 +1,86 @@
+version: v0
+status: approval_packet_scaffold
+thesis_slug: operator-node-economics
+internal_canonical_publication_date_utc: "2026-06-15"
+public_release_status: not_public
+baseline_status: accepted_internal_v0_baseline
+approval_status: unapproved
+purpose: Centralize remaining approvals before public v0 or claim/forecast approval.
+decision_log:
+  v0_date:
+    decision: Use 2026-06-15 UTC as internal canonical v0 date.
+    rationale: The AI transition is already underway; v0 should preserve the forecast record now rather than wait for polished prose.
+    approval_status: accepted
+  baseline:
+    decision: Treat production PostgreSQL evidence state as accepted internal v0 baseline.
+    approval_status: accepted
+    manifest: theses/operator-node-economics/evidence/manifests/v0_baseline_snapshot_2026-06-14.md
+  source_freshness:
+    decision: Treat SUSB, BFS, and BDS source freshness dry run as passed operational readiness evidence only.
+    approval_status: accepted
+    manifest: theses/operator-node-economics/evidence/manifests/v0_source_freshness_dry_run_2026-06-14.md
+approval_gates:
+  source_truth_review:
+    status: pending
+    required_artifacts:
+      - theses/operator-node-economics/source_truth/core_hypothesis.md
+      - theses/operator-node-economics/source_truth/falsifiability_contract.md
+      - theses/operator-node-economics/source_truth/research_contract.md
+      - theses/operator-node-economics/source_truth/operator_node_definition.md
+      - theses/operator-node-economics/source_truth/terminology.md
+    approval_effect: allow_public_v0_review
+  prohibited_foundations_review:
+    status: pending
+    required_artifacts:
+      - theses/operator-node-economics/source_truth/prohibited_foundations.md
+    approval_effect: allow_public_v0_review
+  baseline_evidence_review:
+    status: accepted
+    required_artifacts:
+      - theses/operator-node-economics/evidence/manifests/v0_baseline_snapshot_2026-06-14.md
+      - theses/operator-node-economics/evidence/manifests/v0_source_freshness_dry_run_2026-06-14.md
+    approval_effect: baseline_only_no_claim_support
+  frozen_claim_set_review:
+    status: pending
+    required_artifacts:
+      - theses/operator-node-economics/publication/v0_claim_set.yml
+    approval_effect: approve_internal_v0_claim_inventory
+  frozen_forecast_set_review:
+    status: pending
+    required_artifacts:
+      - theses/operator-node-economics/publication/v0_forecast_set.yml
+    approval_effect: approve_internal_v0_forecast_inventory
+  prose_review:
+    status: pending
+    required_artifacts:
+      - theses/operator-node-economics/publication/v0.md
+    approval_effect: approve_public_or_internal_publication_text
+  public_release_review:
+    status: pending
+    required_artifacts:
+      - theses/operator-node-economics/publication/v0.md
+      - theses/operator-node-economics/publication/v0_timeline.yml
+    approval_effect: approve_public_release
+required_before_public_release:
+  - source_truth_review
+  - prohibited_foundations_review
+  - baseline_evidence_review
+  - frozen_claim_set_review
+  - frozen_forecast_set_review
+  - prose_review
+  - public_release_review
+prohibited_until_approved:
+  - claim_status_change
+  - forecast_status_change
+  - prediction_link_creation
+  - claim_review_creation
+  - public_publication
+  - paper_prose_publication
+  - canonical_ingestion
+  - thesis_verdict
+operator_checks:
+  - bin/rails operator:v0_baseline_summary
+  - bin/rails operator:v0_collection_readiness
+  - bin/rails operator:v0_readiness
+  - bin/rails operator:verify_operations_policy
+  - bin/rails operator:verify_claim_review_gate

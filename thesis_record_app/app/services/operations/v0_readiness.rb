@@ -11,6 +11,7 @@ module Operations
     V0_TIMELINE_PATH = THESIS_ROOT.join("publication", "v0_timeline.yml")
     V0_CLAIM_SET_PATH = THESIS_ROOT.join("publication", "v0_claim_set.yml")
     V0_FORECAST_SET_PATH = THESIS_ROOT.join("publication", "v0_forecast_set.yml")
+    V0_APPROVAL_PACKET_PATH = THESIS_ROOT.join("publication", "v0_approval_packet.yml")
 
     REQUIRED_CHECKPOINTS = {
       v2: 12,
@@ -39,6 +40,7 @@ module Operations
       timeline = load_timeline
       claim_set = load_claim_set
       forecast_set = load_forecast_set
+      approval_packet = load_approval_packet
       checks = {
         thesis_metadata_present: metadata.present?,
         thesis_slug_correct: metadata.fetch(:slug, nil) == THESIS_SLUG,
@@ -49,6 +51,13 @@ module Operations
         v0_timeline_scaffold_present: timeline.present?,
         v0_claim_set_present: claim_set.present?,
         v0_forecast_set_present: forecast_set.present?,
+        v0_approval_packet_present: approval_packet.present?,
+        v0_approval_packet_unapproved: approval_packet.fetch(:approval_status, nil) == "unapproved",
+        v0_baseline_evidence_accepted: approval_gate_status(approval_packet, :baseline_evidence_review) == "accepted",
+        v0_source_truth_review_accepted: approval_gate_status(approval_packet, :source_truth_review) == "accepted",
+        v0_prohibited_foundations_review_accepted: approval_gate_status(approval_packet, :prohibited_foundations_review) == "accepted",
+        v0_prose_review_accepted: approval_gate_status(approval_packet, :prose_review) == "accepted",
+        v0_public_release_review_accepted: approval_gate_status(approval_packet, :public_release_review) == "accepted",
         v0_internal_target_date_set: timeline.dig(:publication, :target_internal_publication_date).present?,
         v0_first_measurement_period_set: timeline.dig(:forecast_clock, :first_measurement_period).present?,
         v0_publication_approved: timeline.dig(:publication, :approval_status) == "approved",
@@ -72,7 +81,7 @@ module Operations
         passed: blockers.empty?,
         checks: checks,
         blockers: blockers,
-        warnings: warnings(metadata, timeline, claim_set, forecast_set)
+        warnings: warnings(metadata, timeline, claim_set, forecast_set, approval_packet)
       )
     end
 
@@ -102,6 +111,12 @@ module Operations
       return {} unless V0_FORECAST_SET_PATH.exist?
 
       YAML.safe_load_file(V0_FORECAST_SET_PATH).deep_symbolize_keys
+    end
+
+    def load_approval_packet
+      return {} unless V0_APPROVAL_PACKET_PATH.exist?
+
+      YAML.safe_load_file(V0_APPROVAL_PACKET_PATH).deep_symbolize_keys
     end
 
     def forecast_clock
@@ -143,6 +158,10 @@ module Operations
         set.fetch(:approval_status, nil) == "approved"
     end
 
+    def approval_gate_status(approval_packet, gate)
+      approval_packet.dig(:approval_gates, gate, :status)
+    end
+
     def sidekiq_schedule_present?
       scheduler_jobs = policy.fetch(:scheduler).fetch(:jobs)
       REQUIRED_SCHEDULED_JOBS.all? { |job| scheduler_jobs.key?(job) }
@@ -170,13 +189,14 @@ module Operations
       claim_review_gate.fetch(:automatic_claim_promotion_authorized, true) == false
     end
 
-    def warnings(metadata, timeline, claim_set, forecast_set)
+    def warnings(metadata, timeline, claim_set, forecast_set, approval_packet)
       [].tap do |warnings|
         warnings << "paper_draft_is_archive_only" if metadata.dig(:paper, :draft_status) == "held_back_initially"
         warnings << "v0_publication_scaffold_only" if %w[draft_scaffold internal_target_scaffold].include?(timeline.fetch(:status, nil))
         warnings << "v0_dates_are_provisional" if timeline.dig(:forecast_clock, :date_status) == "provisional_until_publication_approval"
         warnings << "v0_claim_set_candidate_only" if claim_set.fetch(:status, nil) == "candidate_inventory"
         warnings << "v0_forecast_set_candidate_only" if forecast_set.fetch(:status, nil) == "candidate_inventory"
+        warnings << "v0_approval_packet_scaffold_only" if approval_packet.fetch(:status, nil) == "approval_packet_scaffold"
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
       end
     end
