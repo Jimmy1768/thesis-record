@@ -63,6 +63,21 @@ namespace :operator do
     end
   end
 
+  desc "Verify Operator Nodes v0 prohibited-foundations review scaffold without accepting it"
+  task verify_v0_prohibited_foundations_review: :environment do
+    result = Operations::V0ProhibitedFoundationsReview.call
+
+    if result.passed
+      puts "Operator Nodes v0 prohibited-foundations review scaffold passed"
+      result.checks.each do |name, passed|
+        puts "check.#{name}=#{passed}"
+      end
+      puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
+    else
+      abort "Operator Nodes v0 prohibited-foundations review scaffold failed:\n- #{result.failures.join("\n- ")}"
+    end
+  end
+
   desc "Print claim-review dry-run candidates without creating links, reviews, exports, or status changes"
   task claim_review_candidate_dry_run: :environment do
     result = Evidence::ClaimReviewCandidateDryRun.call
