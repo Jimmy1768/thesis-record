@@ -1,0 +1,64 @@
+<%= form_with model: data_source do |form| %>
+  <% if data_source.errors.any? %>
+    <div>
+      <h2><%= pluralize(data_source.errors.count, "error") %> blocked this source</h2>
+      <ul>
+        <% data_source.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :source_kind %>
+    <%= form.text_field :source_kind %>
+  </div>
+
+  <div>
+    <%= form.label :source_status %>
+    <%= form.text_field :source_status %>
+  </div>
+
+  <div>
+    <%= form.label :storage_zone %>
+    <%= form.select :storage_zone, StorageClassifiable::STORAGE_ZONES %>
+  </div>
+
+  <div>
+    <%= form.label :privacy_classification %>
+    <%= form.select :privacy_classification, StorageClassifiable::PRIVACY_CLASSIFICATIONS %>
+  </div>
+
+  <div>
+    <%= form.label :retention_rule %>
+    <%= form.text_field :retention_rule %>
+  </div>
+
+  <div>
+    <%= form.label :claim_status_allowed %>
+    <%= form.text_field :claim_status_allowed %>
+  </div>
+
+  <% %i[
+    public_repo_allowed
+    structured_private_allowed
+    private_file_storage_allowed
+    secret_material_present
+    redaction_required
+    minimum_cell_rule_required
+    human_review_required
+  ].each do |field| %>
+    <div>
+      <%= form.check_box field %>
+      <%= form.label field %>
+    </div>
+  <% end %>
+
+  <%= form.submit %>
+<% end %>

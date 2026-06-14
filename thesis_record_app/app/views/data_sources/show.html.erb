@@ -1,0 +1,25 @@
+<h1><%= @data_source.name %></h1>
+
+<p><%= link_to "Edit source", edit_data_source_path(@data_source) %></p>
+<p><%= link_to "New intake manifest", new_data_source_intake_manifest_path(@data_source) %></p>
+
+<dl>
+  <dt>Kind</dt>
+  <dd><%= @data_source.source_kind %></dd>
+  <dt>Status</dt>
+  <dd><%= @data_source.source_status %></dd>
+  <dt>Storage zone</dt>
+  <dd><%= @data_source.storage_zone %></dd>
+  <dt>Privacy</dt>
+  <dd><%= @data_source.privacy_classification %></dd>
+  <dt>Public repo allowed</dt>
+  <dd><%= @data_source.public_repo_allowed? %></dd>
+</dl>
+
+<h2>Intake Manifests</h2>
+
+<ul>
+  <% @intake_manifests.each do |manifest| %>
+    <li><%= link_to manifest.name, [ @data_source, manifest ] %></li>
+  <% end %>
+</ul>

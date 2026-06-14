@@ -1,0 +1,108 @@
+<% content_for(:title, "Source Health Summary") %>
+
+<h1>Source Health Summary</h1>
+
+<p>
+  <%= link_to "Data sources", data_sources_path %>
+</p>
+
+<p>
+  Internal read-only source health summary. This page does not create exports,
+  prediction links, claim support, ratios, trends, aggregation, or paper prose.
+</p>
+
+<h2>Overall</h2>
+
+<dl>
+  <dt>Total source rows</dt>
+  <dd><%= number_with_delimiter(@summary.total_source_rows) %></dd>
+
+  <dt>Total metric definitions</dt>
+  <dd><%= number_with_delimiter(@summary.total_metric_definitions) %></dd>
+
+  <dt>Total metric observations</dt>
+  <dd><%= number_with_delimiter(@summary.total_metric_observations) %></dd>
+
+  <dt>Total quality reviews</dt>
+  <dd><%= number_with_delimiter(@summary.total_quality_reviews) %></dd>
+
+  <dt>Total prediction links</dt>
+  <dd><%= number_with_delimiter(@summary.total_prediction_links) %></dd>
+
+  <dt>Total export-created audit events</dt>
+  <dd><%= number_with_delimiter(@summary.total_export_created_audit_events) %></dd>
+
+  <dt>All policy checks passed</dt>
+  <dd><%= @summary.all_policy_checks_passed %></dd>
+
+  <dt>Overall evidence status</dt>
+  <dd><%= @summary.overall_evidence_status %></dd>
+</dl>
+
+<h2>Sources</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>Status</th>
+      <th>Claim Status</th>
+      <th>Rows</th>
+      <th>Definitions</th>
+      <th>Observations</th>
+      <th>Reviews</th>
+      <th>Unreviewed</th>
+      <th>Links</th>
+      <th>Exports</th>
+      <th>Policy</th>
+      <th>Evidence Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @summary.sources.each do |source| %>
+      <tr>
+        <td><%= source.name %></td>
+        <td><%= source.source_status %></td>
+        <td><%= source.claim_status_allowed %></td>
+        <td><%= number_with_delimiter(source.source_row_count) %></td>
+        <td><%= number_with_delimiter(source.metric_definition_count) %></td>
+        <td><%= number_with_delimiter(source.metric_observation_count) %></td>
+        <td><%= number_with_delimiter(source.quality_review_count) %></td>
+        <td><%= number_with_delimiter(source.unreviewed_observation_count) %></td>
+        <td><%= number_with_delimiter(source.prediction_link_count) %></td>
+        <td><%= number_with_delimiter(source.export_created_audit_event_count) %></td>
+        <td><%= source.policy_check_passed %></td>
+        <td><%= source.evidence_status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Guardrail Flags</h2>
+
+<% @summary.sources.each do |source| %>
+  <h3><%= source.name %></h3>
+  <%= render "susb_quality_reviews/count_table", counts: source.guardrail_flag_counts, empty_message: "No guardrail flags found." %>
+<% end %>
+
+<h2>Policy Check Failures</h2>
+
+<% @summary.sources.each do |source| %>
+  <h3><%= source.name %></h3>
+  <% if source.policy_check_failures.any? %>
+    <ul>
+      <% source.policy_check_failures.each do |failure| %>
+        <li><%= failure %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>None.</p>
+  <% end %>
+<% end %>
+
+<h2>Boundary</h2>
+
+<p>
+  This health page reports infrastructure state only. Context observations and
+  quality reviews do not support claims without a separate claim-review gate.
+</p>

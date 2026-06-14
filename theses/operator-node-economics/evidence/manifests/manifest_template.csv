@@ -1,0 +1,1 @@
+dataset,source_owner,source_url,query_or_file_url,retrieved_at,timezone,http_status,content_type,content_length,local_path,sha256,row_count,field_list,geography_predicates,naics_vintage,reference_year_or_period,suppression_or_noise_fields,source_note_status,guardrail_notes

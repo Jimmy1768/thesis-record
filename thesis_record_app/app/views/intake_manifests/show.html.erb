@@ -1,0 +1,15 @@
+<h1><%= @intake_manifest.name %></h1>
+
+<p><%= link_to "Edit manifest", edit_data_source_intake_manifest_path(@data_source, @intake_manifest) %></p>
+<p><%= link_to "Back to source", @data_source %></p>
+
+<dl>
+  <dt>Status</dt>
+  <dd><%= @intake_manifest.manifest_status %></dd>
+  <dt>Storage zone</dt>
+  <dd><%= @intake_manifest.storage_zone %></dd>
+  <dt>Privacy</dt>
+  <dd><%= @intake_manifest.privacy_classification %></dd>
+  <dt>Public repo allowed</dt>
+  <dd><%= @intake_manifest.public_repo_allowed? %></dd>
+</dl>

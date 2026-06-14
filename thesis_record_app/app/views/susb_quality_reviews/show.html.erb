@@ -1,0 +1,74 @@
+<% content_for(:title, "SUSB Quality Review Summary") %>
+
+<h1>SUSB Quality Review Summary</h1>
+
+<p>
+  <%= link_to "Data sources", data_sources_path %>
+</p>
+
+<p>
+  Internal read-only context summary. This page does not create exports,
+  prediction links, claim support, ratios, trends, or aggregation.
+</p>
+
+<h2>Review Coverage</h2>
+
+<dl>
+  <dt>Total review rows</dt>
+  <dd><%= number_with_delimiter(@summary.review_count) %></dd>
+
+  <dt>Reviewable observations</dt>
+  <dd><%= number_with_delimiter(@summary.reviewable_observation_count) %></dd>
+
+  <dt>Unreviewed observations</dt>
+  <dd><%= number_with_delimiter(@summary.unreviewed_observation_count) %></dd>
+
+  <dt>Prediction links</dt>
+  <dd><%= number_with_delimiter(@summary.prediction_link_count) %></dd>
+
+  <dt>Export-created audit events</dt>
+  <dd><%= number_with_delimiter(@summary.export_created_audit_event_count) %></dd>
+
+  <dt>Policy check passed</dt>
+  <dd><%= @summary.policy_check_passed %></dd>
+</dl>
+
+<h2>Review Status Counts</h2>
+
+<%= render "count_table", counts: @summary.review_status_counts, empty_message: "No review statuses found." %>
+
+<h2>Source Metric Status Counts</h2>
+
+<%= render "count_table", counts: @summary.source_metric_status_counts, empty_message: "No source metric statuses found." %>
+
+<h2>Metric Key Counts</h2>
+
+<%= render "count_table", counts: @summary.metric_key_counts, empty_message: "No metric keys found." %>
+
+<h2>Policy Version Counts</h2>
+
+<%= render "count_table", counts: @summary.policy_version_counts, empty_message: "No policy versions found." %>
+
+<h2>Guardrail Flag Counts</h2>
+
+<%= render "count_table", counts: @summary.guardrail_flag_counts, empty_message: "No guardrail flags found." %>
+
+<h2>Policy Check Failures</h2>
+
+<% if @summary.policy_check_failures.any? %>
+  <ul>
+    <% @summary.policy_check_failures.each do |failure| %>
+      <li><%= failure %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>None.</p>
+<% end %>
+
+<h2>Boundary</h2>
+
+<p>
+  SUSB remains employer-side public context only. It does not measure AI
+  adoption, nonemployers, one-human firms, management layers, transaction
+  costs, remote work, or Operator Nodes.
+</p>

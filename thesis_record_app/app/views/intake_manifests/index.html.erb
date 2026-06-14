@@ -1,0 +1,9 @@
+<h1>Intake Manifests</h1>
+
+<p><%= link_to "New intake manifest", new_data_source_intake_manifest_path(@data_source) %></p>
+
+<ul>
+  <% @intake_manifests.each do |manifest| %>
+    <li><%= link_to manifest.name, [ @data_source, manifest ] %></li>
+  <% end %>
+</ul>

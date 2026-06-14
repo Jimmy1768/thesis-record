@@ -1,0 +1,20 @@
+<% if counts.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% counts.each do |key, count| %>
+        <tr>
+          <td><%= key %></td>
+          <td><%= number_with_delimiter(count) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p><%= empty_message %></p>
+<% end %>

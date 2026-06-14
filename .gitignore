@@ -1,0 +1,38 @@
+.DS_Store
+*.swp
+*.tmp
+/.notes/
+.env.local
+
+# ThesisRecord Rails app local/private files.
+/thesis_record_app/config/master.key
+/thesis_record_app/config/credentials/*.key
+/thesis_record_app/.env*
+!/thesis_record_app/.env.example
+!/thesis_record_app/.env.production.example
+/thesis_record_app/log/*
+!/thesis_record_app/log/.keep
+/thesis_record_app/tmp/*
+!/thesis_record_app/tmp/.keep
+!/thesis_record_app/tmp/pids/
+!/thesis_record_app/tmp/pids/.keep
+/thesis_record_app/storage/*
+/thesis_record_app/db/*.sqlite3
+/thesis_record_app/db/*.sqlite3-*
+/thesis_record_app/public/assets
+/thesis_record_app/public/packs
+/thesis_record_app/public/packs-test
+/thesis_record_app/node_modules
+
+# Thesis-specific local empirical data outputs. Commit manifests and code, not
+# raw extracts or generated analysis output.
+/theses/*/evidence/data/raw/
+/theses/*/evidence/data/intermediate/
+/theses/*/evidence/data/processed/
+/theses/*/evidence/data/analysis/
+
+# Root data is reserved for platform templates/shared fixtures.
+/data/raw/
+/data/intermediate/
+/data/processed/
+/data/analysis/

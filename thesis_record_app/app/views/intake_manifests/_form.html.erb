@@ -1,0 +1,54 @@
+<%= form_with model: [ data_source, intake_manifest ] do |form| %>
+  <% if intake_manifest.errors.any? %>
+    <div>
+      <h2><%= pluralize(intake_manifest.errors.count, "error") %> blocked this manifest</h2>
+      <ul>
+        <% intake_manifest.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :manifest_status %>
+    <%= form.text_field :manifest_status %>
+  </div>
+
+  <div>
+    <%= form.label :storage_zone %>
+    <%= form.select :storage_zone, StorageClassifiable::STORAGE_ZONES %>
+  </div>
+
+  <div>
+    <%= form.label :privacy_classification %>
+    <%= form.select :privacy_classification, StorageClassifiable::PRIVACY_CLASSIFICATIONS %>
+  </div>
+
+  <div>
+    <%= form.label :retention_rule %>
+    <%= form.text_field :retention_rule %>
+  </div>
+
+  <% %i[
+    public_repo_allowed
+    structured_private_allowed
+    private_file_storage_allowed
+    secret_material_present
+    redaction_required
+    minimum_cell_rule_required
+    human_review_required
+  ].each do |field| %>
+    <div>
+      <%= form.check_box field %>
+      <%= form.label field %>
+    </div>
+  <% end %>
+
+  <%= form.submit %>
+<% end %>

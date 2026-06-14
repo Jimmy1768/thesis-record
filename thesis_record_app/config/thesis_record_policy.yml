@@ -1,0 +1,1294 @@
+shared:
+  policy_version: v1
+  source_of_truth:
+    rule: "Adjustable thresholds, cadence values, and operations defaults belong in this file before they are copied into app code or research workflow."
+    docs_may_summarize: true
+    docs_must_reference_this_file_for_current_values: true
+
+  forecast_clock:
+    measurement_atom: calendar_quarter
+    first_measurement_period_rule: first_full_calendar_quarter_after_v1_publication
+    annual_snapshot_frequency_quarters: 4
+    checkpoint_quarters_after_v1:
+      v2: 12
+      v3: 20
+      v4: 40
+    thesis_verdict_requires_scheduled_checkpoint: true
+    quarterly_updates_are_verdicts: false
+
+  scheduler:
+    jobs:
+      source_release_check:
+        cron: "0 6 * * 1"
+        queue: maintenance
+        class_name: Evidence::SourceReleaseCheckJob
+        description: "Weekly source-release check scaffold; no ingestion."
+      quarterly_indicator_checkpoint:
+        cron: "0 6 1 1,4,7,10 *"
+        queue: maintenance
+        class_name: Evidence::QuarterlyIndicatorCheckpointJob
+        description: "Quarterly measurement checkpoint scaffold; no analysis."
+      annual_snapshot_candidate:
+        cron: "0 6 15 1 *"
+        queue: maintenance
+        class_name: Evidence::AnnualSnapshotCandidateJob
+        description: "Annual evidence snapshot candidate scaffold; no publication."
+
+  claim_review_gate_v1:
+    status: design_only_disabled
+    claim_reviews_authorized: false
+    prediction_links_authorized: false
+    automatic_claim_promotion_authorized: false
+    evidence_status_change_authorized: false
+    exports_authorized: false
+    eligible_source_kinds_for_future_review:
+      - census_bfs_api
+      - census_susb_public_file
+      - census_bds_public_file
+    eligible_metric_review_statuses_for_future_review:
+      - reviewed_context
+    eligible_metric_source_statuses_for_future_review:
+      - staged_context
+      - reviewed_with_high_noise
+    context_evidence_classes_excluded_from_automatic_claim_support:
+      - indirect_payroll_transition_proxy_only
+      - employer_side_context_only
+      - employer_firm_dynamics_context_only
+    blocked_prediction_ids:
+      - TCE-P001
+      - TCE-P002
+      - TCE-P003
+      - TCE-P004
+      - TCE-P005
+      - TCE-P006
+      - TCE-P007
+      - TCE-P008
+      - TCE-P009
+      - TCE-P010
+      - TCE-P011
+      - TCE-P012
+    blocked_claim_ids:
+      - TCE-CLAIM-001
+      - TCE-CLAIM-002
+      - TCE-CLAIM-003
+      - TCE-CLAIM-004
+      - TCE-CLAIM-005
+      - TCE-CLAIM-006
+      - TCE-CLAIM-007
+      - TCE-CLAIM-008
+      - TCE-CLAIM-009
+      - TCE-CLAIM-010
+      - TCE-CLAIM-011
+      - TCE-CLAIM-012
+      - TCE-CLAIM-013
+      - TCE-CLAIM-014
+      - TCE-CLAIM-015
+    required_metadata_before_future_claim_review:
+      - metric_observation_id
+      - metric_quality_review_id
+      - data_source_id
+      - source_kind
+      - source_status
+      - metric_key
+      - source_metric_status
+      - quality_review_status
+      - evidence_classification
+      - prediction_id
+      - claim_id
+      - prior_claim_status
+      - proposed_claim_status
+      - source_limitations
+      - disconfirming_alternatives
+      - human_reviewer
+      - authorization_record
+      - paper_scope_effect
+    prohibited_automatic_effects:
+      - claim_status_change
+      - prediction_link_creation
+      - claim_review_creation
+      - export_creation
+      - paper_prose_change
+      - thesis_verdict
+      - ai_or_node_interpretation
+      - nonemployer_conversion_interpretation
+      - management_layer_interpretation
+      - transaction_cost_interpretation
+      - firm_boundary_conclusion
+
+  claim_review_candidate_dry_run_v1:
+    status: dry_run_only_no_records
+    candidate_records_authorized: false
+    database_writes_allowed: false
+    claim_reviews_authorized: false
+    prediction_links_authorized: false
+    exports_authorized: false
+    claim_status_effect: unchanged
+    required_candidate_status: dry_run_candidate_only
+    required_evidence_classification: context_only_not_claim_support
+    allowed_review_statuses:
+      - reviewed_context
+    prohibited_outputs:
+      - prediction_link_creation
+      - claim_review_creation
+      - claim_status_change
+      - export_creation
+      - paper_prose_change
+      - thesis_verdict
+    candidate_groups:
+      - id: bfs_business_formation_context
+        source_kind: census_bfs_api
+        source_table: bfs_api_rows
+        metric_keys:
+          - bfs_business_applications
+          - bfs_high_propensity_business_applications
+          - bfs_business_formations_4q
+          - bfs_business_formations_8q
+          - bfs_projected_business_formations_4q
+          - bfs_projected_business_formations_8q
+        related_prediction_ids:
+          - TCE-P009
+          - TCE-P010
+        related_claim_ids:
+          - TCE-CLAIM-013
+        candidate_status: dry_run_candidate_only
+        evidence_classification: context_only_not_claim_support
+        proposed_claim_status: unchanged
+        limitation: "Employer formation proxy context only; not nonemployer conversion, AI adoption, Operator Node, or firm-boundary evidence."
+      - id: susb_employer_size_context
+        source_kind: census_susb_public_file
+        source_table: susb_public_file_rows
+        metric_keys:
+          - susb_employer_firm_count
+          - susb_employer_establishment_count
+          - susb_employment
+          - susb_annual_payroll_thousand
+          - susb_receipts_thousand_economic_census_year
+        related_prediction_ids:
+          - TCE-P010
+        related_claim_ids:
+          - TCE-CLAIM-013
+        candidate_status: dry_run_candidate_only
+        evidence_classification: context_only_not_claim_support
+        proposed_claim_status: unchanged
+        limitation: "Employer-side size and payroll context only; no AI exposure, nonemployer, management-layer, or firm-boundary interpretation."
+      - id: bds_employer_dynamics_context
+        source_kind: census_bds_public_file
+        source_table: bds_public_file_rows
+        metric_keys:
+          - bds_firms
+          - bds_establishments
+          - bds_employment
+          - bds_establishment_entries
+          - bds_establishment_exits
+          - bds_firm_deaths
+          - bds_job_creation
+          - bds_job_destruction
+          - bds_net_job_creation
+          - bds_reallocation_rate
+        related_prediction_ids:
+          - TCE-P007
+          - TCE-P009
+          - TCE-P010
+        related_claim_ids:
+          - TCE-CLAIM-013
+        candidate_status: dry_run_candidate_only
+        evidence_classification: context_only_not_claim_support
+        proposed_claim_status: unchanged
+        limitation: "Employer firm-dynamics context only; no nonemployer, AI exposure, management-layer, transaction-cost, or firm-boundary interpretation."
+
+  production_operations_v1:
+    deployment_model: single_droplet_rails_postgresql_redis_sidekiq
+    database_system_of_record: production_postgresql
+    secrets_store: server_environment_or_managed_secret_store
+    linux_user: thesis-record
+    deploy_path: /var/www/thesis-record/thesis_record_app
+    env_file_path: /etc/thesis-record/thesis-record.env
+    backup_manifest_path: /var/backups/thesis-record/thesis-record
+    admin_bootstrap: one_time_environment_backed_task
+    admin_bootstrap_env:
+      email: THESIS_RECORD_ADMIN_EMAIL
+      password: THESIS_RECORD_ADMIN_PASSWORD
+      role: THESIS_RECORD_ADMIN_ROLE
+      override: THESIS_RECORD_BOOTSTRAP_OVERRIDE
+    admin_bootstrap_default_role: research_admin
+    admin_bootstrap_minimum_password_length: 16
+    process_supervision: systemd_or_equivalent
+    web_unit_name: thesis-record-web.service
+    sidekiq_unit_name: thesis-record-sidekiq.service
+    backup_required_before_private_ingestion: true
+    restore_test_required_before_private_ingestion: true
+    health_check_path: /up
+    public_ingestion_enabled_default: false
+    private_ingestion_enabled_default: false
+    production_data_on_laptop_allowed: false
+    deploy_or_push_authority_default: none
+
+  public_ingestion_v1:
+    first_dataset: susb_us_state_annual_public_file
+    public_file_fetch_enabled_default: false
+    metric_computation_enabled_default: false
+    claim_status_effect_default: unchanged
+    raw_public_file_git_allowed: false
+    raw_public_file_storage_zone: private_file_storage
+    metadata_storage_zone: production_postgresql
+    default_source_status: ingestion_scaffold_ready
+    default_manifest_status: schema_scaffold_ready
+    susb_us_state_annual:
+      default_year: 2022
+      source_name: Census SUSB U.S./state annual public file
+      source_kind: census_susb_public_file
+      source_url: https://www2.census.gov/programs-surveys/susb/tables/2022/us_state_6digitnaics_2022.txt
+      record_layout_url: https://www2.census.gov/programs-surveys/susb/technical-documentation/record_layout_us_and_state_2007_to_present.txt
+      local_raw_path_template: data/raw/susb/%{year}/us_state_6digitnaics_%{year}.txt
+      manifest_name_template: SUSB U.S./state annual %{year} public-file manifest
+      schema_version: susb_us_state_annual_2007_present_v1
+      naics_vintage: "2017"
+      geography_grain: us_state
+      row_grain:
+        - STATE
+        - NAICS
+        - ENTRSIZE
+      expected_header:
+        - STATE
+        - NAICS
+        - ENTRSIZE
+        - FIRM
+        - ESTB
+        - EMPL
+        - EMPLFL_N
+        - PAYR
+        - PAYRFL_N
+        - RCPT
+        - RCPTFL_N
+        - STATEDSCR
+        - NAICSDSCR
+        - ENTRSIZEDSCR
+      required_columns:
+        - STATE
+        - NAICS
+        - ENTRSIZE
+        - FIRM
+        - ESTB
+        - EMPL
+        - PAYR
+        - EMPLFL_N
+        - PAYRFL_N
+        - STATEDSCR
+        - NAICSDSCR
+        - ENTRSIZEDSCR
+      optional_economic_census_columns:
+        - RCPT
+        - RCPTFL_N
+      allowed_noise_flags:
+        - G
+        - H
+        - J
+        - D
+        - S
+      metric_definitions:
+        susb_employer_firm_count:
+          name: SUSB employer firm count
+          formula_status: draft_disabled
+          formula: "Source field FIRM at source grain; no aggregation in scaffold."
+          limitations: "Employer firms only. No AI, nonemployer, management-layer, transaction-cost, one-person-firm, or claim-support interpretation."
+        susb_employer_establishment_count:
+          name: SUSB employer establishment count
+          formula_status: draft_disabled
+          formula: "Source field ESTB at source grain; no aggregation in scaffold."
+          limitations: "Employer establishments only. Establishments are not firms, nodes, nonemployers, or management layers."
+        susb_employment:
+          name: SUSB employer employment
+          formula_status: draft_disabled
+          formula: "Source field EMPL at source grain with EMPLFL_N preserved; no aggregation in scaffold."
+          limitations: "Employer employment with noise flags. Does not identify remote work, contractors, managers, AI use, or support-staff ratios."
+        susb_annual_payroll_thousand:
+          name: SUSB annual payroll in thousands
+          formula_status: draft_disabled
+          formula: "Source field PAYR at source grain with PAYRFL_N preserved; no inflation adjustment or aggregation in scaffold."
+          limitations: "Annual payroll for employer firms only. Requires price adjustment and comparability design before analysis."
+        susb_receipts_thousand_economic_census_year:
+          name: SUSB receipts in thousands for economic-census years
+          formula_status: draft_disabled
+          formula: "Source field RCPT at source grain with RCPTFL_N preserved where present; no aggregation in scaffold."
+          limitations: "Receipts are available only for years ending in 2 and 7 in the verified layout. Not a productivity or thesis-support measure by itself."
+      metric_computation_design_v1:
+        status: design_only_disabled
+        eligible_enterprise_size_codes:
+          - "01"
+        grain: source_native_context
+        dimension_fields:
+          - year
+          - state_code
+          - naics_code
+        enterprise_size_handling: "Use only ENTRSIZE=01 Total for first-pass observations to avoid double-counting overlapping size buckets."
+        evidence_class: employer_side_context_only
+        claim_status_effect: unchanged
+        allowed_metric_statuses:
+          - staged_context
+          - quality_review_required
+          - blocked_noise_or_suppression
+        noise_flag_rules:
+          G: staged_context
+          H: staged_context
+          J: quality_review_required
+          D: blocked_noise_or_suppression
+          S: blocked_noise_or_suppression
+        first_pass_metric_keys:
+          - susb_employer_firm_count
+          - susb_employer_establishment_count
+          - susb_employment
+          - susb_annual_payroll_thousand
+          - susb_receipts_thousand_economic_census_year
+        prohibited_computation:
+          - ratios
+          - trends
+          - aggregation
+          - productivity_measures
+          - ai_or_node_interpretation
+          - claim_support
+          - exports
+      quality_review_policy_v1:
+        status: policy_only_no_review_state
+        source_status_required:
+          - raw_file_validated
+        manifest_status_allowed:
+          - raw_file_validated
+          - staging_rows_loaded
+        schema_status_allowed:
+          - verified_record_layout_scaffold
+        eligible_observation_statuses:
+          staged_context: reviewed_context
+          quality_review_required: reviewed_with_high_noise
+          blocked_noise_or_suppression: excluded_noise_or_suppression
+        final_review_statuses:
+          - reviewed_context
+          - reviewed_with_high_noise
+          - excluded_noise_or_suppression
+          - excluded_policy_violation
+          - needs_manual_review
+        required_quality_metadata:
+          - source_table
+          - source_row_id
+          - source_row_hash
+          - metric_key
+          - metric_status_reason
+          - claim_status_effect
+          - ratios_computed
+          - trends_computed
+          - aggregation_computed
+          - exports_created
+          - claim_support_authorized
+          - guardrail
+        hard_false_flags:
+          ratios_computed: false
+          trends_computed: false
+          aggregation_computed: false
+          exports_created: false
+          claim_support_authorized: false
+        manual_review_required_for:
+          - missing_source_row
+          - missing_source_row_hash
+          - missing_required_dimensions
+          - unknown_metric_key
+          - unsupported_metric_status
+          - high_noise_status
+        prohibited_review_effects:
+          - claim_support
+          - export_authorization
+          - thesis_interpretation
+          - ai_or_node_evidence
+          - aggregation_authorization
+          - trend_authorization
+        review_storage_recommendation: metric_quality_reviews
+    bds_sector_age_size_public_file:
+      source_name: Census BDS sector by firm age by firm size public file
+      source_kind: census_bds_public_file
+      source_url: https://www2.census.gov/programs-surveys/bds/tables/time-series/2023/bds2023_sec_fa_fz.csv
+      dataset_page_url: https://www.census.gov/data/datasets/time-series/econ/bds/bds-datasets.html
+      methodology_url: https://www.census.gov/programs-surveys/bds/documentation/methodology.html
+      manifest_name: BDS sector by firm age by firm size public-file metadata scaffold
+      schema_version: bds_2023_sector_firm_age_firm_size_v1
+      schema_status: verified_public_file_metadata_scaffold
+      source_status: ingestion_scaffold_ready
+      evidence_class: employer_dynamics_context_only
+      claim_status_effect: unchanged
+      raw_file_git_allowed: false
+      raw_file_fetched: false
+      data_rows_authorized: false
+      metric_definitions_authorized: false
+      metric_observations_authorized: false
+      quality_reviews_authorized: false
+      analysis_authorized: false
+      exports_authorized: false
+      prediction_links_authorized: false
+      observed_row_count_excluding_header: 104880
+      observed_year_range:
+        start: 1978
+        end: 2023
+      year_count: 46
+      naics_vintage: "2017"
+      industry_grain: sector
+      geography_grain: national
+      row_grain:
+        - year
+        - sector
+        - fage
+        - fsize
+      required_columns:
+        - year
+        - sector
+        - fage
+        - fsize
+        - firms
+        - estabs
+        - emp
+        - denom
+        - estabs_entry
+        - estabs_entry_rate
+        - estabs_exit
+        - estabs_exit_rate
+        - job_creation
+        - job_creation_births
+        - job_creation_continuers
+        - job_creation_rate_births
+        - job_creation_rate
+        - job_destruction
+        - job_destruction_deaths
+        - job_destruction_continuers
+        - job_destruction_rate_deaths
+        - job_destruction_rate
+        - net_job_creation
+        - net_job_creation_rate
+        - reallocation_rate
+        - firmdeath_firms
+        - firmdeath_estabs
+        - firmdeath_emp
+      publication_flags:
+        D: Fewer than three firms.
+        S: Identified data-quality concern.
+        X: Structurally missing or zero cell.
+        N: Rate cell cannot be calculated.
+      allowed_sector_values:
+        - "11"
+        - "21"
+        - "22"
+        - "23"
+        - "31-33"
+        - "42"
+        - "44-45"
+        - "48-49"
+        - "51"
+        - "52"
+        - "53"
+        - "54"
+        - "55"
+        - "56"
+        - "61"
+        - "62"
+        - "71"
+        - "72"
+        - "81"
+      allowed_fage_values:
+        - "a) 0"
+        - "b) 1"
+        - "c) 2"
+        - "d) 3"
+        - "e) 4"
+        - "f) 5"
+        - "g) 6 to 10"
+        - "h) 11 to 15"
+        - "i) 16 to 20"
+        - "j) 21 to 25"
+        - "k) 26+"
+        - "l) Left Censored"
+      allowed_fsize_values:
+        - "a) 1 to 4"
+        - "b) 5 to 9"
+        - "c) 10 to 19"
+        - "d) 20 to 99"
+        - "e) 100 to 499"
+        - "f) 500 to 999"
+        - "g) 1000 to 2499"
+        - "h) 2500 to 4999"
+        - "i) 5000 to 9999"
+        - "j) 10000+"
+      compatibility_status:
+        naics_year: sector_year_only
+        geography_naics_year: blocked_public_file_is_national_sector_only
+        employer_nonemployer_comparison_cells: blocked_no_nonemployer_measure
+        exposure_cells: blocked_no_ai_or_transaction_cost_measure
+        tce_p005: blocked_no_management_layer_fields
+      unresolved_paths:
+        - six_digit_naics_firm_age_size
+        - subnational_firm_age_size_multiyear
+        - api_bdsfagefsize_multiyear
+        - direct_employer_firm_startup_field
+      prohibited_use:
+        - nonemployer_to_employer_conversion_evidence
+        - nonemployer_evidence
+        - ai_or_node_interpretation
+        - management_layer_evidence
+        - vendor_substitution_evidence
+        - transaction_cost_evidence
+        - firm_boundary_conclusion
+        - claim_support
+        - exports
+        - quantitative_analysis
+      acquisition_design_v1:
+        status: fetch_validation_service_ready
+        raw_file_fetch_authorized: true
+        fetch_execution_default: validate_existing_local_file
+        force_fetch_requires_operator_env: BDS_FORCE_FETCH
+        raw_file_storage_zone: private_file_storage
+        local_raw_path: data/raw/bds/2023/bds2023_sec_fa_fz.csv
+        manifest_path: data/manifests/bds_2023_manifest.csv
+        checksum_required_before_parser: true
+        manifest_reconciliation_required: true
+        expected_content_type: text/csv
+        expected_delimiter: ","
+        expected_encoding: UTF-8
+        expected_header_matches_required_columns: true
+        expected_row_count_excluding_header: 104880
+        expected_year_range:
+          start: 1978
+          end: 2023
+        source_status_after_validation: raw_file_validated
+        manifest_status_after_validation: raw_file_validated
+        schema_status_required: verified_public_file_metadata_scaffold
+        data_rows_authorized: false
+        metric_definitions_authorized: false
+        metric_observations_authorized: false
+        quality_reviews_authorized: false
+        parser_authorized: false
+        analysis_authorized: false
+        exports_authorized: false
+        prediction_links_authorized: false
+        claim_status_effect: unchanged
+        collection_audit_events_required:
+          - collection_started
+          - collection_completed
+          - validation_completed
+        prohibited_effects:
+          - metric_definition_creation
+          - metric_observation_creation
+          - quality_review_creation
+          - prediction_link_creation
+          - export_creation
+          - claim_status_change
+          - analysis
+      parser_design_v1:
+        status: source_row_load_authorized
+        staging_table: bds_public_file_rows
+        staging_table_creation_authorized: true
+        fixture_parser_authorized: true
+        full_file_dry_run_authorized: true
+        full_file_parser_authorized: true
+        row_load_authorized: true
+        parser_authorized: true
+        metric_computation_authorized: false
+        quality_reviews_authorized: false
+        analysis_authorized: false
+        exports_authorized: false
+        prediction_links_authorized: false
+        claim_status_effect: unchanged
+        source_grain: year_sector_firm_age_firm_size
+        primary_key_candidate:
+          - data_source_id
+          - year
+          - sector_code
+          - firm_age_code
+          - firm_size_code
+        dimension_fields:
+          year: integer
+          sector_code: string
+          firm_age_code: string
+          firm_size_code: string
+        storage_fields:
+          source_row_number: integer
+          raw_measure_values: jsonb
+          numeric_measure_values: jsonb
+          publication_flags: jsonb
+          row_hash: string
+          metadata: jsonb
+        count_measure_fields:
+          - firms
+          - estabs
+          - emp
+          - denom
+          - estabs_entry
+          - estabs_exit
+          - job_creation
+          - job_creation_births
+          - job_creation_continuers
+          - job_destruction
+          - job_destruction_deaths
+          - job_destruction_continuers
+          - net_job_creation
+          - firmdeath_firms
+          - firmdeath_estabs
+          - firmdeath_emp
+        rate_measure_fields:
+          - estabs_entry_rate
+          - estabs_exit_rate
+          - job_creation_rate_births
+          - job_creation_rate
+          - job_destruction_rate_deaths
+          - job_destruction_rate
+          - net_job_creation_rate
+          - reallocation_rate
+        flag_handling:
+          preserve_raw_cell_value: true
+          extract_publication_flags_before_numeric_coercion: true
+          flagged_numeric_value_policy: null_numeric_value
+          allowed_flags:
+            - D
+            - S
+            - X
+            - N
+        prohibited_parser_outputs:
+          - ratios
+          - trends
+          - aggregation
+          - naics_crosswalk
+          - productivity_measures
+          - ai_or_node_interpretation
+          - nonemployer_conversion
+          - management_layer_inference
+          - claim_support
+          - exports
+        row_load_gate_v1:
+          status: source_row_load_authorized
+          table_must_exist: true
+          table_must_remain_empty: false
+          parser_fixture_only: true
+          full_file_dry_run_authorized: true
+          full_file_parser_authorized: true
+          row_load_authorized: true
+          metric_observations_authorized: false
+          quality_reviews_authorized: false
+          exports_authorized: false
+          prediction_links_authorized: false
+          claim_status_effect: unchanged
+        row_load_qa_policy_v1:
+          status: policy_defined_row_load_disabled
+          dry_run_required_before_load: true
+          expected_source_rows: 104880
+          require_zero_bad_width_rows: true
+          require_zero_duplicate_grain_keys: true
+          require_observed_year_range:
+            start: 1978
+            end: 2023
+          require_sector_count: 19
+          require_firm_age_count: 12
+          require_firm_size_count: 10
+          require_publication_flag_preservation: true
+          required_publication_flags:
+            - D
+            - S
+            - X
+            - N
+          require_source_row_hash: true
+          require_load_id: true
+          cleanup_strategy_required: true
+          rollback_strategy_required: true
+          load_idempotency_required: true
+          post_load_reconciliation_required: true
+          metric_definitions_authorized: false
+          metric_observations_authorized: false
+          quality_reviews_authorized: false
+          exports_authorized: false
+          prediction_links_authorized: false
+          analysis_authorized: false
+          claim_status_effect: unchanged
+        metric_definition_scaffold_v1:
+          status: definition_scaffold_authorized
+          metric_definitions_authorized: true
+          metric_observations_authorized: false
+          quality_reviews_authorized: false
+          exports_authorized: false
+          prediction_links_authorized: false
+          analysis_authorized: false
+          claim_status_effect: unchanged
+        metric_definitions:
+          bds_firms:
+            name: BDS firms
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['firms'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Employer-firm count context only. Does not measure nonemployers, AI adoption, Operator Nodes, management layers, transaction costs, productivity, or firm-boundary change."
+          bds_establishments:
+            name: BDS establishments
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['estabs'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Employer-establishment context only. Establishments are not firms and do not identify Operator Nodes, nonemployer status, AI use, or firm-boundary change."
+          bds_employment:
+            name: BDS employment
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['emp'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Employer employment context only. Does not identify remote work, contractors, AI substitution, management layers, or one-human firms."
+          bds_establishment_entries:
+            name: BDS establishment entries
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['estabs_entry'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Establishment entry is not direct employer firm startup, nonemployer conversion, AI adoption, or Operator Node evidence."
+          bds_establishment_exits:
+            name: BDS establishment exits
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['estabs_exit'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Establishment exit is employer-side churn context only. It does not identify firm-boundary causality, AI use, or one-human firms."
+          bds_firm_deaths:
+            name: BDS firm deaths
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['firmdeath_firms'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Firm exit context only. It does not provide a direct firm birth/startup field and does not identify AI-enabled firm-boundary change."
+          bds_job_creation:
+            name: BDS job creation
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['job_creation'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Employer job-flow context only. It does not identify productivity, AI adoption, contractor substitution, or Operator Nodes."
+          bds_job_destruction:
+            name: BDS job destruction
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['job_destruction'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Employer job-flow context only. It does not identify why jobs disappeared or whether AI, outsourcing, or firm-boundary change caused them."
+          bds_net_job_creation:
+            name: BDS net job creation
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['net_job_creation'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Employer net job-flow context only. It is not a productivity measure and cannot support claims without later computation, review, and claim gates."
+          bds_reallocation_rate:
+            name: BDS reallocation rate
+            formula_status: draft_disabled
+            formula: "Source row numeric_measure_values['reallocation_rate'] at source-native year-sector-firm-age-firm-size grain; no aggregation in scaffold."
+            limitations: "Source-provided rate context only. It does not identify transaction-cost reduction, AI adoption, or Operator Node formation."
+        metric_computation_design_v1:
+          status: source_native_observations_authorized
+          source_table: bds_public_file_rows
+          source_row_status: source_rows_loaded_context_only
+          grain: source_native_year_sector_firm_age_firm_size_context
+          evidence_class: employer_firm_dynamics_context_only
+          claim_status_effect: unchanged
+          metric_definitions_authorized: false
+          metric_observations_authorized: true
+          quality_reviews_authorized: false
+          exports_authorized: false
+          prediction_links_authorized: false
+          analysis_authorized: false
+          eligible_metric_keys:
+            - bds_firms
+            - bds_establishments
+            - bds_employment
+            - bds_establishment_entries
+            - bds_establishment_exits
+            - bds_firm_deaths
+            - bds_job_creation
+            - bds_job_destruction
+            - bds_net_job_creation
+            - bds_reallocation_rate
+          source_value_rules:
+            numeric_cell_value: staged_context
+            publication_flag_D: blocked_fewer_than_three_firms
+            publication_flag_S: quality_review_required_before_use
+            publication_flag_X: blocked_structural_missing_or_zero
+            publication_flag_N: blocked_rate_cannot_be_calculated
+            null_numeric_value: blocked_publication_flag_or_missing
+            missing_source_row: blocked_missing_source_row
+          required_quality_metadata:
+            - source_table
+            - source_row_id
+            - source_row_hash
+            - metric_key
+            - source_grain
+            - source_year
+            - source_sector_code
+            - source_firm_age_code
+            - source_firm_size_code
+            - source_cell_value_raw
+            - source_publication_flag
+            - metric_status_reason
+            - claim_status_effect
+            - ratios_computed
+            - trends_computed
+            - aggregation_computed
+            - exports_created
+            - prediction_links_created
+            - claim_support_authorized
+            - guardrail
+          prohibited_computation:
+            - ratios
+            - trends
+            - aggregation
+            - naics_crosswalk
+            - productivity_measures
+            - ai_or_node_interpretation
+            - nonemployer_conversion
+            - management_layer_inference
+            - transaction_cost_inference
+            - firm_boundary_conclusion
+            - claim_support
+            - exports
+            - prediction_links
+        quality_review_policy_v1:
+          status: policy_and_review_state_authorized
+          eligible_observation_statuses:
+            staged_context: reviewed_context
+          final_review_statuses:
+            - reviewed_context
+            - excluded_source_cell
+            - excluded_policy_violation
+            - needs_manual_review
+          required_quality_metadata:
+            - source_table
+            - source_row_id
+            - source_row_hash
+            - metric_key
+            - source_grain
+            - source_year
+            - source_sector_code
+            - source_firm_age_code
+            - source_firm_size_code
+            - source_cell_value_raw
+            - source_publication_flag
+            - metric_status_reason
+            - claim_status_effect
+            - ratios_computed
+            - trends_computed
+            - aggregation_computed
+            - exports_created
+            - prediction_links_created
+            - claim_support_authorized
+            - guardrail
+          hard_false_flags:
+            ratios_computed: false
+            trends_computed: false
+            aggregation_computed: false
+            exports_created: false
+            prediction_links_created: false
+            claim_support_authorized: false
+          manual_review_required_for:
+            - missing_source_row
+            - missing_source_row_hash
+            - missing_required_dimensions
+            - unknown_metric_key
+            - unsupported_metric_status
+            - missing_source_cell_value
+            - source_publication_flag_present
+          prohibited_review_effects:
+            - claim_support
+            - export_authorization
+            - prediction_link_authorization
+            - thesis_interpretation
+            - ai_or_node_evidence
+            - nonemployer_conversion_evidence
+            - management_layer_evidence
+            - transaction_cost_evidence
+            - firm_boundary_conclusion
+            - aggregation_authorization
+            - trend_authorization
+          review_storage_recommendation: metric_quality_reviews
+    bfs_monthly_api:
+      source_name: Census BFS monthly API
+      source_kind: census_bfs_api
+      endpoint_url: https://api.census.gov/data/timeseries/eits/bfs
+      variables_url: https://api.census.gov/data/timeseries/eits/bfs/variables.json
+      geography_url: https://api.census.gov/data/timeseries/eits/bfs/geography.json
+      manifest_name: BFS monthly API metadata scaffold
+      schema_version: bfs_timeseries_eits_v1
+      schema_status: verified_api_metadata_scaffold
+      geography_grain_status: us_only_confirmed_in_inspected_metadata
+      category_code_mapping_status: verified_monthly_dictionary_sector_and_aggregate_codes
+      data_type_code_mapping_status: verified_monthly_dictionary_and_api_example_query
+      monthly_data_dictionary_url: https://www.census.gov/econ/bfs/pdf/bfs_monthly_data_dictionary.pdf
+      examples_url: https://api.census.gov/data/timeseries/eits/bfs/examples.json
+      evidence_class: indirect_payroll_transition_proxy_only
+      claim_status_effect: unchanged
+      exact_fields:
+        - time
+        - data_type_code
+        - time_slot_id
+        - seasonally_adj
+        - program_code
+        - category_code
+        - geo_level_code
+        - time_slot_date
+        - time_slot_name
+        - cell_value
+        - error_data
+      candidate_measure_abbreviations_not_api_verified:
+        - BA
+        - HBA
+        - BF4Q
+        - BF8Q
+        - PBF4Q
+        - PBF8Q
+      verified_data_type_codes:
+        BA_BA: Business Applications
+        BA_CBA: Business Applications from Corporations
+        BA_HBA: High-Propensity Business Applications
+        BA_WBA: Business Applications with Planned Wages
+        BF_BF4Q: Business Formations within Four Quarters
+        BF_BF8Q: Business Formations within Eight Quarters
+        BF_PBF4Q: Projected Business Formations within Four Quarters
+        BF_PBF8Q: Projected Business Formations within Eight Quarters
+        BF_SBF4Q: Spliced Business Formations within Four Quarters
+        BF_SBF8Q: Spliced Business Formations within Eight Quarters
+        BF_DUR4Q: Average Duration in Quarters from Business Application to Formation within Four Quarters
+        BF_DUR8Q: Average Duration in Quarters from Business Application to Formation within Eight Quarters
+      target_data_type_codes:
+        business_applications: BA_BA
+        high_propensity_business_applications: BA_HBA
+        business_formations_within_four_quarters: BF_BF4Q
+        business_formations_within_eight_quarters: BF_BF8Q
+        projected_business_formations_within_four_quarters: BF_PBF4Q
+        projected_business_formations_within_eight_quarters: BF_PBF8Q
+      verified_category_codes:
+        TOTAL: Total for All NAICS
+        NAICS11: Agriculture
+        NAICS21: Mining
+        NAICS22: Utilities
+        NAICS23: Construction
+        NAICSMNF: Manufacturing
+        NAICS42: Wholesale Trade
+        NAICSRET: Retail Trade
+        NAICSTW: Transportation and Warehousing
+        NAICS51: Information
+        NAICS52: Finance and Insurance
+        NAICS53: Real Estate
+        NAICS54: Professional Services
+        NAICS55: Management of Companies
+        NAICS56: Administrative and Support
+        NAICS61: Educational Services
+        NAICS62: Health Care and Social Assistance
+        NAICS71: Arts and Entertainment
+        NAICS72: Accommodation and Food Services
+        NAICS81: Other Services
+        NAICS92: Public Administration
+        NONAICS: No NAICS Assigned
+      api_example_query_shape:
+        get:
+          - data_type_code
+          - time_slot_id
+          - seasonally_adj
+          - category_code
+          - cell_value
+          - error_data
+        predicates:
+          time: "2012"
+          for: "us:*"
+        observed_2012_row_count: 5544
+        observed_time_slot_ids:
+          - "0"
+        observed_seasonally_adj_values:
+          - "no"
+          - "yes"
+      ingestion_design_v1:
+        status: staging_schema_only_no_api_pull
+        api_pull_authorized: false
+        data_rows_authorized: false
+        metric_computation_authorized: false
+        analysis_authorized: false
+        exports_authorized: false
+        prediction_links_authorized: false
+        claim_status_effect: unchanged
+        geography_scope: us_only
+        geography_code: "1"
+        geography_level: us
+        seasonally_adj_allowed:
+          - "no"
+        first_pass_data_type_codes:
+          - BA_BA
+          - BA_HBA
+          - BF_BF4Q
+          - BF_BF8Q
+          - BF_PBF4Q
+          - BF_PBF8Q
+        excluded_data_type_codes:
+          - BA_CBA
+          - BA_WBA
+          - BF_SBF4Q
+          - BF_SBF8Q
+          - BF_DUR4Q
+          - BF_DUR8Q
+        first_pass_category_codes:
+          - NAICS11
+          - NAICS21
+          - NAICS22
+          - NAICS23
+          - NAICSMNF
+          - NAICS42
+          - NAICSRET
+          - NAICSTW
+          - NAICS51
+          - NAICS52
+          - NAICS53
+          - NAICS54
+          - NAICS55
+          - NAICS56
+          - NAICS61
+          - NAICS62
+          - NAICS71
+          - NAICS72
+          - NAICS81
+          - NAICS92
+        excluded_category_codes:
+          - TOTAL
+          - NONAICS
+        row_grain:
+          - data_source_id
+          - period_month
+          - data_type_code
+          - category_code
+          - seasonally_adj
+          - geography_level
+          - geography_code
+        staging_table: bfs_api_rows
+        evidence_class: indirect_payroll_transition_proxy_only
+        status_for_future_rows: staged_context
+        required_quality_metadata:
+          - source_endpoint
+          - query_shape
+          - row_hash
+          - value_code_mapping_version
+          - claim_status_effect
+          - metrics_authorized
+          - analysis_authorized
+          - exports_authorized
+          - prediction_links_authorized
+          - guardrail
+      dry_run_v1:
+        status: validation_only_no_row_storage
+        sample_time: "2012"
+        query_get_fields:
+          - data_type_code
+          - time_slot_id
+          - seasonally_adj
+          - category_code
+          - cell_value
+          - error_data
+        expected_response_header:
+          - data_type_code
+          - time_slot_id
+          - seasonally_adj
+          - category_code
+          - cell_value
+          - error_data
+          - time
+          - us
+        expected_us_code: "1"
+        expected_time_slot_ids:
+          - "0"
+        expected_error_data_values:
+          - "no"
+        minimum_eligible_rows: 1
+        target_codes_must_all_appear: true
+        database_writes_allowed: false
+      sample_load_v1:
+        status: sample_row_load_authorized
+        sample_time: "2012"
+        expected_eligible_rows: 1368
+        api_pull_authorized: true
+        data_rows_authorized: true
+        metric_computation_authorized: false
+        analysis_authorized: false
+        exports_authorized: false
+        prediction_links_authorized: false
+        claim_status_effect: unchanged
+        source_status_after_load: sample_rows_loaded
+        manifest_status_after_load: sample_rows_loaded
+        schema_status_required: verified_api_metadata_scaffold
+        row_status: staged_context
+        row_storage_table: bfs_api_rows
+        value_code_mapping_version: bfs_value_code_mapping_v1
+      metric_definition_scaffold_v1:
+        status: definition_scaffold_authorized
+        metric_definitions_authorized: true
+        metric_observations_authorized: false
+        quality_reviews_authorized: false
+        exports_authorized: false
+        prediction_links_authorized: false
+        claim_status_effect: unchanged
+      metric_definitions:
+        bfs_business_applications:
+          name: BFS business applications
+          formula_status: draft_disabled
+          formula: "Source row cell_value_numeric for data_type_code=BA_BA at source-native monthly sector grain; no aggregation in scaffold."
+          limitations: "Business applications are EIN application counts, not firm births, nonemployer transitions, AI adoption, Operator Nodes, productivity, or claim support."
+        bfs_high_propensity_business_applications:
+          name: BFS high-propensity business applications
+          formula_status: draft_disabled
+          formula: "Source row cell_value_numeric for data_type_code=BA_HBA at source-native monthly sector grain; no aggregation in scaffold."
+          limitations: "High-propensity applications are employer-likelihood context only. They do not identify actual employment, nonemployer conversion, AI use, Operator Nodes, or firm-boundary change."
+        bfs_business_formations_4q:
+          name: BFS business formations within four quarters
+          formula_status: draft_disabled
+          formula: "Source row cell_value_numeric for data_type_code=BF_BF4Q at source-native monthly sector grain; no aggregation in scaffold."
+          limitations: "Employer formation proxy only. Not nonemployer-to-employer conversion evidence and not thesis-support evidence without later quality review and claim review."
+        bfs_business_formations_8q:
+          name: BFS business formations within eight quarters
+          formula_status: draft_disabled
+          formula: "Source row cell_value_numeric for data_type_code=BF_BF8Q at source-native monthly sector grain; no aggregation in scaffold."
+          limitations: "Employer formation proxy only. Longer horizon does not identify source business ownership, nonemployer status, AI use, Operator Nodes, or one-human firms."
+        bfs_projected_business_formations_4q:
+          name: BFS projected business formations within four quarters
+          formula_status: draft_disabled
+          formula: "Source row cell_value_numeric for data_type_code=BF_PBF4Q at source-native monthly sector grain; no aggregation in scaffold."
+          limitations: "Projection series only. Requires separate treatment from observed formations and cannot support claims by itself."
+        bfs_projected_business_formations_8q:
+          name: BFS projected business formations within eight quarters
+          formula_status: draft_disabled
+          formula: "Source row cell_value_numeric for data_type_code=BF_PBF8Q at source-native monthly sector grain; no aggregation in scaffold."
+          limitations: "Projection series only. Requires separate treatment from observed formations and cannot support claims by itself."
+      metric_computation_design_v1:
+        status: source_native_observations_authorized
+        source_table: bfs_api_rows
+        source_row_status: staged_context
+        grain: source_native_monthly_sector_context
+        evidence_class: indirect_payroll_transition_proxy_only
+        claim_status_effect: unchanged
+        metric_definitions_authorized: false
+        metric_observations_authorized: true
+        quality_reviews_authorized: false
+        exports_authorized: false
+        prediction_links_authorized: false
+        eligible_geography_scope: us_only
+        eligible_geography_level: us
+        eligible_seasonally_adj:
+          - "no"
+        eligible_data_type_codes:
+          - BA_BA
+          - BA_HBA
+          - BF_BF4Q
+          - BF_BF8Q
+          - BF_PBF4Q
+          - BF_PBF8Q
+        eligible_category_codes:
+          - NAICS11
+          - NAICS21
+          - NAICS22
+          - NAICS23
+          - NAICSMNF
+          - NAICS42
+          - NAICSRET
+          - NAICSTW
+          - NAICS51
+          - NAICS52
+          - NAICS53
+          - NAICS54
+          - NAICS55
+          - NAICS56
+          - NAICS61
+          - NAICS62
+          - NAICS71
+          - NAICS72
+          - NAICS81
+          - NAICS92
+        first_pass_metric_keys:
+          - bfs_business_applications
+          - bfs_high_propensity_business_applications
+          - bfs_business_formations_4q
+          - bfs_business_formations_8q
+          - bfs_projected_business_formations_4q
+          - bfs_projected_business_formations_8q
+        source_value_rules:
+          numeric_cell_value: staged_context
+          non_numeric_cell_value: blocked_suppression_or_non_numeric
+          error_data_yes: blocked_error_data
+          missing_cell_value: blocked_missing_value
+        prohibited_computation:
+          - ratios
+          - trends
+          - aggregation
+          - seasonal_adjustment_mix
+          - category_harmonization
+          - naics_crosswalk
+          - productivity_measures
+          - ai_or_node_interpretation
+          - nonemployer_conversion
+          - claim_support
+          - exports
+          - prediction_links
+      quality_review_policy_v1:
+        status: policy_and_review_state_authorized
+        eligible_observation_statuses:
+          staged_context: reviewed_context
+        final_review_statuses:
+          - reviewed_context
+          - excluded_source_cell
+          - excluded_policy_violation
+          - needs_manual_review
+        required_quality_metadata:
+          - source_table
+          - source_row_id
+          - source_row_hash
+          - metric_key
+          - source_cell_value_raw
+          - source_error_data
+          - metric_status_reason
+          - claim_status_effect
+          - ratios_computed
+          - trends_computed
+          - aggregation_computed
+          - exports_created
+          - prediction_links_created
+          - claim_support_authorized
+          - guardrail
+        hard_false_flags:
+          ratios_computed: false
+          trends_computed: false
+          aggregation_computed: false
+          exports_created: false
+          prediction_links_created: false
+          claim_support_authorized: false
+        manual_review_required_for:
+          - missing_source_row
+          - missing_source_row_hash
+          - missing_required_dimensions
+          - unknown_metric_key
+          - unsupported_metric_status
+          - missing_source_cell_value
+          - source_error_data_not_no
+        prohibited_review_effects:
+          - claim_support
+          - export_authorization
+          - prediction_link_authorization
+          - thesis_interpretation
+          - ai_or_node_evidence
+          - nonemployer_conversion_evidence
+          - aggregation_authorization
+          - trend_authorization
+        review_storage_recommendation: metric_quality_reviews
+      prohibited_use:
+        - nonemployer_to_employer_conversion_evidence
+        - nonemployer_evidence
+        - ai_or_node_interpretation
+        - firm_boundary_conclusion
+        - naics_panel_join
+        - claim_support
+        - exports
+        - quantitative_analysis
+
+  privacy_thresholds_v1:
+    minimum_public_cell_size: 5
+    public_export_requires_human_review: true
+    secrets_allowed_in_git: false
+    private_raw_rows_allowed_in_git: false
+    unreviewed_private_outputs_allowed_in_git: false
+
+  operator_node_classification_v1:
+    max_human_operators: 1
+    paid_employee_count_max: 0
+    managerial_layer_count_max: 0
+    hidden_human_labor_policy: disqualifies_if_undisclosed
+    core_human_subcontracting_policy: disqualifies_or_reclassifies_unless_explicitly_partitioned
+    external_service_policy: allowed_as_infrastructure_or_non_core_input_if_disclosed
+    persistent_memory_required: true
+    documented_protocol_minimum: 1
+    audit_trail_required: true
+    repeatability_required: true
+    minimum_completed_economic_outputs: 1
+    legal_wrapper_is_not_classification_basis: true
+
+development:
+
+test:
+
+production:

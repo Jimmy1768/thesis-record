@@ -1,0 +1,1 @@
+staging_table,source_type,input_manifest,raw_inputs_checked,raw_rows_seen,rows_written,rows_excluded_outside_sector_frame,duplicate_field_mismatches,header_status,checksum_status,output_path,output_sha256,created_at,timezone,analysis_performed,guardrail_notes
