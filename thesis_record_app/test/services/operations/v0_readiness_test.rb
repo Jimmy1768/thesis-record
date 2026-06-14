@@ -29,7 +29,8 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_approval_packet_present)
     assert result.checks.fetch(:v0_approval_packet_unapproved)
     assert result.checks.fetch(:v0_baseline_evidence_accepted)
-    assert_includes result.blockers, "v0_source_truth_review_accepted"
+    assert result.checks.fetch(:v0_source_truth_review_accepted)
+    assert_not_includes result.blockers, "v0_source_truth_review_accepted"
     assert_includes result.blockers, "v0_prohibited_foundations_review_accepted"
     assert_includes result.blockers, "v0_prose_review_accepted"
     assert_includes result.blockers, "v0_public_release_review_accepted"

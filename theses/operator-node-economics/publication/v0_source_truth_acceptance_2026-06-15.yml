@@ -1,0 +1,38 @@
+version: v0
+record_type: source_truth_acceptance
+thesis_slug: operator-node-economics
+accepted_at_utc: "2026-06-15"
+accepted_gate: source_truth_review
+approval_status_effect:
+  approval_packet_gate: accepted
+  source_truth_review_scaffold: unchanged_unapproved
+scope: source_truth_gate_only
+basis:
+  recommendation_artifact: theses/operator-node-economics/publication/v0_source_truth_approval_review_2026-06-15.yml
+  production_gate_summary_command: bin/rails operator:v0_gate_summary
+accepted_boundaries:
+  - Direct Operator Node evidence is absent at v0 baseline.
+  - Public SUSB, BFS, and BDS context remains baseline infrastructure only, not claim support.
+  - Remote employment durability, corporate absorption, hierarchy growth, transaction-cost persistence, and missing direct cases remain adverse or falsifying pathways.
+  - Operator Node remains a production architecture, not a legal wrapper, small-business synonym, freelancer, or ordinary remote-worker category.
+  - v0 is internal baseline; v1 is 3-year checkpoint; v2 is 5-year signal-strength checkpoint; v3 is 10-year confirmation checkpoint.
+  - Philosophical, religious, prestige, and manifesto foundations remain outside the argument foundation.
+explicit_non_effects:
+  - no_claim_status_change
+  - no_forecast_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_prose_approval
+  - no_public_release
+  - no_publication_approval
+  - no_canonical_ingestion_authorization
+  - no_thesis_verdict
+remaining_pending_gates:
+  - prohibited_foundations_review
+  - frozen_claim_set_review
+  - frozen_forecast_set_review
+  - prose_review
+  - public_release_review
+required_next_checks:
+  - bin/rails operator:v0_gate_summary
+  - bin/rails operator:v0_readiness

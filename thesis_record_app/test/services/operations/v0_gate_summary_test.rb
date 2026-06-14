@@ -7,7 +7,7 @@ class Operations::V0GateSummaryTest < ActiveSupport::TestCase
   test "summarizes current v0 gates without approving readiness" do
     readiness = FakeReadiness.new(
       passed: false,
-      blockers: %w[v0_source_truth_review_accepted v0_public_release_review_accepted]
+      blockers: %w[v0_prohibited_foundations_review_accepted v0_public_release_review_accepted]
     )
 
     summary = Operations::V0GateSummary.call(v0_readiness: readiness)
@@ -31,7 +31,8 @@ class Operations::V0GateSummaryTest < ActiveSupport::TestCase
     assert_includes summary.warnings, "approval_packet_unapproved"
     assert_includes summary.warnings, "public_release_not_public"
     assert_includes summary.warnings, "v0_readiness_blocked"
-    assert_includes summary.warnings, "source_truth_review_pending"
+    assert_not_includes summary.warnings, "source_truth_review_pending"
+    assert_includes summary.warnings, "prohibited_foundations_review_pending"
   end
 
   test "surfaces validator failure for a gate" do
