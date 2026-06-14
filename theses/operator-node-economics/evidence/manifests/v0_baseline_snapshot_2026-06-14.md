@@ -126,16 +126,16 @@ The candidate v0 timeline is:
 Current timeline state:
 
 - mode: internal v0 first
-- target internal publication date: 2026-06-30
-- final publication date: unset
+- internal canonical publication date: 2026-06-15 UTC
+- public release status: not public
 - first provisional measurement quarter: 2026-Q3
 - 3-year checkpoint target: 2029-06-30
 - 5-year checkpoint target: 2031-06-30
 - 10-year checkpoint target: 2036-06-30
-- date status: provisional until publication approval
+- date status: internal canonical; public prose pending
 
-The timeline gives the system a rehearsal clock. It does not publish v0 or
-start a final canonical forecast clock until the publication date is approved.
+The timeline gives the system an internal canonical forecast clock. It does not
+publish public prose or approve claims/forecasts.
 
 ## What This Baseline Establishes
 

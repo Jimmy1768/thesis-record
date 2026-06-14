@@ -5,7 +5,7 @@ approval_status: unapproved
 purpose: Prepare the first v0 baseline collection controls without authorizing new canonical rows.
 default_run_mode: dry_run_read_only
 canonical_ingestion_authorized: false
-metadata_refresh_authorized: false
+metadata_refresh_authorized: true
 row_ingestion_authorized: false
 metric_computation_authorized: false
 claim_review_authorized: false
@@ -36,7 +36,7 @@ run_modes:
     row_count_changes_allowed: false
     description: Validate plan, source registry, and current baseline counts without fetching or writing rows.
   metadata_refresh_candidate:
-    default: false
+    default: true
     database_writes_allowed: false
     network_fetch_allowed: true
     row_count_changes_allowed: false

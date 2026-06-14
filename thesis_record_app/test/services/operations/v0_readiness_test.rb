@@ -15,12 +15,11 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_first_measurement_period_set)
     assert result.checks.fetch(:v0_checkpoint_dates_set)
     assert_includes result.blockers, "v0_publication_approved"
-    assert_includes result.blockers, "v0_publication_date_set"
+    assert result.checks.fetch(:v0_publication_date_set)
+    assert_not_includes result.blockers, "v0_publication_date_set"
     assert_includes result.blockers, "v0_claim_set_approved"
     assert_includes result.blockers, "v0_forecast_set_approved"
     assert_includes result.warnings, "paper_draft_is_archive_only"
-    assert_includes result.warnings, "v0_publication_scaffold_only"
-    assert_includes result.warnings, "v0_dates_are_provisional"
     assert_includes result.warnings, "v0_claim_set_candidate_only"
     assert_includes result.warnings, "v0_forecast_set_candidate_only"
   end
@@ -42,7 +41,8 @@ class Operations::V0ReadinessTest < ActiveSupport::TestCase
 
     assert result.checks.fetch(:v0_checkpoint_dates_set)
     assert_not_includes result.blockers, "v0_checkpoint_dates_set"
-    assert_includes result.blockers, "v0_publication_date_set"
+    assert result.checks.fetch(:v0_publication_date_set)
+    assert_not_includes result.blockers, "v0_publication_date_set"
   end
 
   test "requires timeline and set files to approve claim and forecast sets" do

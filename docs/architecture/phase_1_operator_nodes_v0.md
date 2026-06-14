@@ -44,11 +44,11 @@ quarter:
 The exact calendar dates should be derived from the v0 publication date and
 recorded before v0 is published.
 
-Current operating assumption: ThesisRecord will prepare an internal v0 first,
-using 2026-06-30 as the target internal publication date. This makes 2026-Q3 the
-first provisional measurement quarter and yields provisional 3, 5, and 10 year
-checkpoint dates. Those dates remain provisional until the v0 publication date
-is approved.
+Current operating assumption: ThesisRecord sets internal canonical v0 on
+2026-06-15 UTC. This makes 2026-Q3 the first full measurement quarter and yields
+3, 5, and 10 year checkpoint targets in 2029-Q2, 2031-Q2, and 2036-Q2. Public
+prose can lag this internal v0 record; claim, forecast, and prose approval
+remain separate gates.
 
 ## Evidence Automation
 

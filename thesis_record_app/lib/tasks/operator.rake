@@ -120,6 +120,7 @@ namespace :operator do
     puts "forecast_set_status=#{summary.forecast_set_status || "(unknown)"}"
     puts "forecast_set_approval_status=#{summary.forecast_set_approval_status || "(unknown)"}"
     puts "forecast_count=#{summary.forecast_count}"
+    puts "collection_plan_present=#{summary.collection_plan_present}"
     puts "timeline_present=#{summary.timeline_present}"
     summary.source_coverage.each do |source_kind, present|
       puts "source_coverage.#{source_kind}=#{present}"

@@ -1,5 +1,5 @@
 version: v0
-status: internal_target_scaffold
+status: internal_canonical_baseline
 thesis_slug: operator-node-economics
 publication:
   title: Operator Nodes
@@ -7,9 +7,11 @@ publication:
   category: Economics / Organizational Theory
   public_path: /thesis/operator-node-economics
   mode: internal_v0_first
-  target_internal_publication_date: "2026-06-30"
-  publication_date: null
+  internal_canonical_publication_date_utc: "2026-06-15"
+  target_internal_publication_date: "2026-06-15"
+  publication_date: "2026-06-15"
   approval_status: unapproved
+  public_release_status: not_public
   paper_prose_status: not_imported
   claims_status: unapproved
   claim_set_path: theses/operator-node-economics/publication/v0_claim_set.yml
@@ -19,8 +21,8 @@ forecast_clock:
   measurement_atom: calendar_quarter
   first_measurement_period_rule: first_full_calendar_quarter_after_v0_publication
   first_measurement_period: "2026-Q3"
-  date_basis: target_internal_publication_date
-  date_status: provisional_until_publication_approval
+  date_basis: internal_canonical_publication_date_utc
+  date_status: internal_canonical_public_prose_pending
   quarterly_updates_are_verdicts: false
 checkpoints:
   v2:

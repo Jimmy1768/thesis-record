@@ -16,6 +16,7 @@ module Operations
       :forecast_set_status,
       :forecast_set_approval_status,
       :forecast_count,
+      :collection_plan_present,
       :table_counts,
       :source_coverage,
       :production_health_passed,
@@ -30,6 +31,7 @@ module Operations
     CLAIM_SET_PATH = THESIS_ROOT.join("publication", "v0_claim_set.yml")
     FORECAST_SET_PATH = THESIS_ROOT.join("publication", "v0_forecast_set.yml")
     TIMELINE_PATH = THESIS_ROOT.join("publication", "v0_timeline.yml")
+    COLLECTION_PLAN_PATH = THESIS_ROOT.join("publication", "v0_collection_plan.yml")
 
     SOURCE_COVERAGE_TABLES = {
       susb_public_file_rows: "census_susb_public_file",
@@ -65,6 +67,7 @@ module Operations
         forecast_set_status: forecast_set.fetch(:status, nil),
         forecast_set_approval_status: forecast_set.fetch(:approval_status, nil),
         forecast_count: forecast_set.fetch(:forecasts, []).count,
+        collection_plan_present: COLLECTION_PLAN_PATH.exist?,
         table_counts: production_summary.table_counts,
         source_coverage: source_coverage,
         production_health_passed: production_summary.health_passed,

@@ -38,14 +38,18 @@ module Operations
       publication
     ].freeze
 
+    OPTIONAL_METADATA_REFRESH_ACTION = "metadata_refresh_candidate"
+
     def self.call(policy: Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys,
-                  env: ENV)
-      new(policy: policy, env: env).call
+                  env: ENV,
+                  collection_plan_path: COLLECTION_PLAN_PATH)
+      new(policy: policy, env: env, collection_plan_path: collection_plan_path).call
     end
 
-    def initialize(policy:, env:)
+    def initialize(policy:, env:, collection_plan_path:)
       @policy = policy.deep_symbolize_keys
       @env = env
+      @collection_plan_path = Pathname(collection_plan_path)
     end
 
     def call
@@ -55,9 +59,10 @@ module Operations
         plan_status_dry_run_only: plan.fetch(:status, nil) == "dry_run_only",
         approval_status_unapproved: plan.fetch(:approval_status, nil) == "unapproved",
         default_mode_read_only: default_mode_read_only?(plan),
+        metadata_refresh_candidate_read_only: metadata_refresh_candidate_read_only?(plan),
         no_collection_env_gate_enabled: env.fetch("THESIS_RECORD_ALLOW_V0_CANONICAL_COLLECTION", "false") != "true",
         canonical_ingestion_not_authorized: plan.fetch(:canonical_ingestion_authorized, true) == false,
-        metadata_refresh_not_authorized: plan.fetch(:metadata_refresh_authorized, true) == false,
+        metadata_refresh_has_no_row_effects: metadata_refresh_has_no_row_effects?(plan),
         row_ingestion_not_authorized: plan.fetch(:row_ingestion_authorized, true) == false,
         metric_computation_not_authorized: plan.fetch(:metric_computation_authorized, true) == false,
         no_claim_or_publication_effects: no_claim_or_publication_effects?(plan),
@@ -80,12 +85,12 @@ module Operations
 
     private
 
-    attr_reader :policy, :env
+    attr_reader :policy, :env, :collection_plan_path
 
     def load_plan
-      return {} unless COLLECTION_PLAN_PATH.exist?
+      return {} unless collection_plan_path.exist?
 
-      YAML.safe_load_file(COLLECTION_PLAN_PATH).deep_symbolize_keys
+      YAML.safe_load_file(collection_plan_path).deep_symbolize_keys
     end
 
     def default_mode_read_only?(plan)
@@ -106,6 +111,21 @@ module Operations
         paper_prose_change_authorized
         publication_authorized
       ].all? { |key| plan.fetch(key, true) == false }
+    end
+
+    def metadata_refresh_candidate_read_only?(plan)
+      mode = plan.fetch(:run_modes, {}).fetch(OPTIONAL_METADATA_REFRESH_ACTION.to_sym, {})
+
+      mode.fetch(:database_writes_allowed, true) == false &&
+        mode.fetch(:network_fetch_allowed, false) == true &&
+        mode.fetch(:row_count_changes_allowed, true) == false &&
+        mode.fetch(:requires_human_approval, false) == true
+    end
+
+    def metadata_refresh_has_no_row_effects?(plan)
+      return true unless plan.fetch(:metadata_refresh_authorized, false)
+
+      metadata_refresh_candidate_read_only?(plan)
     end
 
     def allowed_sources_scoped?(plan)
@@ -154,6 +174,7 @@ module Operations
     def warnings(plan)
       [].tap do |warnings|
         warnings << "collection_plan_missing" unless plan.present?
+        warnings << "metadata_refresh_candidate_only" if plan.fetch(:metadata_refresh_authorized, false)
         warnings << "first_live_collection_source_pending" if plan.dig(:decision_gap, :first_live_collection_source) == "pending"
         warnings << "first_live_collection_mode_pending" if plan.dig(:decision_gap, :first_live_collection_mode) == "pending"
         warnings << "canonical_collection_env_gate_enabled" if env.fetch("THESIS_RECORD_ALLOW_V0_CANONICAL_COLLECTION", "false") == "true"

@@ -38,6 +38,7 @@ class Operations::V0BaselineSummaryTest < ActiveSupport::TestCase
     assert_equal "candidate_inventory", summary.forecast_set_status
     assert_equal "unapproved", summary.forecast_set_approval_status
     assert_equal 12, summary.forecast_count
+    assert summary.collection_plan_present
     assert summary.timeline_present
     assert summary.source_coverage.fetch("census_susb_public_file")
     assert summary.source_coverage.fetch("census_bfs_api")
