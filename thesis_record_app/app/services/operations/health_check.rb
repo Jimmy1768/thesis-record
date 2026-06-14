@@ -17,7 +17,7 @@ module Operations
     def call
       checks = {}
       checks[:rails_booted] = check { Rails.application.present? }
-      checks[:database_connected] = check { ActiveRecord::Base.connection.active? }
+      checks[:database_connected] = check { database_connected? }
       checks[:redis_connected] = check { redis_ping == "PONG" }
       checks[:sidekiq_config_loaded] = check { sidekiq_schedule_present? }
       checks[:operations_policy_passed] = Operations::PolicyCheck.call.passed
@@ -40,6 +40,13 @@ module Operations
       return redis_client.call("PING") if redis_client
 
       Sidekiq.redis { |connection| connection.call("PING") }
+    end
+
+    def database_connected?
+      ActiveRecord::Base.connection_pool.with_connection do |connection|
+        connection.execute("SELECT 1")
+      end
+      true
     end
 
     def sidekiq_schedule_present?
