@@ -1,0 +1,65 @@
+version: v0
+status: frozen_forecast_set_review_scaffold
+thesis_slug: operator-node-economics
+approval_status: unapproved
+purpose: >
+  Make the frozen forecast-set gate concrete before any forecast inventory
+  approval. This file defines what must be checked; it does not approve
+  forecast status, claim status, publication prose, prediction links, or thesis
+  verdicts.
+review_effect: no_approval_no_publication_no_claim_support
+required_artifacts:
+  - theses/operator-node-economics/publication/v0_forecast_set.yml
+  - theses/operator-node-economics/publication/v0_indicator_universe.yml
+  - theses/operator-node-economics/publication/v0_timeline.yml
+required_forecast_ids:
+  - TCE-P001
+  - TCE-P002
+  - TCE-P003
+  - TCE-P004
+  - TCE-P005
+  - TCE-P006
+  - TCE-P007
+  - TCE-P008
+  - TCE-P009
+  - TCE-P010
+  - TCE-P011
+  - TCE-P012
+required_checkpoint_refs:
+  v1: "2029-Q2"
+  v2: "2031-Q2"
+  v3: "2036-Q2"
+review_criteria:
+  forecast_inventory_complete:
+    status: pending_human_review
+    requirement: The v0 forecast set must contain TCE-P001 through TCE-P012 candidate IDs.
+  all_forecasts_unapproved:
+    status: pending_human_review
+    requirement: Every forecast must remain candidate_unapproved until a human approval changes the review state.
+  failure_conditions_present:
+    status: pending_human_review
+    requirement: Every forecast must carry a present failure-condition status.
+  measurement_readiness_present:
+    status: pending_human_review
+    requirement: Every forecast must declare measurement readiness before approval.
+  checkpoint_refs_match_timeline:
+    status: pending_human_review
+    requirement: Forecast checkpoint refs must match the v1/v2/v3 timeline periods.
+  no_automatic_verdicts:
+    status: pending_human_review
+    requirement: Quarterly updates must not be verdicts and automatic verdicts must remain disabled.
+prohibited_effects:
+  - frozen_forecast_set_review_acceptance
+  - forecast_status_change
+  - claim_status_change
+  - prediction_link_creation
+  - claim_review_creation
+  - public_publication
+  - paper_prose_publication
+  - canonical_ingestion
+  - thesis_verdict
+human_review_required_before:
+  - accepting_frozen_forecast_set_review
+  - approving_any_forecast_inventory
+  - changing_forecast_status
+  - creating_prediction_links

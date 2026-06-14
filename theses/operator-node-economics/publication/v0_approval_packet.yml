@@ -47,12 +47,14 @@ approval_gates:
     status: pending
     required_artifacts:
       - theses/operator-node-economics/publication/v0_claim_set.yml
+      - theses/operator-node-economics/publication/v0_frozen_claim_set_review.yml
     approval_effect: approve_internal_v0_claim_inventory
   frozen_forecast_set_review:
     status: pending
     required_artifacts:
       - theses/operator-node-economics/publication/v0_forecast_set.yml
       - theses/operator-node-economics/publication/v0_indicator_universe.yml
+      - theses/operator-node-economics/publication/v0_frozen_forecast_set_review.yml
     approval_effect: approve_internal_v0_forecast_inventory
   prose_review:
     status: pending
@@ -92,5 +94,7 @@ operator_checks:
   - bin/rails operator:verify_v0_prohibited_foundations_review
   - bin/rails operator:verify_v0_prose_review
   - bin/rails operator:verify_v0_public_release_review
+  - bin/rails operator:verify_v0_frozen_claim_set_review
+  - bin/rails operator:verify_v0_frozen_forecast_set_review
   - bin/rails operator:verify_operations_policy
   - bin/rails operator:verify_claim_review_gate

@@ -78,6 +78,36 @@ namespace :operator do
     end
   end
 
+  desc "Verify Operator Nodes v0 frozen claim-set review scaffold without accepting it"
+  task verify_v0_frozen_claim_set_review: :environment do
+    result = Operations::V0FrozenClaimSetReview.call
+
+    if result.passed
+      puts "Operator Nodes v0 frozen claim-set review scaffold passed"
+      result.checks.each do |name, passed|
+        puts "check.#{name}=#{passed}"
+      end
+      puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
+    else
+      abort "Operator Nodes v0 frozen claim-set review scaffold failed:\n- #{result.failures.join("\n- ")}"
+    end
+  end
+
+  desc "Verify Operator Nodes v0 frozen forecast-set review scaffold without accepting it"
+  task verify_v0_frozen_forecast_set_review: :environment do
+    result = Operations::V0FrozenForecastSetReview.call
+
+    if result.passed
+      puts "Operator Nodes v0 frozen forecast-set review scaffold passed"
+      result.checks.each do |name, passed|
+        puts "check.#{name}=#{passed}"
+      end
+      puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
+    else
+      abort "Operator Nodes v0 frozen forecast-set review scaffold failed:\n- #{result.failures.join("\n- ")}"
+    end
+  end
+
   desc "Verify Operator Nodes v0 prose review scaffold without accepting it"
   task verify_v0_prose_review: :environment do
     result = Operations::V0ProseReview.call

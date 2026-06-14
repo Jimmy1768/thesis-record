@@ -11,6 +11,8 @@ module Operations
     V0_TIMELINE_PATH = THESIS_ROOT.join("publication", "v0_timeline.yml")
     V0_CLAIM_SET_PATH = THESIS_ROOT.join("publication", "v0_claim_set.yml")
     V0_FORECAST_SET_PATH = THESIS_ROOT.join("publication", "v0_forecast_set.yml")
+    V0_FROZEN_CLAIM_SET_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_frozen_claim_set_review.yml")
+    V0_FROZEN_FORECAST_SET_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_frozen_forecast_set_review.yml")
     V0_INDICATOR_UNIVERSE_PATH = THESIS_ROOT.join("publication", "v0_indicator_universe.yml")
     V0_SOURCE_TRUTH_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_source_truth_review.yml")
     V0_PROHIBITED_FOUNDATIONS_REVIEW_PATH = THESIS_ROOT.join("publication", "v0_prohibited_foundations_review.yml")
@@ -63,6 +65,8 @@ module Operations
       approval_packet = load_approval_packet
       source_truth_review = Operations::V0SourceTruthReview.call
       prohibited_foundations_review = Operations::V0ProhibitedFoundationsReview.call
+      frozen_claim_set_review = Operations::V0FrozenClaimSetReview.call
+      frozen_forecast_set_review = Operations::V0FrozenForecastSetReview.call
       prose_review = Operations::V0ProseReview.call
       public_release_review = Operations::V0PublicReleaseReview.call
       checks = {
@@ -82,6 +86,10 @@ module Operations
         v0_source_truth_review_scaffold_valid: source_truth_review.passed,
         v0_prohibited_foundations_review_scaffold_present: V0_PROHIBITED_FOUNDATIONS_REVIEW_PATH.exist?,
         v0_prohibited_foundations_review_scaffold_valid: prohibited_foundations_review.passed,
+        v0_frozen_claim_set_review_scaffold_present: V0_FROZEN_CLAIM_SET_REVIEW_PATH.exist?,
+        v0_frozen_claim_set_review_scaffold_valid: frozen_claim_set_review.passed,
+        v0_frozen_forecast_set_review_scaffold_present: V0_FROZEN_FORECAST_SET_REVIEW_PATH.exist?,
+        v0_frozen_forecast_set_review_scaffold_valid: frozen_forecast_set_review.passed,
         v0_prose_review_scaffold_present: V0_PROSE_REVIEW_PATH.exist?,
         v0_prose_review_scaffold_valid: prose_review.passed,
         v0_public_release_review_scaffold_present: V0_PUBLIC_RELEASE_REVIEW_PATH.exist?,
@@ -246,6 +254,8 @@ module Operations
         warnings << "v0_indicator_universe_unapproved" if V0_INDICATOR_UNIVERSE_PATH.exist?
         warnings << "v0_source_truth_review_unapproved" if V0_SOURCE_TRUTH_REVIEW_PATH.exist?
         warnings << "v0_prohibited_foundations_review_unapproved" if V0_PROHIBITED_FOUNDATIONS_REVIEW_PATH.exist?
+        warnings << "v0_frozen_claim_set_review_unapproved" if V0_FROZEN_CLAIM_SET_REVIEW_PATH.exist?
+        warnings << "v0_frozen_forecast_set_review_unapproved" if V0_FROZEN_FORECAST_SET_REVIEW_PATH.exist?
         warnings << "v0_prose_review_unapproved" if V0_PROSE_REVIEW_PATH.exist?
         warnings << "v0_public_release_review_unapproved" if V0_PUBLIC_RELEASE_REVIEW_PATH.exist?
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
