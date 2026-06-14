@@ -18,6 +18,12 @@ Public path target remains `sourcegridlabs.com/thesis`. The app should run with
 `RAILS_RELATIVE_URL_ROOT=/thesis` from the start so route and asset assumptions
 do not drift.
 
+Worker placement follows `docs/operations/worker_droplet_policy.md`.
+ThesisRecord does not need a dedicated worker droplet for the current
+low-frequency evidence/checkpoint jobs. Product worker droplets stay dedicated;
+the only planned shared worker is a future SourceGrid Ops Agent for internal
+operations jobs.
+
 ## Service Shape
 
 Expected production process names:
