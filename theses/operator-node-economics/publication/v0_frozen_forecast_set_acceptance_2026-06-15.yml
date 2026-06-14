@@ -1,0 +1,39 @@
+version: v0
+record_type: frozen_forecast_set_acceptance
+thesis_slug: operator-node-economics
+accepted_at_utc: "2026-06-15"
+accepted_gate: frozen_forecast_set_review
+approval_status_effect:
+  approval_packet_gate: accepted
+  frozen_forecast_set_review_scaffold: unchanged_unapproved
+  forecast_set_status: unchanged_candidate_inventory
+scope: frozen_forecast_set_gate_only
+basis:
+  review_artifact: theses/operator-node-economics/publication/v0_frozen_forecast_set_review.yml
+  forecast_set_artifact: theses/operator-node-economics/publication/v0_forecast_set.yml
+  indicator_universe_artifact: theses/operator-node-economics/publication/v0_indicator_universe.yml
+  production_gate_summary_command: bin/rails operator:v0_gate_summary
+accepted_boundaries:
+  - TCE-P001 through TCE-P012 are the v0 candidate forecast IDs for internal sequencing.
+  - Every forecast remains candidate_unapproved.
+  - The forecast set remains candidate inventory, not public prose and not forecast support.
+  - Every forecast keeps a measurement-readiness status and present failure-condition status.
+  - Forecast checkpoint refs remain v1 2029-Q2, v2 2031-Q2, and v3 2036-Q2.
+  - Quarterly updates are not verdicts, and automatic verdicts remain disabled.
+explicit_non_effects:
+  - no_forecast_status_change
+  - no_claim_status_change
+  - no_prediction_link_creation
+  - no_claim_review_creation
+  - no_prose_approval
+  - no_public_release
+  - no_publication_approval
+  - no_canonical_ingestion_authorization
+  - no_thesis_verdict
+remaining_pending_gates:
+  - prose_review
+  - public_release_review
+required_next_checks:
+  - bin/rails operator:verify_v0_frozen_forecast_set_review
+  - bin/rails operator:v0_gate_summary
+  - bin/rails operator:v0_readiness

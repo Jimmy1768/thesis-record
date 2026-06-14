@@ -1,12 +1,13 @@
 require "test_helper"
 
 class Operations::V0FrozenForecastSetReviewTest < ActiveSupport::TestCase
-  test "passes current unapproved frozen forecast-set review scaffold" do
+  test "passes current accepted frozen forecast-set gate while preserving candidate forecasts" do
     result = Operations::V0FrozenForecastSetReview.call
 
     assert result.passed
     assert result.checks.fetch(:v0_frozen_forecast_set_review_scaffold_present)
     assert result.checks.fetch(:v0_frozen_forecast_set_review_unapproved)
+    assert result.checks.fetch(:v0_frozen_forecast_set_review_gate_accepted)
     assert result.checks.fetch(:v0_frozen_forecast_set_review_no_approval_effect)
     assert result.checks.fetch(:v0_frozen_forecast_set_required_artifacts_present)
     assert result.checks.fetch(:v0_approval_packet_requires_frozen_forecast_set_review)
@@ -18,7 +19,7 @@ class Operations::V0FrozenForecastSetReviewTest < ActiveSupport::TestCase
     assert result.checks.fetch(:v0_forecast_set_no_automatic_verdicts)
     assert result.checks.fetch(:v0_frozen_forecast_set_criteria_pending_human_review)
     assert result.checks.fetch(:v0_frozen_forecast_set_prohibited_effects_present)
-    assert_includes result.warnings, "v0_frozen_forecast_set_review_unapproved"
+    assert_not_includes result.warnings, "v0_frozen_forecast_set_review_unapproved"
   end
 
   test "fails when a forecast loses its failure condition" do
