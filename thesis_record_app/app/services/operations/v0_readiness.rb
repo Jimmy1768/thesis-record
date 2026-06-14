@@ -20,6 +20,8 @@ module Operations
       source_release_check
       quarterly_indicator_checkpoint
       annual_snapshot_candidate
+      production_summary_check
+      v0_readiness_check
     ].freeze
 
     def self.call(policy: Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys)
@@ -32,14 +34,20 @@ module Operations
 
     def call
       metadata = load_metadata
+      timeline = load_timeline
       checks = {
         thesis_metadata_present: metadata.present?,
         thesis_slug_correct: metadata.fetch(:slug, nil) == THESIS_SLUG,
         thesis_title_present: metadata.fetch(:title, nil).present?,
         thesis_status_ready_for_v0: metadata.fetch(:status, nil) == "v0_ready",
         draft_status_resolved: metadata.dig(:paper, :draft_status) != "held_back_initially",
-        v0_publication_artifact_present: V0_ARTIFACT_PATH.exist?,
-        v0_timeline_present: V0_TIMELINE_PATH.exist?,
+        v0_publication_scaffold_present: V0_ARTIFACT_PATH.exist?,
+        v0_timeline_scaffold_present: timeline.present?,
+        v0_publication_approved: timeline.dig(:publication, :approval_status) == "approved",
+        v0_publication_date_set: timeline.dig(:publication, :publication_date).present?,
+        v0_checkpoint_dates_set: checkpoint_dates_set?(timeline),
+        v0_claim_set_approved: timeline.dig(:publication, :claims_status) == "approved",
+        v0_forecast_set_approved: timeline.dig(:publication, :forecasts_status) == "approved",
         forecast_clock_policy_present: forecast_clock_policy_present?,
         checkpoint_offsets_present: checkpoint_offsets_present?,
         sidekiq_schedule_present: sidekiq_schedule_present?,
@@ -56,7 +64,7 @@ module Operations
         passed: blockers.empty?,
         checks: checks,
         blockers: blockers,
-        warnings: warnings(metadata)
+        warnings: warnings(metadata, timeline)
       )
     end
 
@@ -68,6 +76,12 @@ module Operations
       return {} unless THESIS_METADATA_PATH.exist?
 
       YAML.safe_load_file(THESIS_METADATA_PATH).deep_symbolize_keys
+    end
+
+    def load_timeline
+      return {} unless V0_TIMELINE_PATH.exist?
+
+      YAML.safe_load_file(V0_TIMELINE_PATH).deep_symbolize_keys
     end
 
     def forecast_clock
@@ -91,6 +105,16 @@ module Operations
       configured_offsets = forecast_clock.fetch(:checkpoint_quarters_after_v1, {})
       REQUIRED_CHECKPOINTS.all? do |checkpoint, expected_offset|
         configured_offsets.fetch(checkpoint, nil) == expected_offset
+      end
+    end
+
+    def checkpoint_dates_set?(timeline)
+      checkpoints = timeline.fetch(:checkpoints, {})
+
+      REQUIRED_CHECKPOINTS.all? do |checkpoint, expected_offset|
+        configured_checkpoint = checkpoints.fetch(checkpoint, {})
+        configured_checkpoint.fetch(:quarters_after_v0, nil) == expected_offset &&
+          configured_checkpoint.fetch(:target_date, nil).present?
       end
     end
 
@@ -121,9 +145,10 @@ module Operations
       claim_review_gate.fetch(:automatic_claim_promotion_authorized, true) == false
     end
 
-    def warnings(metadata)
+    def warnings(metadata, timeline)
       [].tap do |warnings|
         warnings << "paper_draft_is_archive_only" if metadata.dig(:paper, :draft_status) == "held_back_initially"
+        warnings << "v0_publication_scaffold_only" if timeline.fetch(:status, nil) == "draft_scaffold"
         warnings << "operator_accounts_not_bootstrapped_intentionally" if production_summary.table_counts.fetch(:users).zero?
       end
     end

@@ -55,6 +55,8 @@ class AuditEvent < ApplicationRecord
     source_release_check_requested
     quarterly_checkpoint_requested
     annual_snapshot_candidate_requested
+    production_summary_checked
+    v0_readiness_checked
   ].freeze
 
   validates :occurred_at, :actor_type, :event_type, :entity_type, :entity_id,

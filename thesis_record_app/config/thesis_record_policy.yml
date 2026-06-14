@@ -33,6 +33,16 @@ shared:
         queue: maintenance
         class_name: Evidence::AnnualSnapshotCandidateJob
         description: "Annual evidence snapshot candidate scaffold; no publication."
+      production_summary_check:
+        cron: "30 6 * * *"
+        queue: maintenance
+        class_name: Operations::ProductionSummaryCheckJob
+        description: "Daily read-only production summary check; no ingestion."
+      v0_readiness_check:
+        cron: "45 6 * * *"
+        queue: maintenance
+        class_name: Operations::V0ReadinessCheckJob
+        description: "Daily read-only Operator Nodes v0 readiness check; no publication."
 
   claim_review_gate_v1:
     status: design_only_disabled

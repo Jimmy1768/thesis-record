@@ -50,13 +50,16 @@ module Operations
     end
 
     def sidekiq_schedule_present?
+      expected_jobs = Rails.application.config_for(:thesis_record_policy)
+                           .deep_symbolize_keys
+                           .fetch(:scheduler)
+                           .fetch(:jobs)
+                           .keys
+                           .map(&:to_s)
+                           .sort
       raw_config = Rails.root.join("config/sidekiq.yml").read
       config = YAML.safe_load(ERB.new(raw_config).result, aliases: true, permitted_classes: [ Symbol ])
-      config.fetch(:scheduler).fetch(:schedule).keys.sort == %w[
-        annual_snapshot_candidate
-        quarterly_indicator_checkpoint
-        source_release_check
-      ]
+      config.fetch(:scheduler).fetch(:schedule).keys.sort == expected_jobs
     end
   end
 end

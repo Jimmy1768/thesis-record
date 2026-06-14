@@ -17,18 +17,10 @@ scheduled_jobs = policy.fetch("scheduler").fetch("jobs")
 
 :scheduler:
   :schedule:
-    source_release_check:
-      cron: "<%= scheduled_jobs.fetch("source_release_check").fetch("cron") %>"
-      class: "<%= scheduled_jobs.fetch("source_release_check").fetch("class_name") %>"
-      queue: <%= scheduled_jobs.fetch("source_release_check").fetch("queue") %>
-      description: "<%= scheduled_jobs.fetch("source_release_check").fetch("description") %>"
-    quarterly_indicator_checkpoint:
-      cron: "<%= scheduled_jobs.fetch("quarterly_indicator_checkpoint").fetch("cron") %>"
-      class: "<%= scheduled_jobs.fetch("quarterly_indicator_checkpoint").fetch("class_name") %>"
-      queue: <%= scheduled_jobs.fetch("quarterly_indicator_checkpoint").fetch("queue") %>
-      description: "<%= scheduled_jobs.fetch("quarterly_indicator_checkpoint").fetch("description") %>"
-    annual_snapshot_candidate:
-      cron: "<%= scheduled_jobs.fetch("annual_snapshot_candidate").fetch("cron") %>"
-      class: "<%= scheduled_jobs.fetch("annual_snapshot_candidate").fetch("class_name") %>"
-      queue: <%= scheduled_jobs.fetch("annual_snapshot_candidate").fetch("queue") %>
-      description: "<%= scheduled_jobs.fetch("annual_snapshot_candidate").fetch("description") %>"
+<% scheduled_jobs.each do |job_name, job| %>
+    <%= job_name %>:
+      cron: "<%= job.fetch("cron") %>"
+      class: "<%= job.fetch("class_name") %>"
+      queue: <%= job.fetch("queue") %>
+      description: "<%= job.fetch("description") %>"
+<% end %>

@@ -92,3 +92,14 @@ It reports:
 - Sidekiq schedule status;
 - canonical data-promotion status;
 - blockers that prevent v0 publication.
+
+The current pre-v0 scaffolds are:
+
+- `theses/operator-node-economics/publication/v0.md`;
+- `theses/operator-node-economics/publication/v0_timeline.yml`;
+- `theses/operator-node-economics/evidence/assimilation_plan.md`;
+- `docs/operations/operator_nodes_v0_operating_runbook.md`.
+
+These scaffolds are intentionally unapproved. They let ThesisRecord rehearse
+the operating loop while leaving publication date, prose, frozen claims, and
+frozen forecasts as explicit human decision gaps.

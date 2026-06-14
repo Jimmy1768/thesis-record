@@ -21,19 +21,32 @@ class SchedulerScaffoldJobsTest < ActiveJob::TestCase
     end
   end
 
-  test "sidekiq schedule declares maintenance scaffolds" do
+  test "production summary check job records read-only audit event" do
+    assert_difference -> { AuditEvent.where(event_type: "production_summary_checked").count }, 1 do
+      Operations::ProductionSummaryCheckJob.perform_now
+    end
+  end
+
+  test "v0 readiness check job records read-only audit event" do
+    assert_difference -> { AuditEvent.where(event_type: "v0_readiness_checked").count }, 1 do
+      Operations::V0ReadinessCheckJob.perform_now
+    end
+  end
+
+  test "sidekiq schedule declares all policy-driven maintenance scaffolds" do
     policy = Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys
     scheduled_jobs = policy.fetch(:scheduler).fetch(:jobs)
     raw_config = Rails.root.join("config/sidekiq.yml").read
     config = YAML.safe_load(ERB.new(raw_config).result, aliases: true, permitted_classes: [ Symbol ])
     schedule = config.fetch(:scheduler).fetch(:schedule)
 
-    assert_equal scheduled_jobs.fetch(:source_release_check).fetch(:cron),
-                 schedule.fetch("source_release_check").fetch("cron")
-    assert_equal scheduled_jobs.fetch(:quarterly_indicator_checkpoint).fetch(:cron),
-                 schedule.fetch("quarterly_indicator_checkpoint").fetch("cron")
-    assert_equal scheduled_jobs.fetch(:annual_snapshot_candidate).fetch(:cron),
-                 schedule.fetch("annual_snapshot_candidate").fetch("cron")
+    scheduled_jobs.each do |job_name, job|
+      scheduled_job = schedule.fetch(job_name.to_s)
+      assert_equal job.fetch(:cron), scheduled_job.fetch("cron")
+      assert_equal job.fetch(:class_name), scheduled_job.fetch("class")
+      assert_equal job.fetch(:queue), scheduled_job.fetch("queue")
+      assert_equal job.fetch(:description), scheduled_job.fetch("description")
+    end
   end
 
   test "ThesisRecord policy carries v1 threshold defaults" do

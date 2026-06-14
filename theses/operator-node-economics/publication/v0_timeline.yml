@@ -1,0 +1,46 @@
+version: v0
+status: draft_scaffold
+thesis_slug: operator-node-economics
+publication:
+  title: Operator Nodes
+  subtitle: AI, Transaction Costs, and the Future of the Firm
+  category: Economics / Organizational Theory
+  public_path: /thesis/operator-node-economics
+  publication_date: null
+  approval_status: unapproved
+  paper_prose_status: not_imported
+  claims_status: unapproved
+  forecasts_status: unapproved
+forecast_clock:
+  measurement_atom: calendar_quarter
+  first_measurement_period_rule: first_full_calendar_quarter_after_v0_publication
+  first_measurement_period: null
+  quarterly_updates_are_verdicts: false
+checkpoints:
+  v2:
+    label: 3_year_checkpoint
+    quarters_after_v0: 12
+    target_date: null
+  v3:
+    label: 5_year_checkpoint
+    quarters_after_v0: 20
+    target_date: null
+  v4:
+    label: 10_year_checkpoint
+    quarters_after_v0: 40
+    target_date: null
+annual_snapshot:
+  frequency_quarters: 4
+  first_snapshot_period: null
+automation:
+  sidekiq_schedule_status: scaffolded
+  canonical_ingestion_environment: production_postgresql_only
+  local_database_role: dev_only_rehearsal_not_system_of_record
+  automatic_claim_promotion_authorized: false
+approval_gates:
+  source_truth_review: pending
+  prohibited_foundations_review: pending
+  paper_prose_review: pending
+  frozen_claim_set_review: pending
+  frozen_forecast_set_review: pending
+  production_readiness_review: pending

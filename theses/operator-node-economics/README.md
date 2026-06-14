@@ -18,3 +18,9 @@ collection/assimilation jobs toward 3, 5, and 10 year milestones.
 
 This phase is about making Thesis 1 durable and measurable. Public
 multi-workspace productization is Phase 2.
+
+Pre-v0 operating scaffolds:
+
+- `publication/v0.md`
+- `publication/v0_timeline.yml`
+- `evidence/assimilation_plan.md`
