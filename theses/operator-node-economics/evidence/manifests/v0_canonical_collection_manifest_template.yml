@@ -1,0 +1,70 @@
+version: v0_canonical_collection_manifest_v1
+status: draft_template
+thesis_slug: operator-node-economics
+run_mode: canonical_ingestion_candidate
+source_kind: pending_source_kind
+source_table: pending_source_table
+natural_key: []
+idempotency_strategy: pending_strategy
+
+operator_approval:
+  approval_status: pending
+  approved_by: pending_operator
+  approved_at_utc: pending_timestamp
+  approval_scope: one_source_only
+
+pre_collection_backup:
+  completed: false
+  path: pending_outside_git
+  sha256: pending_sha256
+  completed_at_utc: pending_timestamp
+  storage_scope: production_postgresql_backup_outside_git
+
+restore_or_integrity_check:
+  completed: false
+  check_kind: pending_restore_test_or_backup_integrity_check
+  completed_at_utc: pending_timestamp
+  evidence: pending_restore_or_integrity_evidence
+
+expected_counts:
+  source_rows_before: pending_integer
+  source_rows_after: pending_integer
+  source_row_count_delta: pending_integer
+  duplicate_natural_key_count_after: 0
+  protected_row_deltas:
+    metric_definitions: 0
+    metric_observations: 0
+    metric_quality_reviews: 0
+    prediction_links: 0
+    claim_reviews: 0
+    export_artifacts: 0
+
+authorized_effects:
+  source_row_writes: true
+  metric_computation: false
+  quality_review_creation: false
+  prediction_link_creation: false
+  claim_review_creation: false
+  export_creation: false
+  paper_prose_change: false
+  publication: false
+  thesis_verdict: false
+
+post_collection_required_checks:
+  - production_summary
+  - v0_baseline_summary
+  - v0_readiness
+
+prohibited_effects:
+  - claim_status_change
+  - prediction_link_creation
+  - claim_review_creation
+  - export_creation
+  - paper_prose_change
+  - thesis_verdict
+  - publication
+
+notes:
+  - Replace pending values in a source-specific manifest before enabling the production gate.
+  - Keep this file in Git; keep backups and raw data outside Git.
+  - This template does not authorize ingestion.

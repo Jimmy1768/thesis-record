@@ -286,6 +286,23 @@ namespace :operator do
     puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
   end
 
+  desc "Preflight Operator Nodes v0 canonical row collection without ingesting rows"
+  task v0_canonical_collection_preflight: :environment do
+    result = Operations::V0CanonicalCollectionPreflight.call
+
+    puts "Operator Nodes v0 canonical collection preflight"
+    puts "passed=#{result.passed}"
+    puts "manifest_path=#{result.manifest_path}"
+    puts "source_kind=#{result.source_kind.presence || "(unknown)"}"
+    result.checks.each do |name, passed|
+      puts "check.#{name}=#{passed}"
+    end
+    puts "blockers=#{result.blockers.empty? ? "(none)" : result.blockers.join(",")}"
+    puts "warnings=#{result.warnings.empty? ? "(none)" : result.warnings.join(",")}"
+
+    abort "Operator Nodes v0 canonical collection preflight failed" unless result.passed
+  end
+
   desc "Report blockers for publishing Operator Nodes v0"
   task v0_readiness: :environment do
     result = Operations::V0Readiness.call

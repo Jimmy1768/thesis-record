@@ -34,6 +34,9 @@ module PublicSources
       end
 
       def call!
+        Operations::V0CanonicalCollectionPreflight.enforce_source_write_allowed!(
+          source_kind: susb_policy.fetch(:source_kind)
+        )
         validation = PublicSources::Susb::FetchAndValidatePublicFile.call!(
           actor: actor,
           year: year,

@@ -61,6 +61,45 @@ Before any production ingestion/promotion, require:
 - post-promotion `operator:production_summary`;
 - post-promotion `operator:v0_readiness`.
 
+## Canonical Row Collection Preflight
+
+Canonical v0 row collection is production-only and source-specific. Direct
+source-row loaders may be used in development and test for rehearsal, but in
+production they fail closed unless the v0 canonical collection preflight passes.
+
+Before running any production source-row loader:
+
+1. Copy
+   `theses/operator-node-economics/evidence/manifests/v0_canonical_collection_manifest_template.yml`
+   to a source-specific manifest in the same directory.
+2. Select exactly one `source_kind`.
+3. Fill in the source table, natural key, idempotency strategy, expected row
+   counts, protected zero-delta counts, backup record, and restore or backup
+   integrity check.
+4. Keep production backup files outside Git.
+5. Run the preflight from production with a one-shot environment gate:
+
+   ```bash
+   THESIS_RECORD_ALLOW_V0_CANONICAL_COLLECTION=true \
+   THESIS_RECORD_V0_COLLECTION_MANIFEST=../theses/operator-node-economics/evidence/manifests/<manifest>.yml \
+   bin/rails operator:v0_canonical_collection_preflight
+   ```
+
+6. Only after the preflight passes, run the source-specific loader for the same
+   `source_kind`.
+7. Immediately run:
+
+   ```bash
+   bin/rails operator:production_summary
+   bin/rails operator:v0_baseline_summary
+   bin/rails operator:v0_readiness
+   ```
+
+The preflight does not ingest rows. It verifies the production environment,
+manifest approval, backup/integrity record, source natural key, expected row
+delta, duplicate-key target, and zero deltas for metrics, reviews, prediction
+links, claim reviews, exports, prose, publication, and verdict effects.
+
 ## Current Human Decision Gaps
 
 - v0 publication date;

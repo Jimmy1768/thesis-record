@@ -197,6 +197,29 @@ Do not set `THESIS_RECORD_ALLOW_CANONICAL_DATA_PROMOTION=true` as a standing
 environment value. If a future task uses it, it must be one-shot and tied to a
 reviewed manifest.
 
+## V0 Canonical Collection Gate
+
+Operator Nodes v0 collection uses a separate gate from generic data promotion:
+
+- `THESIS_RECORD_ALLOW_V0_CANONICAL_COLLECTION=true`
+- `THESIS_RECORD_V0_COLLECTION_MANIFEST=<source-specific manifest path>`
+
+Both values are one-shot operator values. Do not add either to the standing
+production env file.
+
+The manifest must live under
+`theses/operator-node-economics/evidence/manifests/` and follow
+`v0_canonical_collection_manifest_template.yml`. The preflight task is:
+
+```bash
+bin/rails operator:v0_canonical_collection_preflight
+```
+
+Production source-row loaders call the same preflight internally and refuse to
+write rows unless it passes for the same `source_kind`. This keeps local and
+test databases useful for rehearsal while making production PostgreSQL the only
+canonical write target.
+
 ## Nginx Position
 
 Nginx is not required for this stage because ThesisRecord does not yet need a

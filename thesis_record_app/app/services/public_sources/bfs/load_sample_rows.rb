@@ -38,6 +38,9 @@ module PublicSources
 
       def call!
         ensure_load_allowed!
+        Operations::V0CanonicalCollectionPreflight.enforce_source_write_allowed!(
+          source_kind: bfs_policy.fetch(:source_kind)
+        )
         raise LoadError, "CENSUS_API_KEY missing" if api_key.blank?
 
         before_counts = guardrail_counts

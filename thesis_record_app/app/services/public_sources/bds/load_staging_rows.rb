@@ -51,6 +51,9 @@ module PublicSources
 
       def call!
         ensure_policy_allows_source_row_load!
+        Operations::V0CanonicalCollectionPreflight.enforce_source_write_allowed!(
+          source_kind: bds_policy.fetch(:source_kind)
+        )
         validation = validate_source_file!
         ensure_validation_matches_qa_policy!(validation)
 
