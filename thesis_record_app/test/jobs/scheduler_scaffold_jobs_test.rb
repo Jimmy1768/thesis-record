@@ -146,9 +146,81 @@ class SchedulerScaffoldJobsTest < ActiveJob::TestCase
     end
   end
 
-  test "annual snapshot candidate job records no-op audit event" do
-    assert_difference -> { AuditEvent.where(event_type: "annual_snapshot_candidate_requested").count }, 1 do
-      Evidence::AnnualSnapshotCandidateJob.perform_now
+  test "annual snapshot candidate job records audit-only snapshot candidate" do
+    as_of = Time.utc(2027, 7, 15, 6, 0, 0)
+
+    assert_no_difference -> { DataSource.count } do
+      assert_no_difference -> { SusbPublicFileRow.count } do
+        assert_no_difference -> { BfsApiRow.count } do
+          assert_no_difference -> { BdsPublicFileRow.count } do
+            assert_no_difference -> { MetricDefinition.count } do
+              assert_no_difference -> { MetricObservation.count } do
+                assert_no_difference -> { MetricQualityReview.count } do
+                  assert_no_difference -> { PredictionLink.count } do
+                    assert_no_difference -> { ClaimReview.count } do
+                      assert_no_difference -> { ExportArtifact.count } do
+                        assert_no_difference -> { EvidenceSnapshot.count } do
+                          assert_no_difference -> { FailureRecord.count } do
+                            assert_difference -> { AuditEvent.where(event_type: "annual_snapshot_candidate_requested").count }, 1 do
+                              Evidence::AnnualSnapshotCandidateJob.perform_now(as_of: as_of)
+                            end
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    event = AuditEvent.where(event_type: "annual_snapshot_candidate_requested").last
+    assert_equal "scheduled_annual_snapshot_candidate", event.reason_code
+    assert_equal "unchanged", event.claim_status_effect
+    assert_not event.export_allowed
+    assert_equal "SchedulerCheckpoint", event.entity_type
+    assert_equal "annual_snapshot_candidate:2027-Q2", event.entity_id
+    assert_includes event.change_summary, "current_period=2027-Q3"
+    assert_includes event.change_summary, "snapshot_period=2027-Q2"
+    assert_includes event.change_summary, "first_snapshot_period=2027-Q2"
+    assert_includes event.change_summary, "snapshot_index=1"
+    assert_includes event.change_summary, "status=annual_snapshot_candidate"
+    assert_includes event.change_summary, "forecast_count=12"
+    assert_includes event.change_summary, "effects=no_row_writes"
+    assert_includes event.change_summary, "no_publication"
+    assert_includes event.change_summary, "no_thesis_verdict"
+  end
+
+  test "annual snapshot candidate resolves annual periods from completed quarter" do
+    first = Evidence::AnnualSnapshotCandidate.call(as_of: Time.utc(2027, 7, 15, 6, 0, 0))
+    second = Evidence::AnnualSnapshotCandidate.call(as_of: Time.utc(2028, 7, 15, 6, 0, 0))
+
+    assert_equal "2027-Q2", first.snapshot_period
+    assert_equal 1, first.snapshot_index
+    assert_equal "annual_snapshot_candidate", first.candidate_status
+    assert_equal "2028-Q2", second.snapshot_period
+    assert_equal 2, second.snapshot_index
+    assert_equal "annual_snapshot_candidate", second.candidate_status
+  end
+
+  test "annual snapshot candidate identifies off-cycle periods" do
+    result = Evidence::AnnualSnapshotCandidate.call(as_of: Time.utc(2027, 1, 15, 6, 0, 0))
+
+    assert_equal "2027-Q1", result.current_period
+    assert_equal "2026-Q4", result.snapshot_period
+    assert_nil result.snapshot_index
+    assert_equal "not_annual_snapshot_period", result.candidate_status
+    assert_includes result.warnings, "not_annual_snapshot_period"
+  end
+
+  test "annual snapshot candidate does not create records by itself" do
+    assert_no_difference -> { AuditEvent.count } do
+      assert_no_difference -> { EvidenceSnapshot.count } do
+        Evidence::AnnualSnapshotCandidate.call(as_of: Time.utc(2027, 7, 15, 6, 0, 0))
+      end
     end
   end
 

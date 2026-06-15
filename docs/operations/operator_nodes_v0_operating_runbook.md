@@ -69,7 +69,7 @@ Pre-v0 scheduled jobs may:
 
 - record read-only source-release checks across the approved public endpoints;
 - record audit-only quarterly checkpoint candidates from the forecast clock;
-- record no-op annual snapshot candidate requests;
+- record audit-only annual snapshot candidates for completed annual periods;
 - record read-only production-summary checks;
 - record read-only v0-readiness checks.
 
@@ -94,6 +94,15 @@ The first production verification run is recorded at:
 ```text
 theses/operator-node-economics/evidence/manifests/v0_quarterly_checkpoint_candidate_verification_2026-06-15.md
 ```
+
+The annual snapshot candidate job records one
+`annual_snapshot_candidate_requested` audit event for the latest completed
+annual snapshot period. It follows `v0_timeline.yml`, where the first annual
+snapshot period is `2027-Q2` and the first review window starts on
+`2027-07-01`. The Sidekiq schedule is therefore July-based, not January-based.
+It must not create evidence snapshots, write source rows, compute metrics,
+create quality reviews, create prediction links, create claim reviews, create
+exports, publish artifacts, or change thesis verdicts.
 
 ## Local Rehearsal
 

@@ -72,10 +72,11 @@ The Rails app already has Sidekiq scheduler support for:
 
 Phase 1 has completed the first gated baseline source-row collection for BFS,
 BDS, and SUSB. The quarterly checkpoint job now records audit-only checkpoint
-candidates from the v0 forecast clock. Remaining scheduled work should
-summarize source health and prepare checkpoint candidates. These jobs must not
-automatically promote claims, change thesis verdicts, publish prose, or infer
-that the thesis is true.
+candidates from the v0 forecast clock, and the annual snapshot job records
+audit-only annual snapshot candidates for completed annual periods. Remaining
+scheduled work should summarize source health and prepare checkpoint
+candidates. These jobs must not automatically promote claims, change thesis
+verdicts, publish prose, or infer that the thesis is true.
 
 Human approval remains required for:
 

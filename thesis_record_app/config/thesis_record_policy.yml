@@ -29,10 +29,10 @@ shared:
         class_name: Evidence::QuarterlyIndicatorCheckpointJob
         description: "Quarterly measurement checkpoint candidate; audit-only, no claim promotion."
       annual_snapshot_candidate:
-        cron: "0 6 15 1 *"
+        cron: "0 6 15 7 *"
         queue: maintenance
         class_name: Evidence::AnnualSnapshotCandidateJob
-        description: "Annual evidence snapshot candidate scaffold; no publication."
+        description: "Annual evidence snapshot candidate for latest completed annual period; audit-only, no publication."
       production_summary_check:
         cron: "30 6 * * *"
         queue: maintenance
