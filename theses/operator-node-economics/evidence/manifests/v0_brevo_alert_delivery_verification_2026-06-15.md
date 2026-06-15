@@ -1,6 +1,6 @@
 # Operator Nodes Brevo Alert Delivery Verification: 2026-06-15 UTC
 
-Status: Brevo API delivery code deployed; production credentials pending.
+Status: Brevo API delivery verified in production.
 
 ## Scope
 
@@ -23,23 +23,38 @@ No real Brevo key or email credential is committed.
 - Runtime commit: `da330e6`
 - Rails environment: `production`
 - Sidekiq service: active after restart
-- `THESIS_RECORD_ALERT_EMAIL_TO` present: `false`
-- `BREVO_API_KEY` present: `false`
+- `THESIS_RECORD_ALERT_EMAIL_TO` present after env update: `true`
+- `BREVO_API_KEY` present after env update: `true`
+- `THESIS_RECORD_MAIL_FROM_EMAIL`: `no-reply@sourcegridlabs.com`
 - `bin/rails operator:status_alert`: completed
 - `operator:status` after alert check: warnings none
 - `operator_status_alert_sent` audit events: `0`
 
-## Interpretation
+## Direct Smoke Test
 
-The alert job is safe before credentials are configured: it does not attempt
-delivery unless both an alert recipient and `BREVO_API_KEY` are present.
+A direct Brevo delivery smoke test was sent from production after the env file
+was updated:
 
-After the Brevo key is added to the production env file, run:
-
-```bash
-bin/rails operator:status_alert
+```ruby
+Notifications::BrevoClient.new.send_email(
+  to: ENV.fetch("THESIS_RECORD_ALERT_EMAIL_TO"),
+  subject: "[ThesisRecord] Brevo smoke test",
+  html: "<p>Brevo smoke test from ThesisRecord production.</p>",
+  sender_name: ENV.fetch("THESIS_RECORD_MAIL_FROM_NAME", "ThesisRecord"),
+  sender_email: ENV.fetch("THESIS_RECORD_MAIL_FROM_EMAIL")
+)
 ```
 
-If status is healthy, no email will be sent. To test actual Brevo delivery, use
-a controlled temporary warning or a dedicated smoke task before relying on the
-daily scheduled alert.
+Result:
+
+- email received by the dev inbox;
+- sender displayed as `ThesisRecord <no-reply@sourcegridlabs.com>`;
+- subject displayed as `[ThesisRecord] Brevo smoke test`;
+- body displayed as `Brevo smoke test from ThesisRecord production.`
+
+## Interpretation
+
+Brevo delivery is verified. The scheduled alert job will still send no email
+while `operator:status` is healthy. When `operator:status` reports warnings, the
+daily `operator_status_alert` job can deliver to the configured dev inbox
+through Brevo.

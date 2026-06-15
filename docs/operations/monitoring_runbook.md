@@ -37,7 +37,7 @@ Production environment variables:
 ```text
 THESIS_RECORD_ALERT_EMAIL_TO=<dev inbox>
 THESIS_RECORD_MAIL_FROM_NAME=ThesisRecord
-THESIS_RECORD_MAIL_FROM_EMAIL=alerts@example.invalid
+THESIS_RECORD_MAIL_FROM_EMAIL=no-reply@sourcegridlabs.com
 BREVO_API_KEY=<Brevo API key>
 BREVO_FORCE_IPV4=false
 BREVO_OPEN_TIMEOUT=3
