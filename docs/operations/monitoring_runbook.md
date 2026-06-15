@@ -1,6 +1,6 @@
 # ThesisRecord Monitoring Runbook
 
-Status: operational hardening plan.
+Status: operational hardening active.
 
 ## Layers
 
@@ -77,6 +77,12 @@ fails if `operator:status` does not print `warnings=(none)`.
 
 These timers are local host checks. They do not replace external monitoring,
 because they cannot run when the droplet itself is down.
+
+The first production verification run is recorded at:
+
+```text
+theses/operator-node-economics/evidence/manifests/v0_monitoring_hardening_verification_2026-06-15.md
+```
 
 ## External Monitor
 
