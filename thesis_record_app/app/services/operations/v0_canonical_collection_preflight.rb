@@ -138,6 +138,7 @@ module Operations
         run_mode_canonical_ingestion_candidate: manifest.fetch(:run_mode, nil) == REQUIRED_RUN_MODE,
         approval_status_approved: manifest.dig(:operator_approval, :approval_status) == REQUIRED_APPROVAL_STATUS,
         approval_timestamp_present: parseable_time?(manifest.dig(:operator_approval, :approved_at_utc)),
+        required_env_present: required_env_present?(manifest),
         source_kind_allowed: SOURCE_CONFIG.key?(source_kind),
         source_table_matches: source_table_matches?(manifest, source_kind),
         source_unique_index_present: source_unique_index_present?(source_kind),
@@ -220,6 +221,13 @@ module Operations
     def source_table_matches?(manifest, source_kind)
       source_config = SOURCE_CONFIG[source_kind]
       source_config.present? && manifest.fetch(:source_table, nil) == source_config.fetch(:table_name)
+    end
+
+    def required_env_present?(manifest)
+      required_keys = manifest.fetch(:required_env, [])
+      return false unless required_keys.is_a?(Array)
+
+      required_keys.all? { |key| env[key.to_s].present? }
     end
 
     def source_unique_index_present?(source_kind)

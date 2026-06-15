@@ -1,0 +1,97 @@
+version: v0_canonical_collection_manifest_v1
+status: blocked_missing_required_env
+thesis_slug: operator-node-economics
+run_mode: canonical_ingestion_candidate
+source_kind: census_bfs_api
+source_table: bfs_api_rows
+natural_key:
+  - data_source_id
+  - period_month
+  - data_type_code
+  - category_code
+  - seasonally_adj
+  - geography_level
+  - geography_code
+idempotency_strategy: upsert_all_unique_index
+
+operator_approval:
+  approval_status: pending
+  approved_by: pending_operator
+  approved_at_utc: pending_timestamp
+  approval_scope: one_source_only_idempotent_refresh
+
+required_env:
+  - CENSUS_API_KEY
+
+pre_collection_backup:
+  completed: false
+  path: pending_just_before_run_outside_git
+  sha256: pending_sha256
+  completed_at_utc: pending_timestamp
+  storage_scope: production_postgresql_backup_outside_git
+
+restore_or_integrity_check:
+  completed: false
+  check_kind: pending_backup_integrity_check
+  completed_at_utc: pending_timestamp
+  evidence: pending_restore_or_integrity_evidence
+
+expected_counts:
+  source_rows_before: 1368
+  source_rows_after: 1368
+  source_row_count_delta: 0
+  duplicate_natural_key_count_after: 0
+  protected_row_deltas:
+    metric_definitions: 0
+    metric_observations: 0
+    metric_quality_reviews: 0
+    prediction_links: 0
+    claim_reviews: 0
+    export_artifacts: 0
+
+authorized_effects:
+  source_row_writes: true
+  metric_computation: false
+  quality_review_creation: false
+  prediction_link_creation: false
+  claim_review_creation: false
+  export_creation: false
+  paper_prose_change: false
+  publication: false
+  thesis_verdict: false
+
+post_collection_required_checks:
+  - production_summary
+  - v0_baseline_summary
+  - v0_readiness
+
+prohibited_effects:
+  - claim_status_change
+  - prediction_link_creation
+  - claim_review_creation
+  - export_creation
+  - paper_prose_change
+  - thesis_verdict
+  - publication
+
+source_specific_plan:
+  source_label: Census BFS monthly API 2012 sample refresh
+  sample_time: "2012"
+  expected_eligible_rows: 1368
+  current_production_bfs_rows_checked_at_utc: "2026-06-15T02:14:05Z"
+  current_production_bfs_rows: 1368
+  current_production_duplicate_natural_keys: 0
+  production_census_api_key_present: false
+  intended_loader: public_sources:bfs:load_sample_rows
+  intended_preflight: operator:v0_canonical_collection_preflight
+
+blockers:
+  - CENSUS_API_KEY is absent from the production ThesisRecord environment.
+  - A just-before-run production PostgreSQL backup has not been recorded.
+  - Backup integrity or restore evidence has not been recorded.
+  - Operator approval has not been recorded.
+
+notes:
+  - This draft does not authorize ingestion.
+  - Expected row-count delta is zero because production already has 1368 BFS rows and the loader is idempotent by source-native natural key.
+  - Convert status to ready_for_canonical_ingestion only after the required environment key, backup, integrity check, and approval fields are complete.

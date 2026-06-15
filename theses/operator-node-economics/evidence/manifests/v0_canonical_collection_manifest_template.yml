@@ -13,6 +13,8 @@ operator_approval:
   approved_at_utc: pending_timestamp
   approval_scope: one_source_only
 
+required_env: []
+
 pre_collection_backup:
   completed: false
   path: pending_outside_git

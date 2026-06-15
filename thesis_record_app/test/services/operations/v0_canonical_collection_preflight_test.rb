@@ -53,6 +53,13 @@ class Operations::V0CanonicalCollectionPreflightTest < ActiveSupport::TestCase
     assert_includes result.warnings, "manifest_status_not_ready"
   end
 
+  test "fails when source-specific required env is missing" do
+    result = call_preflight(env: valid_env.except("CENSUS_API_KEY"))
+
+    assert_not result.passed
+    assert_includes result.blockers, "required_env_present"
+  end
+
   test "fails when the backup record is incomplete" do
     manifest = valid_manifest
     manifest[:pre_collection_backup][:completed] = false
@@ -121,7 +128,8 @@ class Operations::V0CanonicalCollectionPreflightTest < ActiveSupport::TestCase
 
   def valid_env
     {
-      Operations::V0CanonicalCollectionPreflight::COLLECTION_ENV_GATE => "true"
+      Operations::V0CanonicalCollectionPreflight::COLLECTION_ENV_GATE => "true",
+      "CENSUS_API_KEY" => "test-key"
     }
   end
 
@@ -152,6 +160,9 @@ class Operations::V0CanonicalCollectionPreflightTest < ActiveSupport::TestCase
         approved_by: "test_operator",
         approved_at_utc: "2026-06-15T00:00:00Z"
       },
+      required_env: %w[
+        CENSUS_API_KEY
+      ],
       pre_collection_backup: {
         completed: true,
         path: "/var/backups/thesis-record/thesis-record/test.dump",
