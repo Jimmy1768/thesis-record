@@ -104,6 +104,12 @@ It must not create evidence snapshots, write source rows, compute metrics,
 create quality reviews, create prediction links, create claim reviews, create
 exports, publish artifacts, or change thesis verdicts.
 
+The first production verification run is recorded at:
+
+```text
+theses/operator-node-economics/evidence/manifests/v0_annual_snapshot_candidate_verification_2026-06-15.md
+```
+
 ## Local Rehearsal
 
 Local databases are rehearsal-only. A successful local run can justify a future
