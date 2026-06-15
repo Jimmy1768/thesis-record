@@ -53,6 +53,27 @@ class PublicSources::Susb::FetchAndValidatePublicFileTest < ActiveSupport::TestC
     assert_not result.fetched_this_run
   end
 
+  test "accepts binary-compatible Census text payloads during fetch validation" do
+    payload = sample_csv(rows: [
+      "00,111110,01,1,1,1,G,1,G,1,G,United States,Men\x92s Farming,01: Total".b,
+      "01,111110,01,1,1,1,H,1,H,1,H,Alabama,Soybean Farming,01: Total"
+    ])
+    write_manifest_for(payload)
+    fetcher = ->(_url, destination) { File.binwrite(destination, payload) }
+
+    result = PublicSources::Susb::FetchAndValidatePublicFile.call!(
+      actor: @operator,
+      force_fetch: true,
+      fetcher: fetcher,
+      local_path: @raw_path,
+      manifest_path: @manifest_path
+    )
+
+    assert result.fetched_this_run
+    assert result.manifest_reconciled
+    assert_equal Digest::SHA256.hexdigest(payload), result.sha256
+  end
+
   test "raises on duplicate row grain" do
     duplicate_payload = sample_csv(rows: [
       "00,111110,01,1,1,1,G,1,G,1,G,United States,Soybean Farming,01: Total",

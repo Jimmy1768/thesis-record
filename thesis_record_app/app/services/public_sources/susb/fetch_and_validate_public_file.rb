@@ -138,6 +138,7 @@ module PublicSources
       def download_public_file(url, destination)
         uri = URI(url)
         Tempfile.create([ "susb-#{year}", ".txt" ], destination.dirname) do |tempfile|
+          tempfile.binmode
           Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
             request = Net::HTTP::Get.new(uri)
             http.request(request) do |response|
