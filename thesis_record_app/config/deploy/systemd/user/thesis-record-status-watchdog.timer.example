@@ -1,0 +1,11 @@
+[Unit]
+Description=Run ThesisRecord operator status watchdog every hour
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1h
+AccuracySec=2min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

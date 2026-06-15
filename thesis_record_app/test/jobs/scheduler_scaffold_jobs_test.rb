@@ -236,6 +236,23 @@ class SchedulerScaffoldJobsTest < ActiveJob::TestCase
     end
   end
 
+  test "operator status alert job is no-op when no recipient is configured" do
+    previous_recipient = ENV["THESIS_RECORD_ALERT_EMAIL_TO"]
+    ENV.delete("THESIS_RECORD_ALERT_EMAIL_TO")
+
+    assert_no_difference -> { ActionMailer::Base.deliveries.count } do
+      assert_no_difference -> { AuditEvent.where(event_type: "operator_status_alert_sent").count } do
+        Operations::OperatorStatusAlertJob.perform_now(now: Time.utc(2026, 6, 15, 12, 0, 0))
+      end
+    end
+  ensure
+    if previous_recipient.nil?
+      ENV.delete("THESIS_RECORD_ALERT_EMAIL_TO")
+    else
+      ENV["THESIS_RECORD_ALERT_EMAIL_TO"] = previous_recipient
+    end
+  end
+
   test "sidekiq schedule declares all policy-driven maintenance scaffolds" do
     policy = Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys
     scheduled_jobs = policy.fetch(:scheduler).fetch(:jobs)

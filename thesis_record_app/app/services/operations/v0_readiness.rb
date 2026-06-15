@@ -46,6 +46,7 @@ module Operations
       annual_snapshot_candidate
       production_summary_check
       v0_readiness_check
+      operator_status_alert
     ].freeze
 
     def self.call(policy: Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys)

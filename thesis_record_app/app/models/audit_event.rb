@@ -58,6 +58,7 @@ class AuditEvent < ApplicationRecord
     annual_snapshot_candidate_requested
     production_summary_checked
     v0_readiness_checked
+    operator_status_alert_sent
   ].freeze
 
   validates :occurred_at, :actor_type, :event_type, :entity_type, :entity_id,

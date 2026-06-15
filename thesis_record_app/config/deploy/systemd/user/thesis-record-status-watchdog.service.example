@@ -1,0 +1,8 @@
+[Unit]
+Description=ThesisRecord operator status watchdog (user service)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Projects/thesis-record/thesis_record_app
+EnvironmentFile=%h/.config/thesis-record/thesis-record.env
+ExecStart=/bin/bash -lc 'set -euo pipefail; output="$(bin/rails operator:status)"; printf "%%s\n" "$output"; printf "%%s\n" "$output" | grep -q "warnings=(none)"'

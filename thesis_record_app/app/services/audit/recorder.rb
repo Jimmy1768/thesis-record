@@ -37,6 +37,7 @@ module Audit
     def self.record_system!(actor:, event_type:, entity_type:, entity_id:, change_summary:, reason_code:,
                             storage_zone: "production_postgresql", privacy_classification: "internal",
                             claim_status_effect: "unchanged", export_allowed: false,
+                            previous_state_hash: nil, new_state_hash: nil,
                             request_id: nil, job_id: nil, ip_or_host: nil)
       actor_type, actor_id = actor_parts(actor)
 
@@ -49,6 +50,8 @@ module Audit
         entity_id: entity_id,
         request_id: request_id,
         job_id: job_id,
+        previous_state_hash: previous_state_hash,
+        new_state_hash: new_state_hash,
         change_summary: change_summary,
         reason_code: reason_code,
         review_required: false,

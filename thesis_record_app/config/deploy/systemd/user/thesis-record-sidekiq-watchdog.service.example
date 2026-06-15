@@ -1,0 +1,6 @@
+[Unit]
+Description=ThesisRecord Sidekiq active-state watchdog (user service)
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -lc 'systemctl --user is-active --quiet thesis-record-sidekiq.service'

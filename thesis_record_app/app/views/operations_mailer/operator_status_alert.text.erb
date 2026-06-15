@@ -1,0 +1,14 @@
+ThesisRecord operator status warning
+
+Generated at: <%= @summary.generated_at.utc.iso8601 %>
+Warnings: <%= @summary.warnings.join(", ") %>
+
+Latest events:
+<% @summary.latest_events.each do |name, event| -%>
+- <%= name %>: <%= event ? "#{event.occurred_at.utc.iso8601} #{event.reason_code} #{event.entity_id}" : "(none)" %>
+<% end -%>
+
+Protected counts:
+<% @summary.table_counts.each do |name, count| -%>
+- <%= name %>: <%= count %>
+<% end -%>

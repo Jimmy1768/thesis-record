@@ -58,6 +58,44 @@ class Operations::OperatorStatusSummaryTest < ActiveSupport::TestCase
     assert_includes summary.warnings, "missing_v0_readiness_event"
   end
 
+  test "warns when expected event family is stale" do
+    now = Time.utc(2026, 6, 15, 12, 0, 0)
+
+    create_audit_event!(
+      event_type: "source_release_check_completed",
+      entity_id: "source_release_check",
+      occurred_at: now - 9.days
+    )
+    create_audit_event!(
+      event_type: "quarterly_checkpoint_requested",
+      entity_id: "quarterly_indicator_checkpoint:2026-Q3",
+      occurred_at: now - 101.days
+    )
+    create_audit_event!(
+      event_type: "annual_snapshot_candidate_requested",
+      entity_id: "annual_snapshot_candidate:2027-Q2",
+      occurred_at: now - 401.days
+    )
+    create_audit_event!(
+      event_type: "production_summary_checked",
+      entity_id: "production_summary",
+      occurred_at: now - 27.hours
+    )
+    create_audit_event!(
+      event_type: "v0_readiness_checked",
+      entity_id: "operator_nodes_v0",
+      occurred_at: now - 27.hours
+    )
+
+    summary = Operations::OperatorStatusSummary.call(now: now)
+
+    assert_includes summary.warnings, "stale_source_release_check_event"
+    assert_includes summary.warnings, "stale_quarterly_checkpoint_event"
+    assert_includes summary.warnings, "stale_annual_snapshot_event"
+    assert_includes summary.warnings, "stale_production_summary_event"
+    assert_includes summary.warnings, "stale_v0_readiness_event"
+  end
+
   private
 
   def create_audit_event!(event_type:, entity_id:, reason_code: "test_reason", occurred_at: Time.current)

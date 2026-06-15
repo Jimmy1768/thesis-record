@@ -43,6 +43,11 @@ shared:
         queue: maintenance
         class_name: Operations::V0ReadinessCheckJob
         description: "Daily read-only Operator Nodes v0 readiness check; no publication."
+      operator_status_alert:
+        cron: "0 7 * * *"
+        queue: maintenance
+        class_name: Operations::OperatorStatusAlertJob
+        description: "Daily operator status alert; emails only when status warnings exist."
 
   claim_review_gate_v1:
     status: design_only_disabled

@@ -33,6 +33,18 @@ bin/rails operator:verify_claim_review_gate
 quarterly-checkpoint, annual-snapshot, production-summary, and v0-readiness
 audit events plus the current protected table counts.
 
+Freshness warnings are part of `operator:status`:
+
+- source-release check older than eight days;
+- quarterly checkpoint older than 100 days;
+- annual snapshot older than 400 days;
+- production summary older than 26 hours;
+- v0 readiness older than 26 hours.
+
+The daily `operator_status_alert` Sidekiq job emails the configured dev inbox
+only when `operator:status` reports warnings. Broader monitoring layers are
+documented in `docs/operations/monitoring_runbook.md`.
+
 The first production verification run is recorded at:
 
 ```text

@@ -25,15 +25,27 @@ module Operations
       failure_records: FailureRecord
     }.freeze
 
-    def self.call
-      new.call
+    FRESHNESS_WINDOWS = {
+      source_release_check: 8.days,
+      quarterly_checkpoint: 100.days,
+      annual_snapshot: 400.days,
+      production_summary: 26.hours,
+      v0_readiness: 26.hours
+    }.freeze
+
+    def self.call(now: Time.current)
+      new(now: now).call
+    end
+
+    def initialize(now:)
+      @now = now
     end
 
     def call
       latest_events = EVENT_TYPES.transform_values { |event_type| summarize_event(event_type) }
 
       Result.new(
-        generated_at: Time.current,
+        generated_at: now,
         latest_events: latest_events,
         table_counts: TABLE_MODELS.transform_values(&:count),
         warnings: warnings(latest_events)
@@ -41,6 +53,8 @@ module Operations
     end
 
     private
+
+    attr_reader :now
 
     def summarize_event(event_type)
       event = AuditEvent.where(event_type: event_type).order(occurred_at: :desc, id: :desc).first
@@ -57,8 +71,14 @@ module Operations
     end
 
     def warnings(latest_events)
-      latest_events.filter_map do |name, event|
-        "missing_#{name}_event" if event.nil?
+      latest_events.each_with_object([]) do |(name, event), warnings|
+        if event.nil?
+          warnings << "missing_#{name}_event"
+          next
+        end
+
+        window = FRESHNESS_WINDOWS.fetch(name)
+        warnings << "stale_#{name}_event" if event.occurred_at < now - window
       end
     end
   end

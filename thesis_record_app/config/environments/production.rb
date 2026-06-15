@@ -67,9 +67,23 @@ Rails.application.configure do
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  if ENV["THESIS_RECORD_SMTP_ADDRESS"].present?
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.raise_delivery_errors = ActiveModel::Type::Boolean.new.cast(
+      ENV.fetch("THESIS_RECORD_SMTP_RAISE_DELIVERY_ERRORS", "true")
+    )
+    config.action_mailer.smtp_settings = {
+      address: ENV.fetch("THESIS_RECORD_SMTP_ADDRESS"),
+      port: ENV.fetch("THESIS_RECORD_SMTP_PORT", "587").to_i,
+      domain: ENV.fetch("THESIS_RECORD_SMTP_DOMAIN", "sourcegridlabs.com"),
+      user_name: ENV.fetch("THESIS_RECORD_SMTP_USERNAME"),
+      password: ENV.fetch("THESIS_RECORD_SMTP_PASSWORD"),
+      authentication: ENV.fetch("THESIS_RECORD_SMTP_AUTHENTICATION", "login").to_sym,
+      enable_starttls_auto: ActiveModel::Type::Boolean.new.cast(
+        ENV.fetch("THESIS_RECORD_SMTP_ENABLE_STARTTLS_AUTO", "true")
+      )
+    }
+  end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

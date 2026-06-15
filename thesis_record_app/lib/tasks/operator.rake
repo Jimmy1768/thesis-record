@@ -217,6 +217,12 @@ namespace :operator do
     puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
   end
 
+  desc "Run operator status alert check; sends email only when warnings exist"
+  task status_alert: :environment do
+    Operations::OperatorStatusAlertJob.perform_now
+    puts "Operator status alert check completed"
+  end
+
   desc "Print a read-only Operator Nodes v0 baseline summary"
   task v0_baseline_summary: :environment do
     summary = Operations::V0BaselineSummary.call
