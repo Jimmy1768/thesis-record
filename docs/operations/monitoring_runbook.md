@@ -46,6 +46,13 @@ BREVO_READ_TIMEOUT=5
 
 Use real Brevo values in the server environment only. Do not commit the API key.
 
+The first production verification of the Brevo API delivery code is recorded
+at:
+
+```text
+theses/operator-node-economics/evidence/manifests/v0_brevo_alert_delivery_verification_2026-06-15.md
+```
+
 Manual alert check:
 
 ```bash
