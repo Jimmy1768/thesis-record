@@ -1,0 +1,21 @@
+<h1>ThesisRecord operator status warning</h1>
+
+<p><strong>Generated at:</strong> <%= @summary.generated_at.utc.iso8601 %></p>
+<p><strong>Warnings:</strong> <%= @summary.warnings.join(", ") %></p>
+
+<h2>Latest events</h2>
+<ul>
+  <% @summary.latest_events.each do |name, event| %>
+    <li>
+      <strong><%= name %>:</strong>
+      <%= event ? "#{event.occurred_at.utc.iso8601} #{event.reason_code} #{event.entity_id}" : "(none)" %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Protected counts</h2>
+<ul>
+  <% @summary.table_counts.each do |name, count| %>
+    <li><strong><%= name %>:</strong> <%= count %></li>
+  <% end %>
+</ul>

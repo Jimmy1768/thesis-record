@@ -28,23 +28,23 @@ It sends no email when status is healthy. If warnings exist, it sends one email
 per warning digest per UTC day and records an `operator_status_alert_sent` audit
 event.
 
+ThesisRecord follows the Golden-Template Brevo pattern: Action Mailer renders
+the email template, but delivery goes through the Brevo HTTP API using
+`BREVO_API_KEY`. It does not use SMTP.
+
 Production environment variables:
 
 ```text
 THESIS_RECORD_ALERT_EMAIL_TO=<dev inbox>
-THESIS_RECORD_MAIL_FROM=ThesisRecord <alerts@example.invalid>
-THESIS_RECORD_SMTP_ADDRESS=smtp-relay.example.invalid
-THESIS_RECORD_SMTP_PORT=587
-THESIS_RECORD_SMTP_DOMAIN=sourcegridlabs.com
-THESIS_RECORD_SMTP_USERNAME=<provider username>
-THESIS_RECORD_SMTP_PASSWORD=<provider password or SMTP key>
-THESIS_RECORD_SMTP_AUTHENTICATION=login
-THESIS_RECORD_SMTP_ENABLE_STARTTLS_AUTO=true
-THESIS_RECORD_SMTP_RAISE_DELIVERY_ERRORS=true
+THESIS_RECORD_MAIL_FROM_NAME=ThesisRecord
+THESIS_RECORD_MAIL_FROM_EMAIL=alerts@example.invalid
+BREVO_API_KEY=<Brevo API key>
+BREVO_FORCE_IPV4=false
+BREVO_OPEN_TIMEOUT=3
+BREVO_READ_TIMEOUT=5
 ```
 
-For Brevo, use Brevo's SMTP relay values in the server environment only. Do not
-commit real SMTP credentials.
+Use real Brevo values in the server environment only. Do not commit the API key.
 
 Manual alert check:
 
