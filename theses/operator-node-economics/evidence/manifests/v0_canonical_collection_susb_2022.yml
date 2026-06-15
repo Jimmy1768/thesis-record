@@ -1,0 +1,111 @@
+version: v0_canonical_collection_manifest_v1
+status: ready_for_canonical_ingestion
+thesis_slug: operator-node-economics
+run_mode: canonical_ingestion_candidate
+source_kind: census_susb_public_file
+source_table: susb_public_file_rows
+natural_key:
+  - data_source_id
+  - year
+  - state_code
+  - naics_code
+  - enterprise_size_code
+idempotency_strategy: upsert_all_unique_index
+
+operator_approval:
+  approval_status: approved
+  approved_by: jimmy1768_user
+  approved_at_utc: "2026-06-15T03:01:47Z"
+  approval_scope: one_source_only_idempotent_refresh
+
+required_env: []
+
+pre_collection_backup:
+  completed: true
+  path: /home/jimmy1768_user/backups/thesis-record/thesis_record_production_pre_susb_v0_20260615T025955Z.dump
+  sha256: a0ed6a616d5e383d92704faffc37abd176f8b01ab7cc2afbf5270e425666944d
+  completed_at_utc: "2026-06-15T03:01:47Z"
+  storage_scope: production_postgresql_backup_outside_git
+
+restore_or_integrity_check:
+  completed: true
+  check_kind: pg_restore_list_integrity_check
+  completed_at_utc: "2026-06-15T03:01:47Z"
+  evidence: pg_restore -l completed successfully against the production backup file
+
+expected_counts:
+  source_rows_before: 570105
+  source_rows_after: 570105
+  source_row_count_delta: 0
+  duplicate_natural_key_count_after: 0
+  protected_row_deltas:
+    metric_definitions: 0
+    metric_observations: 0
+    metric_quality_reviews: 0
+    prediction_links: 0
+    claim_reviews: 0
+    export_artifacts: 0
+
+authorized_effects:
+  source_row_writes: true
+  metric_computation: false
+  quality_review_creation: false
+  prediction_link_creation: false
+  claim_review_creation: false
+  export_creation: false
+  paper_prose_change: false
+  publication: false
+  thesis_verdict: false
+
+post_collection_required_checks:
+  - production_summary
+  - v0_baseline_summary
+  - v0_readiness
+
+prohibited_effects:
+  - claim_status_change
+  - prediction_link_creation
+  - claim_review_creation
+  - export_creation
+  - paper_prose_change
+  - thesis_verdict
+  - publication
+
+source_specific_plan:
+  source_label: Census SUSB 2022 U.S./state 6-digit NAICS public-file refresh
+  public_file_url: https://www2.census.gov/programs-surveys/susb/tables/2022/us_state_6digitnaics_2022.txt
+  runtime_raw_path: data/raw/susb/2022/us_state_6digitnaics_2022.txt
+  committed_manifest_path: theses/operator-node-economics/evidence/manifests/susb_2022_manifest.csv
+  runtime_raw_sha256: 6f7b2f2b14cbad9dbfeb31d3bfc9f729368a0e971727de4eda88c9f83f77a513
+  runtime_raw_byte_size: 56000447
+  expected_source_rows: 570105
+  validation_checked_at_utc: "2026-06-15T02:59:55Z"
+  validation_rows_excluding_header: 570105
+  validation_bad_width_rows: 0
+  validation_blank_lines: 0
+  validation_duplicate_key_count: 0
+  validation_manifest_reconciled: true
+  validation_noise_flag_counts:
+    EMPLFL_N:
+      G: 277234
+      H: 167925
+      J: 124946
+    PAYRFL_N:
+      G: 332347
+      H: 170712
+      J: 67046
+    RCPTFL_N:
+      G: 313670
+      H: 181566
+      J: 74869
+  current_production_susb_rows: 570105
+  current_production_duplicate_natural_keys: 0
+  intended_loader: PublicSources::Susb::LoadStagingRows.call!
+  intended_preflight: operator:v0_canonical_collection_preflight
+
+blockers: []
+
+notes:
+  - Expected row-count delta is zero because production already has 570105 SUSB rows and the loader upserts by source-native natural key.
+  - This manifest authorizes only the SUSB 2022 source-row refresh.
+  - It does not authorize metric computation, quality reviews, prediction links, claim reviews, exports, prose changes, publication, or thesis verdict changes.
