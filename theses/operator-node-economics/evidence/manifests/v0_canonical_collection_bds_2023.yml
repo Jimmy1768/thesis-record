@@ -1,0 +1,105 @@
+version: v0_canonical_collection_manifest_v1
+status: ready_for_canonical_ingestion
+thesis_slug: operator-node-economics
+run_mode: canonical_ingestion_candidate
+source_kind: census_bds_public_file
+source_table: bds_public_file_rows
+natural_key:
+  - data_source_id
+  - year
+  - sector_code
+  - firm_age_code
+  - firm_size_code
+idempotency_strategy: transactional_replace_source_rows
+
+operator_approval:
+  approval_status: approved
+  approved_by: jimmy1768_user
+  approved_at_utc: "2026-06-15T02:47:21Z"
+  approval_scope: one_source_only_transactional_refresh
+
+required_env: []
+
+pre_collection_backup:
+  completed: true
+  path: /home/jimmy1768_user/backups/thesis-record/thesis_record_production_pre_bds_v0_20260615T024541Z.dump
+  sha256: 59c1f22b06933900e0f5a1dba01ff4c623fc24a184567c6dcde89c609608150f
+  completed_at_utc: "2026-06-15T02:47:21Z"
+  storage_scope: production_postgresql_backup_outside_git
+
+restore_or_integrity_check:
+  completed: true
+  check_kind: pg_restore_list_integrity_check
+  completed_at_utc: "2026-06-15T02:47:21Z"
+  evidence: pg_restore -l completed successfully against the production backup file
+
+expected_counts:
+  source_rows_before: 104880
+  source_rows_after: 104880
+  source_row_count_delta: 0
+  duplicate_natural_key_count_after: 0
+  protected_row_deltas:
+    metric_definitions: 0
+    metric_observations: 0
+    metric_quality_reviews: 0
+    prediction_links: 0
+    claim_reviews: 0
+    export_artifacts: 0
+
+authorized_effects:
+  source_row_writes: true
+  metric_computation: false
+  quality_review_creation: false
+  prediction_link_creation: false
+  claim_review_creation: false
+  export_creation: false
+  paper_prose_change: false
+  publication: false
+  thesis_verdict: false
+
+post_collection_required_checks:
+  - production_summary
+  - v0_baseline_summary
+  - v0_readiness
+
+prohibited_effects:
+  - claim_status_change
+  - prediction_link_creation
+  - claim_review_creation
+  - export_creation
+  - paper_prose_change
+  - thesis_verdict
+  - publication
+
+source_specific_plan:
+  source_label: Census BDS 2023 sector by firm age by firm size public-file refresh
+  public_file_url: https://www2.census.gov/programs-surveys/bds/tables/time-series/2023/bds2023_sec_fa_fz.csv
+  runtime_raw_path: data/raw/bds/2023/bds2023_sec_fa_fz.csv
+  committed_manifest_path: theses/operator-node-economics/evidence/manifests/bds_2023_manifest.csv
+  runtime_raw_sha256: c4790ccdf964788a8bbc8404349df69db2a7457f8784411a39ddb228dedfbabd
+  runtime_raw_byte_size: 12606118
+  expected_source_rows: 104880
+  dry_run_checked_at_utc: "2026-06-15T02:43:57Z"
+  dry_run_rows_seen: 104880
+  dry_run_rows_parsed: 104880
+  dry_run_rows_persisted: 0
+  dry_run_bad_width_rows: 0
+  dry_run_blank_lines: 0
+  dry_run_duplicate_key_count: 0
+  dry_run_observed_year_range:
+    start: 1978
+    end: 2023
+  dry_run_sector_count: 19
+  dry_run_firm_age_count: 12
+  dry_run_firm_size_count: 10
+  current_production_bds_rows: 104880
+  current_production_duplicate_natural_keys: 0
+  intended_loader: PublicSources::Bds::LoadStagingRows.call!
+  intended_preflight: operator:v0_canonical_collection_preflight
+
+blockers: []
+
+notes:
+  - Expected row-count delta is zero because production already has 104880 BDS rows and the loader transactionally replaces the same source row set.
+  - This manifest authorizes only the BDS 2023 source-row refresh.
+  - It does not authorize metric computation, quality reviews, prediction links, claim reviews, exports, prose changes, publication, or thesis verdict changes.
