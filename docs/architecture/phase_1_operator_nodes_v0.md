@@ -10,7 +10,7 @@ The target is:
 1. establish an internal v0 baseline record;
 2. freeze the v0 thesis state;
 3. establish the forecast timeline;
-4. start controlled evidence collection and assimilation;
+4. operate controlled evidence collection and assimilation;
 5. let scheduled jobs accumulate records toward v1, v2, and v3 checkpoints;
 6. defer public product/workspace features until after Thesis 1 has a stable
    operating loop.
@@ -55,11 +55,12 @@ quarter:
 The exact calendar dates should be derived from the v0 publication date and
 recorded before v0 is published.
 
-Current operating assumption: ThesisRecord sets internal canonical v0 on
-2026-06-15 UTC. This makes 2026-Q3 the first full measurement quarter and yields
-v1, v2, and v3 checkpoint targets in 2029-Q2, 2031-Q2, and 2036-Q2.
-Public prose can lag this internal v0 record; claim, forecast, and prose
-approval remain separate gates.
+Current operating baseline: ThesisRecord set internal canonical v0 on
+2026-06-15 UTC and completed the v0 source-row baseline collection the same
+day. This makes 2026-Q3 the first full measurement quarter and yields v1, v2,
+and v3 checkpoint targets in 2029-Q2, 2031-Q2, and 2036-Q2. Public prose can
+lag this internal v0 record; claim, forecast, and prose approval remain
+separate gates.
 
 ## Evidence Automation
 
@@ -69,10 +70,11 @@ The Rails app already has Sidekiq scheduler scaffolds for:
 - quarterly indicator checkpoints;
 - annual snapshot candidates.
 
-Phase 1 should turn those scaffolds into controlled collection and assimilation
-jobs. These jobs should collect records, summarize source health, and prepare
-checkpoint candidates. They must not automatically promote claims, change thesis
-verdicts, publish prose, or infer that the thesis is true.
+Phase 1 has completed the first gated baseline source-row collection for BFS,
+BDS, and SUSB. It should now turn scheduled scaffolds into checkpoint operation.
+These jobs should summarize source health and prepare checkpoint candidates.
+They must not automatically promote claims, change thesis verdicts, publish
+prose, or infer that the thesis is true.
 
 Human approval remains required for:
 
@@ -93,7 +95,8 @@ operating Thesis 1.
 
 ## Next Engineering Gate
 
-Before v0 publication, run the operator readiness check:
+Before any public v0 release or checkpoint operation change, run the operator
+readiness check:
 
 ```bash
 bin/rails operator:v0_readiness
@@ -110,7 +113,7 @@ It reports:
 - canonical data-promotion status;
 - blockers that prevent v0 publication.
 
-The current pre-v0 scaffolds are:
+The current v0 operating records are:
 
 - `theses/operator-node-economics/publication/v0.md`;
 - `theses/operator-node-economics/publication/v0_timeline.yml`;
@@ -125,9 +128,11 @@ The current pre-v0 scaffolds are:
 - `theses/operator-node-economics/publication/v0_public_release_review.yml`;
 - `theses/operator-node-economics/publication/v0_collection_plan.yml`;
 - `theses/operator-node-economics/publication/v0_approval_packet.yml`;
+- `theses/operator-node-economics/evidence/manifests/v0_collection_complete_2026-06-15.md`;
 - `theses/operator-node-economics/evidence/assimilation_plan.md`;
 - `docs/operations/operator_nodes_v0_operating_runbook.md`.
 
-These scaffolds are intentionally unapproved. They let ThesisRecord rehearse
-the operating loop while leaving publication date, prose, frozen claims, and
-frozen forecasts as explicit human decision gaps.
+The source-row baseline is complete, but publication remains intentionally
+unapproved. These records let ThesisRecord operate the baseline loop while
+leaving public release, prose approval, and claim-status changes as explicit
+human decision gaps.

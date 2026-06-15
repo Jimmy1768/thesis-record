@@ -1,6 +1,7 @@
 # Operator Nodes V0 Operating Runbook
 
-Status: pre-v0 scaffold.
+Status: v0 baseline source-row collection complete; public release still
+`not_public`.
 
 This runbook is for operating ThesisRecord before Operator Nodes v0 is
 published. It keeps the system useful without pretending the thesis is ready for
@@ -11,7 +12,9 @@ publication.
 - keep production Puma and Sidekiq running;
 - keep production PostgreSQL as the canonical structured evidence store;
 - run read-only health and readiness checks;
+- run the weekly source-release monitor;
 - rehearse ingestion locally without treating local data as canonical;
+- keep any future canonical source-row ingestion manual and manifest-gated;
 - keep claim promotion and publication approval manual.
 
 ## Production Checks
@@ -25,12 +28,37 @@ bin/rails operator:verify_operations_policy
 bin/rails operator:verify_claim_review_gate
 ```
 
-Expected pre-v0 outcome:
+Expected post-baseline, pre-public outcome:
 
 - production summary passes;
 - operations policy passes;
 - claim-review gate passes;
-- v0 readiness fails only on explicit publication blockers.
+- v0 readiness passes with only expected warnings for unbootstrapped operator
+  accounts and unapproved indicator universe.
+
+## V0 Baseline Collection State
+
+The v0 baseline source-row collection completed on 2026-06-15 UTC. The
+consolidated completion manifest is:
+
+```text
+theses/operator-node-economics/evidence/manifests/v0_collection_complete_2026-06-15.md
+```
+
+Completed source-row result manifests:
+
+- BFS 2012:
+  `theses/operator-node-economics/evidence/manifests/v0_canonical_collection_bfs_2012_result_2026-06-15.md`
+- BDS 2023:
+  `theses/operator-node-economics/evidence/manifests/v0_canonical_collection_bds_2023_result_2026-06-15.md`
+- SUSB 2022:
+  `theses/operator-node-economics/evidence/manifests/v0_canonical_collection_susb_2022_result_2026-06-15.md`
+- source-release monitor:
+  `theses/operator-node-economics/evidence/manifests/v0_source_release_check_2026-06-15.md`
+
+This baseline is source-row collection only. It does not approve paper prose,
+promote claims, publish v0, create prediction links, create claim reviews,
+create export artifacts, or change the thesis verdict.
 
 ## Sidekiq Maintenance Jobs
 
@@ -69,9 +97,11 @@ Before any production ingestion/promotion, require:
 
 ## Canonical Row Collection Preflight
 
-Canonical v0 row collection is production-only and source-specific. Direct
-source-row loaders may be used in development and test for rehearsal, but in
-production they fail closed unless the v0 canonical collection preflight passes.
+Canonical v0 row collection is production-only and source-specific. The initial
+v0 source-row baseline has already been collected for BFS, BDS, and SUSB.
+Future row collection remains manual and source-specific. Direct source-row
+loaders may be used in development and test for rehearsal, but in production
+they fail closed unless the v0 canonical collection preflight passes.
 
 Before running any production source-row loader:
 
@@ -108,8 +138,5 @@ links, claim reviews, exports, prose, publication, and verdict effects.
 
 ## Current Human Decision Gaps
 
-- v0 publication date;
 - v0 prose source and approval;
-- frozen v0 claim set;
-- frozen v0 forecast set;
 - public release timing.
