@@ -61,9 +61,88 @@ class SchedulerScaffoldJobsTest < ActiveJob::TestCase
     assert_includes event.change_summary, "census_bfs_api"
   end
 
-  test "quarterly checkpoint job records no-op audit event" do
-    assert_difference -> { AuditEvent.where(event_type: "quarterly_checkpoint_requested").count }, 1 do
-      Evidence::QuarterlyIndicatorCheckpointJob.perform_now
+  test "quarterly checkpoint job records audit-only checkpoint candidate" do
+    as_of = Time.utc(2026, 7, 1, 6, 0, 0)
+
+    assert_no_difference -> { DataSource.count } do
+      assert_no_difference -> { SusbPublicFileRow.count } do
+        assert_no_difference -> { BfsApiRow.count } do
+          assert_no_difference -> { BdsPublicFileRow.count } do
+            assert_no_difference -> { MetricDefinition.count } do
+              assert_no_difference -> { MetricObservation.count } do
+                assert_no_difference -> { MetricQualityReview.count } do
+                  assert_no_difference -> { PredictionLink.count } do
+                    assert_no_difference -> { ClaimReview.count } do
+                      assert_no_difference -> { ExportArtifact.count } do
+                        assert_no_difference -> { EvidenceSnapshot.count } do
+                          assert_no_difference -> { FailureRecord.count } do
+                            assert_difference -> { AuditEvent.where(event_type: "quarterly_checkpoint_requested").count }, 1 do
+                              Evidence::QuarterlyIndicatorCheckpointJob.perform_now(as_of: as_of)
+                            end
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    event = AuditEvent.where(event_type: "quarterly_checkpoint_requested").last
+    assert_equal "scheduled_quarterly_checkpoint_candidate", event.reason_code
+    assert_equal "unchanged", event.claim_status_effect
+    assert_not event.export_allowed
+    assert_equal "SchedulerCheckpoint", event.entity_type
+    assert_equal "quarterly_indicator_checkpoint:2026-Q3", event.entity_id
+    assert_includes event.change_summary, "period=2026-Q3"
+    assert_includes event.change_summary, "first_measurement_period=2026-Q3"
+    assert_includes event.change_summary, "measurement_index=1"
+    assert_includes event.change_summary, "status=quarterly_checkpoint_candidate"
+    assert_includes event.change_summary, "checkpoint_ref=(none)"
+    assert_includes event.change_summary, "forecast_count=12"
+    assert_includes event.change_summary, "effects=no_row_writes"
+    assert_includes event.change_summary, "no_thesis_verdict"
+  end
+
+  test "quarterly checkpoint candidate identifies scheduled checkpoint periods" do
+    result = Evidence::QuarterlyIndicatorCheckpointCandidate.call(as_of: Time.utc(2029, 4, 1, 6, 0, 0))
+
+    assert_equal "2029-Q2", result.current_period
+    assert_equal "2026-Q3", result.first_measurement_period
+    assert_equal 12, result.measurement_index
+    assert_equal "v1", result.checkpoint_ref
+    assert_equal "quarterly_checkpoint_candidate", result.candidate_status
+  end
+
+  test "quarterly checkpoint candidate remains pre-measurement before first period" do
+    result = Evidence::QuarterlyIndicatorCheckpointCandidate.call(as_of: Time.utc(2026, 6, 15, 6, 0, 0))
+
+    assert_equal "2026-Q2", result.current_period
+    assert_nil result.measurement_index
+    assert_nil result.checkpoint_ref
+    assert_equal "pre_first_measurement_period", result.candidate_status
+    assert_includes result.warnings, "forecast_items_unapproved"
+  end
+
+  test "quarterly checkpoint candidate reports v2 and v3 target periods" do
+    v2 = Evidence::QuarterlyIndicatorCheckpointCandidate.call(as_of: Time.utc(2031, 4, 1, 6, 0, 0))
+    v3 = Evidence::QuarterlyIndicatorCheckpointCandidate.call(as_of: Time.utc(2036, 4, 1, 6, 0, 0))
+
+    assert_equal 20, v2.measurement_index
+    assert_equal "v2", v2.checkpoint_ref
+    assert_equal 40, v3.measurement_index
+    assert_equal "v3", v3.checkpoint_ref
+  end
+
+  test "quarterly checkpoint candidate does not create records by itself" do
+    assert_no_difference -> { AuditEvent.count } do
+      assert_no_difference -> { MetricObservation.count } do
+        Evidence::QuarterlyIndicatorCheckpointCandidate.call(as_of: Time.utc(2026, 7, 1, 6, 0, 0))
+      end
     end
   end
 

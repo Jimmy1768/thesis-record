@@ -68,7 +68,7 @@ The Sidekiq schedule is policy-driven by
 Pre-v0 scheduled jobs may:
 
 - record read-only source-release checks across the approved public endpoints;
-- record no-op quarterly checkpoint requests;
+- record audit-only quarterly checkpoint candidates from the forecast clock;
 - record no-op annual snapshot candidate requests;
 - record read-only production-summary checks;
 - record read-only v0-readiness checks.
@@ -81,6 +81,13 @@ The weekly source-release check runs the same source-freshness dry-run logic as
 It records one `source_release_check_completed` audit event summarizing endpoint
 status and warnings. It must not write source rows, metrics, quality reviews,
 prediction links, claim reviews, exports, publication state, or thesis verdicts.
+
+The quarterly indicator checkpoint job records one
+`quarterly_checkpoint_requested` audit event for the current calendar quarter.
+It reads the v0 forecast clock and labels the current period, measurement index,
+and v1/v2/v3 checkpoint reference when applicable. It must not write source
+rows, compute metrics, create quality reviews, create prediction links, create
+claim reviews, create exports, publish artifacts, or change thesis verdicts.
 
 ## Local Rehearsal
 
