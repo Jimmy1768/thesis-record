@@ -33,6 +33,12 @@ bin/rails operator:verify_claim_review_gate
 quarterly-checkpoint, annual-snapshot, production-summary, and v0-readiness
 audit events plus the current protected table counts.
 
+The first production verification run is recorded at:
+
+```text
+theses/operator-node-economics/evidence/manifests/v0_operator_status_verification_2026-06-15.md
+```
+
 Expected post-baseline, pre-public outcome:
 
 - production summary passes;
