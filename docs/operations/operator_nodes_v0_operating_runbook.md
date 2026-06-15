@@ -89,6 +89,12 @@ and v1/v2/v3 checkpoint reference when applicable. It must not write source
 rows, compute metrics, create quality reviews, create prediction links, create
 claim reviews, create exports, publish artifacts, or change thesis verdicts.
 
+The first production verification run is recorded at:
+
+```text
+theses/operator-node-economics/evidence/manifests/v0_quarterly_checkpoint_candidate_verification_2026-06-15.md
+```
+
 ## Local Rehearsal
 
 Local databases are rehearsal-only. A successful local run can justify a future
