@@ -39,7 +39,7 @@ The Sidekiq schedule is policy-driven by
 
 Pre-v0 scheduled jobs may:
 
-- record no-op source-release checks;
+- record read-only source-release checks across the approved public endpoints;
 - record no-op quarterly checkpoint requests;
 - record no-op annual snapshot candidate requests;
 - record read-only production-summary checks;
@@ -47,6 +47,12 @@ Pre-v0 scheduled jobs may:
 
 They must not ingest new canonical rows, promote claims, publish artifacts, or
 edit paper prose by default.
+
+The weekly source-release check runs the same source-freshness dry-run logic as
+`bin/rails operator:v0_source_freshness_dry_run` with network checks enabled.
+It records one `source_release_check_completed` audit event summarizing endpoint
+status and warnings. It must not write source rows, metrics, quality reviews,
+prediction links, claim reviews, exports, publication state, or thesis verdicts.
 
 ## Local Rehearsal
 

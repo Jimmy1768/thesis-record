@@ -22,7 +22,7 @@ shared:
         cron: "0 6 * * 1"
         queue: maintenance
         class_name: Evidence::SourceReleaseCheckJob
-        description: "Weekly source-release check scaffold; no ingestion."
+        description: "Weekly read-only source-release endpoint check; no ingestion."
       quarterly_indicator_checkpoint:
         cron: "0 6 1 1,4,7,10 *"
         queue: maintenance

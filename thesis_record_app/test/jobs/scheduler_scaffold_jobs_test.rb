@@ -3,10 +3,62 @@ require "erb"
 require "yaml"
 
 class SchedulerScaffoldJobsTest < ActiveJob::TestCase
-  test "source release check job records no-op audit event" do
-    assert_difference -> { AuditEvent.where(event_type: "source_release_check_requested").count }, 1 do
-      Evidence::SourceReleaseCheckJob.perform_now
+  FakeResponse = Data.define(:code, :headers) do
+    def [](key)
+      headers[key.downcase]
     end
+  end
+
+  class FakeHttpClient
+    def self.start(_host, _port, use_ssl:)
+      raise "expected ssl" unless use_ssl
+
+      yield new
+    end
+
+    def request(_request)
+      FakeResponse.new(
+        "200",
+        {
+          "content-type" => "text/plain",
+          "last-modified" => "Mon, 15 Jun 2026 00:00:00 GMT",
+          "content-length" => "123"
+        }
+      )
+    end
+  end
+
+  test "source release check job records read-only source freshness audit event" do
+    assert_no_difference -> { DataSource.count } do
+      assert_no_difference -> { SusbPublicFileRow.count } do
+        assert_no_difference -> { BfsApiRow.count } do
+          assert_no_difference -> { BdsPublicFileRow.count } do
+            assert_no_difference -> { MetricObservation.count } do
+              assert_no_difference -> { MetricQualityReview.count } do
+                assert_no_difference -> { PredictionLink.count } do
+                  assert_no_difference -> { ClaimReview.count } do
+                    assert_no_difference -> { ExportArtifact.count } do
+                      assert_difference -> { AuditEvent.where(event_type: "source_release_check_completed").count }, 1 do
+                        Evidence::SourceReleaseCheckJob.perform_now(http_client: FakeHttpClient)
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+
+    event = AuditEvent.where(event_type: "source_release_check_completed").last
+    assert_equal "scheduled_source_release_check", event.reason_code
+    assert_equal "unchanged", event.claim_status_effect
+    assert_not event.export_allowed
+    assert_includes event.change_summary, "passed=true"
+    assert_includes event.change_summary, "network_enabled=true"
+    assert_includes event.change_summary, "effects=no_row_writes"
+    assert_includes event.change_summary, "census_bfs_api"
   end
 
   test "quarterly checkpoint job records no-op audit event" do

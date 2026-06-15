@@ -53,6 +53,7 @@ class AuditEvent < ApplicationRecord
     operations_policy_checked
     job_failed
     source_release_check_requested
+    source_release_check_completed
     quarterly_checkpoint_requested
     annual_snapshot_candidate_requested
     production_summary_checked
