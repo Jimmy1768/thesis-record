@@ -22,11 +22,16 @@ publication.
 Run from the production checkout inside `thesis_record_app`:
 
 ```bash
+bin/rails operator:status
 bin/rails operator:production_summary
 bin/rails operator:v0_readiness
 bin/rails operator:verify_operations_policy
 bin/rails operator:verify_claim_review_gate
 ```
+
+`operator:status` is read-only. It prints the latest source-release,
+quarterly-checkpoint, annual-snapshot, production-summary, and v0-readiness
+audit events plus the current protected table counts.
 
 Expected post-baseline, pre-public outcome:
 

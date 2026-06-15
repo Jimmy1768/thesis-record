@@ -193,6 +193,30 @@ namespace :operator do
     puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
   end
 
+  desc "Print latest Operator Nodes scheduler/readiness audit status without writes"
+  task status: :environment do
+    summary = Operations::OperatorStatusSummary.call
+
+    puts "Operator Nodes operating status"
+    puts "generated_at=#{summary.generated_at.iso8601}"
+    summary.latest_events.each do |name, event|
+      if event
+        puts "event.#{name}.id=#{event.event_id}"
+        puts "event.#{name}.type=#{event.event_type}"
+        puts "event.#{name}.occurred_at=#{event.occurred_at.iso8601}"
+        puts "event.#{name}.reason_code=#{event.reason_code}"
+        puts "event.#{name}.entity_id=#{event.entity_id}"
+        puts "event.#{name}.summary=#{event.change_summary}"
+      else
+        puts "event.#{name}.id=(none)"
+      end
+    end
+    summary.table_counts.each do |table_name, count|
+      puts "count.#{table_name}=#{count}"
+    end
+    puts "warnings=#{summary.warnings.empty? ? "(none)" : summary.warnings.join(",")}"
+  end
+
   desc "Print a read-only Operator Nodes v0 baseline summary"
   task v0_baseline_summary: :environment do
     summary = Operations::V0BaselineSummary.call
