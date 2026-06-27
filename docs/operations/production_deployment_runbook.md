@@ -2,8 +2,8 @@
 
 ## Scope
 
-This runbook covers the first production deployment slice for ThesisRecord on a
-single droplet.
+This runbook covers the production deployment for ThesisRecord on a single
+SourceGrid droplet.
 
 The first target is a private production runtime, not a public web surface:
 
@@ -39,8 +39,8 @@ Expected app paths:
 - env file: `/etc/thesis-record/thesis-record.env`
 - backup manifest path: `/var/backups/thesis-record/thesis-record`
 
-Current interim deployment on `sourcecombatives-web` uses user-level systemd
-because passwordless sudo is not available from the deployment session:
+Current production deployment on `sourcegrid-web` uses user-level systemd
+because passwordless sudo was not available from the deployment session:
 
 - app directory: `/home/jimmy1768_user/Projects/thesis-record/thesis_record_app`
 - env file: `/home/jimmy1768_user/.config/thesis-record/thesis-record.env`
@@ -49,7 +49,64 @@ because passwordless sudo is not available from the deployment session:
 - service manager: `systemctl --user`
 - process supervision: enabled user services with linger already active
 
-Promote to the root-owned paths above when sudo access is available.
+The prior `sourcecombatives-web` runtime is stopped and disabled. Keep it as a
+rollback standby until the new host has passed enough scheduled checks.
+
+Promote to the root-owned paths above only if operational policy later requires
+root-owned services. The current user-level deployment is the accepted
+production runtime for the private ThesisRecord stage.
+
+## Current Production State
+
+Accepted production state after the 2026-06-27 UTC host migration:
+
+- host: `sourcegrid-web`
+- app path: `/home/jimmy1768_user/Projects/thesis-record/thesis_record_app`
+- env path: `/home/jimmy1768_user/.config/thesis-record/thesis-record.env`
+- database: `thesis_record_production`
+- Puma: `127.0.0.1:3400`
+- Redis: `127.0.0.1:6379/9`
+- web service: `thesis-record-web.service`
+- worker service: `thesis-record-sidekiq.service`
+- watchdog timers:
+  - `thesis-record-sidekiq-watchdog.timer`
+  - `thesis-record-status-watchdog.timer`
+
+Source host rollback state:
+
+- host: `sourcecombatives-web`
+- ThesisRecord web, Sidekiq, and watchdog timers are stopped and disabled.
+- Do not restart old services unless executing a deliberate rollback.
+
+Final migration artifact:
+
+- final source dump:
+  `/home/jimmy1768_user/backups/thesis-record/final-migration/thesis_record_final_migration_20260627T001831Z.dump`
+- SHA-256:
+  `5d6fa9795e4000745f1290bf4688d85511b50c8348ed6353d0a47a765bea4a49`
+
+Restored production counts at cutover:
+
+- `audit_events=144`
+- `source_rows_susb=570105`
+- `source_rows_bfs=1368`
+- `source_rows_bds=104880`
+- `metric_observations=1179605`
+- `metric_quality_reviews=1179605`
+- `prediction_links=0`
+- `claim_reviews=0`
+- `export_artifacts=0`
+- `evidence_snapshots=0`
+- `failure_records=0`
+- `warnings=(none)`
+
+Post-cutover observation on 2026-06-27 UTC showed:
+
+- Puma active for more than one observation window;
+- Sidekiq active with `0 of 5 busy`;
+- Sidekiq watchdog completed multiple five-minute cycles;
+- status watchdog completed successfully;
+- `bin/rails operator:status` remained warning-free.
 
 ## Required Environment
 

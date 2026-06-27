@@ -42,13 +42,16 @@ Disallowed work:
 
 Current placement:
 
-- Puma: `sourcecombatives-web`, private `127.0.0.1:3400`;
+- Puma: `sourcegrid-web`, private `127.0.0.1:3400`;
 - Sidekiq: same host, supervised separately;
 - Redis: same host, isolated DB namespace;
 - job cadence: weekly, quarterly, and annual checks.
 
 This is acceptable because ThesisRecord currently runs only a small number of
 low-frequency jobs.
+
+The prior `sourcecombatives-web` ThesisRecord services are stopped and disabled.
+That host is rollback standby only, not an active worker host.
 
 Move ThesisRecord Sidekiq to `sourcegrid-agent` only if all of these remain
 true:

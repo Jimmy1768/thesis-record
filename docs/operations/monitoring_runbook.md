@@ -2,6 +2,27 @@
 
 Status: operational hardening active.
 
+## Current Host
+
+ThesisRecord production now runs on `sourcegrid-web`.
+
+Service checks use user-level systemd:
+
+```bash
+systemctl --user status thesis-record-web.service thesis-record-sidekiq.service \
+  thesis-record-sidekiq-watchdog.timer thesis-record-status-watchdog.timer --no-pager
+```
+
+Runtime paths:
+
+- app: `/home/jimmy1768_user/Projects/thesis-record/thesis_record_app`
+- env: `/home/jimmy1768_user/.config/thesis-record/thesis-record.env`
+- Puma: `127.0.0.1:3400`
+- health route: `http://127.0.0.1:3400/up`
+
+Do not use `http://127.0.0.1:3400/thesis` as the local process health check.
+The public `/thesis` prefix belongs to the future nginx/path-routing layer.
+
 ## Layers
 
 ThesisRecord monitoring has four layers:
@@ -84,6 +105,17 @@ fails if `operator:status` does not print `warnings=(none)`.
 
 These timers are local host checks. They do not replace external monitoring,
 because they cannot run when the droplet itself is down.
+
+Post-migration verification on 2026-06-27 UTC:
+
+- `thesis-record-web.service`: active
+- `thesis-record-sidekiq.service`: active
+- `thesis-record-sidekiq-watchdog.timer`: active
+- `thesis-record-status-watchdog.timer`: active
+- Sidekiq watchdog completed multiple five-minute cycles after cutover.
+- Status watchdog completed successfully and printed `warnings=(none)`.
+- `bin/rails operator:status` reported the restored production counts with no
+  warnings.
 
 The first production verification run is recorded at:
 
