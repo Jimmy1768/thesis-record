@@ -61,6 +61,8 @@ production runtime for the private ThesisRecord stage.
 Accepted production state after the 2026-06-27 UTC host migration:
 
 - host: `sourcegrid-web`
+- deploy branch: `release/current`
+- development branch: `main`
 - app path: `/home/jimmy1768_user/Projects/thesis-record/thesis_record_app`
 - env path: `/home/jimmy1768_user/.config/thesis-record/thesis-record.env`
 - database: `thesis_record_production`
@@ -107,6 +109,40 @@ Post-cutover observation on 2026-06-27 UTC showed:
 - Sidekiq watchdog completed multiple five-minute cycles;
 - status watchdog completed successfully;
 - `bin/rails operator:status` remained warning-free.
+
+## Branch Policy
+
+Production must run from `release/current`.
+
+Development and migration work lands on `main`. Promote to `release/current`
+only after the candidate commit has passed the relevant local, production
+rehearsal, and operator verification gates.
+
+Do not run production directly from `main`. This keeps new development commits
+isolated from the deployed runtime and gives operators a stable branch to
+inspect, roll back, or fast-forward deliberately.
+
+Promotion shape:
+
+```bash
+git switch main
+git pull --ff-only origin main
+git branch -f release/current <approved-main-commit>
+git push origin release/current
+```
+
+On the production host:
+
+```bash
+cd /home/jimmy1768_user/Projects/thesis-record
+git fetch origin release/current
+git switch release/current
+git pull --ff-only origin release/current
+```
+
+Restart services only when the promoted commit changes app code, dependencies,
+environment assumptions, or service configuration. Documentation-only
+promotions do not require a service restart.
 
 ## Required Environment
 
