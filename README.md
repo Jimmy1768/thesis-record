@@ -19,7 +19,8 @@ The first migrated thesis is:
   source truth, paper scaffolding, and operator records.
 - `docs/` - platform-level architecture, operations, source verification, audit,
   and thread-role guidance.
-- `data/` - platform-level templates or shared non-thesis fixtures only.
+- `templates/` - reusable thesis scaffolding and process templates.
+- `data/` - shared non-thesis fixtures only.
 
 Thesis-specific public source manifests live under the relevant thesis slug, not
 under root `data/`.

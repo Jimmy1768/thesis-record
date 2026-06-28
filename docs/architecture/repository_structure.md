@@ -7,8 +7,8 @@ ThesisRecord separates platform infrastructure from thesis-specific content.
 - `README.md` describes the platform identity and first thesis metadata.
 - `.gitignore` blocks local secrets, runtime files, local databases, and
   generated empirical data outputs.
-- `data/` is reserved for platform-level templates or shared non-thesis
-  fixtures.
+- `templates/` stores reusable thesis scaffolding and process templates.
+- `data/` is reserved for shared non-thesis fixtures only.
 
 ## Platform Docs
 
@@ -33,6 +33,15 @@ ThesisRecord separates platform infrastructure from thesis-specific content.
 
 Each thesis should live under `theses/<slug>/`.
 
+Default thesis-local workflow folders:
+
+- `theses/<slug>/operator_records/external_returns/` stores raw external
+  research returns as operator/process artifacts. These are not evidence or
+  source truth.
+- `theses/<slug>/research/intake/` stores interpreted intake notes that classify
+  raw returns before anything can be promoted into source notes, methodology,
+  open questions, rejected material, claims, or prose.
+
 For Thesis 1:
 
 - `theses/operator-node-economics/thesis.yml` stores thesis metadata.
@@ -56,3 +65,6 @@ Platform-generic capabilities belong in `docs/`, `data/`, or
 
 Thesis-specific evidence, claims, forecasts, source notes, paper material, and
 operator records belong under `theses/<slug>/`.
+
+Raw external returns follow the platform buffer policy in
+`docs/source-verification/raw_return_buffer_policy.md`.

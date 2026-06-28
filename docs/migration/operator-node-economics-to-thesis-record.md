@@ -59,8 +59,8 @@ only as directory placeholders.
 ## Current Layout
 
 - Platform docs live under `docs/`.
-- Root `data/` is reserved for shared platform templates and non-thesis
-  fixtures.
+- Root `templates/` is reserved for shared process templates.
+- Root `data/` is reserved for shared non-thesis fixtures.
 - Thesis-specific content lives under `theses/operator-node-economics/`.
 - Rails app source lives under `thesis_record_app/`.
 
