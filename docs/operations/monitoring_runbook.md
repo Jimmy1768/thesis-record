@@ -9,9 +9,19 @@ ThesisRecord production now runs on `sourcegrid-web`.
 Service checks use user-level systemd:
 
 ```bash
+loginctl show-user jimmy1768_user -p Linger -p State
 systemctl --user status thesis-record-web.service thesis-record-sidekiq.service \
   thesis-record-sidekiq-watchdog.timer thesis-record-status-watchdog.timer --no-pager
+systemctl --user list-timers thesis-record-sidekiq-watchdog.timer \
+  thesis-record-status-watchdog.timer --no-pager
 ```
+
+Expected state:
+
+- `Linger=yes`;
+- Sidekiq active and running;
+- both watchdog timers active with future `NEXT` trigger times;
+- `operator:status` prints `warnings=(none)`.
 
 Runtime paths:
 
@@ -102,6 +112,11 @@ Templates:
 
 The Sidekiq watchdog fails if the user service is inactive. The status watchdog
 fails if `operator:status` does not print `warnings=(none)`.
+
+The watchdog timers are user timers and should use `OnStartupSec`, not
+`OnBootSec`, so they schedule relative to the user systemd manager startup.
+The deployment user must have linger enabled; otherwise user services can stop
+when the login session ends.
 
 These timers are local host checks. They do not replace external monitoring,
 because they cannot run when the droplet itself is down.
