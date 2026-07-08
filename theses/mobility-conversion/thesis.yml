@@ -1,0 +1,181 @@
+slug: mobility-conversion
+title: Mobility Conversion
+full_title: "Mobility Conversion: How Metropolitan Transport Regions Convert Capacity, Pressure, Shape, Governance, and Growth into Usable Access"
+category: Transport / Urban Systems / Regional Governance
+status: candidate_formation
+thesis_number: 2
+public_path:
+
+unit_of_analysis:
+  name: Metropolitan Transport Region
+  abbreviation: MTR
+  status: requires_operational_definition
+
+research_question: >
+  Why do some Metropolitan Transport Regions convert resources, constraints,
+  institutional arrangements, and growth conditions into usable access better
+  than others?
+
+outcome:
+  name: usable_access_performance
+  status: candidate_dimensions_not_scored
+  dimensions:
+    - access_to_opportunities
+    - network_coverage_and_service_availability
+    - travel_time_and_reliability
+    - transportation_safety
+    - affordability
+    - walking_cycling_and_universal_access
+    - asset_condition_and_resilience
+
+explanatory_axes:
+  status: explanatory_not_score_components
+  axes:
+    - economic_capacity
+    - demand_intensity
+    - urban_form
+    - governance_fit
+    - growth_maturity
+
+external_research_inputs:
+  status: smoke_test_only
+  rule: >
+    Prompt results, query-test outputs, and ChatGPT Deep Research returns are
+    not evidence, source truth, accepted methodology, or accepted MTR selection.
+    They may only generate questions, source leads, candidate definitions, or
+    rejected material until independently processed inside ThesisRecord.
+
+boundaries:
+  - Do not treat this as a country ranking.
+  - Do not treat this as a GDP ranking.
+  - Do not treat this as a livability index.
+  - Do not treat this as relocation advice.
+  - Do not treat this as a best-transit-cities list.
+  - Do not use the transit-region expansion of MTR.
+  - Do not select MTRs from reputation, fame, congestion narrative, walkability reputation, or intuition.
+  - Do not calculate final scores during candidate formation.
+  - Keep explanatory axes separate from outcome dimensions.
+
+paths:
+  source_truth: theses/mobility-conversion/source_truth
+  research: theses/mobility-conversion/research
+  evidence: theses/mobility-conversion/evidence
+  paper: theses/mobility-conversion/paper
+  operator_records: theses/mobility-conversion/operator_records
+
+current_methodology_artifacts:
+  status: formation_stage_controls
+  source_led_mtr_proposal_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-01-source-led-mtr-proposal-request.md
+  raw_return_buffer_protocol: theses/mobility-conversion/research/raw_return_buffer_protocol.md
+  deep_research_return_protocol: theses/mobility-conversion/research/deep_research_return_protocol.md
+  source_led_mtr_proposal_return_intake_protocol: theses/mobility-conversion/research/source_led_mtr_proposal_return_intake_protocol.md
+  source_led_mtr_proposal_intake_template: theses/mobility-conversion/research/source_led_mtr_proposal_intake_template.md
+  source_led_mtr_proposal_intake_2026_07_01: theses/mobility-conversion/research/source_led_mtr_proposal_intake_2026-07-01.md
+  source_led_mtr_lead_review_template: theses/mobility-conversion/research/source_led_mtr_lead_review_template.md
+  source_led_mtr_followup_batch_plan_2026_07_01: theses/mobility-conversion/research/source_led_mtr_followup_batch_plan_2026-07-01.md
+  eurostat_gisco_urban_audit_fua_download_api_source_note: theses/mobility-conversion/research/source_notes/eurostat_gisco_urban_audit_fua_download_api_2026-07-01.md
+  batch_s1a_eurostat_oecd_fua_exact_row_feasibility: theses/mobility-conversion/research/batch_s1a_eurostat_oecd_fua_exact_row_feasibility_2026-07-01.md
+  batch_s1b_us_county_based_boundary_mechanics: theses/mobility-conversion/research/batch_s1b_us_county_based_boundary_mechanics_2026-07-01.md
+  ghs_pop_population_grid_source_note: theses/mobility-conversion/research/source_notes/ghs_pop_population_grid_2026-07-01.md
+  batch_s1d_modelled_global_boundary_burden: theses/mobility-conversion/research/batch_s1d_modelled_global_boundary_burden_2026-07-01.md
+  statistics_canada_cma_ca_2021_current_glossary_followup_source_note: theses/mobility-conversion/research/source_notes/statistics_canada_cma_ca_2021_current_glossary_followup_2026-07-01.md
+  batch_s1c_commonwealth_hybrid_statistical_regions: theses/mobility-conversion/research/batch_s1c_commonwealth_hybrid_statistical_regions_2026-07-01.md
+  batch_s1e_local_service_source_verification_queue: theses/mobility-conversion/research/batch_s1e_local_service_source_verification_queue_2026-07-01.md
+  eurostat_oecd_fua_exact_row_extraction_workflow: theses/mobility-conversion/research/eurostat_oecd_fua_exact_row_extraction_workflow_2026-07-01.md
+  eurostat_oecd_fua_exact_row_extraction_note_2026_07_01: theses/mobility-conversion/research/eurostat_oecd_fua_exact_row_extraction_note_2026-07-01.md
+  eurostat_urb_lpop1_fua_population_source_note: theses/mobility-conversion/research/source_notes/eurostat_urb_lpop1_fua_population_2026-07-01.md
+  eurostat_fua_population_denominator_path_note: theses/mobility-conversion/research/eurostat_fua_population_denominator_path_note_2026-07-01.md
+  hsl_digitransit_service_sources_source_note: theses/mobility-conversion/research/source_notes/hsl_digitransit_service_sources_2026-07-01.md
+  helsinki_fua_service_source_trace_note: theses/mobility-conversion/research/helsinki_fua_service_source_trace_note_2026-07-01.md
+  france_nap_lyon_tcl_service_sources_source_note: theses/mobility-conversion/research/source_notes/france_nap_lyon_tcl_service_sources_2026-07-01.md
+  lyon_fua_service_source_trace_note: theses/mobility-conversion/research/lyon_fua_service_source_trace_note_2026-07-01.md
+  european_fua_lead_gate_status: theses/mobility-conversion/research/european_fua_lead_gate_status_2026-07-01.md
+  european_fua_coverage_reconciliation_protocol: theses/mobility-conversion/research/european_fua_coverage_reconciliation_protocol.md
+  european_fua_blocked_readiness_dry_review: theses/mobility-conversion/research/european_fua_blocked_readiness_dry_review_2026-07-02.md
+  eurostat_fua_population_vintage_status_policy: theses/mobility-conversion/research/eurostat_fua_population_vintage_status_policy_2026-07-02.md
+  european_fua_denominator_vintage_worksheet: theses/mobility-conversion/research/european_fua_denominator_vintage_worksheet_2026-07-03.md
+  helsinki_fua_coverage_reconciliation_worksheet: theses/mobility-conversion/research/helsinki_fua_coverage_reconciliation_worksheet_2026-07-03.md
+  helsinki_fua_operator_inventory_research_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-03-helsinki-fua-operator-inventory-request.md
+  lyon_tcl_static_feed_availability_followup: theses/mobility-conversion/research/lyon_tcl_static_feed_availability_followup_2026-07-03.md
+  lyon_siri_lite_method_feasibility_note: theses/mobility-conversion/research/lyon_siri_lite_method_feasibility_note_2026-07-03.md
+  lyon_fua_source_recovery_research_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-03-lyon-fua-source-recovery-request.md
+  statistics_canada_2021_boundary_profile_source_paths_note: theses/mobility-conversion/research/source_notes/statistics_canada_2021_boundary_profile_source_paths_2026-07-03.md
+  calgary_cma_boundary_population_source_path_review: theses/mobility-conversion/research/calgary_cma_boundary_population_source_path_review_2026-07-03.md
+  calgary_cma_exact_row_extraction_workflow: theses/mobility-conversion/research/calgary_cma_exact_row_extraction_workflow_2026-07-04.md
+  calgary_cma_exact_row_source_bundle_research_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-04-calgary-cma-exact-row-source-bundle-request.md
+  melbourne_gccsa_boundary_population_source_path_review: theses/mobility-conversion/research/melbourne_gccsa_boundary_population_source_path_review_2026-07-04.md
+  melbourne_gccsa_exact_row_extraction_workflow: theses/mobility-conversion/research/melbourne_gccsa_exact_row_extraction_workflow_2026-07-04.md
+  melbourne_gccsa_exact_row_source_bundle_research_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-04-melbourne-gccsa-exact-row-source-bundle-request.md
+  bristol_ttwa_boundary_population_source_path_review: theses/mobility-conversion/research/bristol_ttwa_boundary_population_source_path_review_2026-07-05.md
+  bristol_ttwa_exact_row_extraction_workflow: theses/mobility-conversion/research/bristol_ttwa_exact_row_extraction_workflow_2026-07-05.md
+  bristol_ttwa_exact_row_source_bundle_research_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-05-bristol-ttwa-exact-row-source-bundle-request.md
+  minneapolis_ers_cz_boundary_population_source_path_review: theses/mobility-conversion/research/minneapolis_ers_cz_boundary_population_source_path_review_2026-07-05.md
+  minneapolis_ers_cz_exact_membership_extraction_workflow: theses/mobility-conversion/research/minneapolis_ers_cz_exact_membership_extraction_workflow_2026-07-05.md
+  minneapolis_ers_cz_exact_membership_source_bundle_research_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-05-minneapolis-ers-cz-exact-membership-source-bundle-request.md
+  portland_cbsa_boundary_population_source_path_review: theses/mobility-conversion/research/portland_cbsa_boundary_population_source_path_review_2026-07-05.md
+  portland_cbsa_exact_boundary_extraction_workflow: theses/mobility-conversion/research/portland_cbsa_exact_boundary_extraction_workflow_2026-07-05.md
+  portland_cbsa_exact_boundary_source_bundle_research_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-05-portland-cbsa-exact-boundary-source-bundle-request.md
+  sao_paulo_ghs_fua_boundary_classification_review: theses/mobility-conversion/research/sao_paulo_ghs_fua_boundary_classification_review_2026-07-05.md
+  sao_paulo_ghs_fua_high_burden_extraction_workflow: theses/mobility-conversion/research/sao_paulo_ghs_fua_high_burden_extraction_workflow_2026-07-05.md
+  sao_paulo_ghs_fua_high_burden_source_bundle_research_handoff: theses/mobility-conversion/operator_records/handoffs/2026-07-05-sao-paulo-ghs-fua-high-burden-source-bundle-request.md
+  helsinki_fua_operator_inventory_raw_return: theses/mobility-conversion/operator_records/external_query_tests/2026-07-05-helsinki-fua-operator-inventory-raw-return.md
+  helsinki_fua_operator_inventory_raw_return_intake: theses/mobility-conversion/research/helsinki_fua_operator_inventory_raw_return_intake_2026-07-05.md
+  oecd_helsinki_fua_municipality_membership_source_note: theses/mobility-conversion/research/source_notes/oecd_helsinki_fua_municipality_membership_2026-07-05.md
+  lyon_fua_source_recovery_raw_return: theses/mobility-conversion/operator_records/external_query_tests/2026-07-05-lyon-fua-source-recovery-raw-return.md
+  lyon_fua_source_recovery_raw_return_intake: theses/mobility-conversion/research/lyon_fua_source_recovery_raw_return_intake_2026-07-05.md
+  france_nap_lyon_tcl_static_feed_recovery_source_note: theses/mobility-conversion/research/source_notes/france_nap_lyon_tcl_static_feed_recovery_2026-07-05.md
+  calgary_cma_exact_row_source_bundle_raw_return: theses/mobility-conversion/operator_records/external_query_tests/2026-07-05-calgary-cma-exact-row-source-bundle-raw-return.md
+  calgary_cma_exact_row_raw_return_intake: theses/mobility-conversion/research/calgary_cma_exact_row_raw_return_intake_2026-07-05.md
+  statistics_canada_calgary_cma_exact_row_source_note: theses/mobility-conversion/research/source_notes/statistics_canada_calgary_cma_exact_row_2026-07-05.md
+  melbourne_gccsa_exact_row_source_bundle_raw_return: theses/mobility-conversion/operator_records/external_query_tests/2026-07-05-melbourne-gccsa-exact-row-source-bundle-raw-return.md
+  melbourne_gccsa_exact_row_raw_return_intake: theses/mobility-conversion/research/melbourne_gccsa_exact_row_raw_return_intake_2026-07-05.md
+  abs_greater_melbourne_gccsa_exact_row_source_note: theses/mobility-conversion/research/source_notes/abs_greater_melbourne_gccsa_exact_row_2026-07-05.md
+  bristol_ttwa_exact_row_source_bundle_raw_return: theses/mobility-conversion/operator_records/external_query_tests/2026-07-05-bristol-ttwa-exact-row-source-bundle-raw-return.md
+  bristol_ttwa_exact_row_raw_return_intake: theses/mobility-conversion/research/bristol_ttwa_exact_row_raw_return_intake_2026-07-05.md
+  ons_bristol_ttwa_exact_row_source_note: theses/mobility-conversion/research/source_notes/ons_bristol_ttwa_exact_row_2026-07-05.md
+  minneapolis_ers_cz_exact_membership_source_bundle_raw_return: theses/mobility-conversion/operator_records/external_query_tests/2026-07-05-minneapolis-ers-cz-exact-membership-source-bundle-raw-return.md
+  minneapolis_ers_cz_exact_membership_raw_return_intake: theses/mobility-conversion/research/minneapolis_ers_cz_exact_membership_raw_return_intake_2026-07-05.md
+  usda_ers_minneapolis_cz_exact_membership_source_note: theses/mobility-conversion/research/source_notes/usda_ers_minneapolis_cz_exact_membership_2026-07-05.md
+  portland_cbsa_exact_boundary_source_bundle_raw_return: theses/mobility-conversion/operator_records/external_query_tests/2026-07-05-portland-cbsa-exact-boundary-source-bundle-raw-return.md
+  portland_cbsa_exact_boundary_raw_return_intake: theses/mobility-conversion/research/portland_cbsa_exact_boundary_raw_return_intake_2026-07-05.md
+  us_census_portland_cbsa_exact_boundary_source_note: theses/mobility-conversion/research/source_notes/us_census_portland_cbsa_exact_boundary_2026-07-05.md
+  sao_paulo_ghs_fua_high_burden_source_bundle_raw_return: theses/mobility-conversion/operator_records/external_query_tests/2026-07-05-sao-paulo-ghs-fua-high-burden-source-bundle-raw-return.md
+  sao_paulo_ghs_fua_raw_return_intake: theses/mobility-conversion/research/sao_paulo_ghs_fua_raw_return_intake_2026-07-05.md
+  jrc_ghsl_sao_paulo_ghs_fua_source_system_source_note: theses/mobility-conversion/research/source_notes/jrc_ghsl_sao_paulo_ghs_fua_source_system_2026-07-05.md
+  county_coarseness_readiness_screen: theses/mobility-conversion/research/county_coarseness_readiness_screen_2026-07-06.md
+  county_coarseness_method_note: theses/mobility-conversion/research/county_coarseness_method_note_2026-07-06.md
+  county_coarseness_overlay_plan: theses/mobility-conversion/research/county_coarseness_overlay_plan_2026-07-06.md
+  us_census_acs_tiger_subcounty_overlay_source_note: theses/mobility-conversion/research/source_notes/us_census_acs_tiger_subcounty_overlay_sources_2026-07-06.md
+  census_tiger_acs_overlay_manifest_decision: theses/mobility-conversion/research/census_tiger_acs_overlay_manifest_decision_2026-07-07.md
+  source_note_verification_protocol: theses/mobility-conversion/research/source_note_verification_protocol.md
+  source_note_template: theses/mobility-conversion/research/source_note_template.md
+  boundary_candidate_readiness_checklist: theses/mobility-conversion/research/boundary_candidate_readiness_checklist.md
+  boundary_record_template: theses/mobility-conversion/research/boundary_record_template.md
+  evidence_manifest_template: theses/mobility-conversion/evidence/manifests/evidence_manifest_template.md
+  tiger_2024_subcounty_geometry_overlay_manifest: theses/mobility-conversion/evidence/manifests/tiger_2024_subcounty_geometry_overlay_manifest_2026-07-07.md
+  tiger_2024_license_storage_review: theses/mobility-conversion/research/tiger_2024_license_storage_review_2026-07-07.md
+  tiger_2024_raw_geometry_acquisition_log: theses/mobility-conversion/research/tiger_2024_raw_geometry_acquisition_log_2026-07-07.md
+  tiger_2024_raw_geometry_quality_review: theses/mobility-conversion/research/tiger_2024_raw_geometry_quality_review_2026-07-07.md
+  tiger_2024_geometry_boundary_alignment_plan: theses/mobility-conversion/research/tiger_2024_geometry_boundary_alignment_plan_2026-07-07.md
+  tiger_2024_geometry_extraction_tooling_check: theses/mobility-conversion/research/tiger_2024_geometry_extraction_tooling_check_2026-07-07.md
+  acs_api_access_recheck: theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md
+
+current_next_step:
+  status: blocked_between_extraction_tooling_and_acs_api_verification
+  action: >
+    The TIGER 2024 tract/block-group geometry raw ZIPs for Minnesota,
+    Wisconsin, Oregon, and Washington have been archived under the manifest,
+    checksummed, ZIP-integrity tested, and reviewed for shapefile schemas,
+    geography keys, feature counts, and coordinate reference metadata. A
+    geometry-only boundary-alignment plan now defines county FIPS filters and
+    tract/block-group escalation rules. Current local blockers are: no GIS
+    extraction tooling in the system or bundled runtimes, and ACS API access
+    still failing locally with curl TLS code 35. Next work should either enable
+    extraction tooling for processed geometry or verify ACS API rows from a
+    working environment. Do this without creating filled boundary records,
+    candidate-universe ledgers, metric records, scores, rankings, accepted
+    denominator values, or accepted population values.
+  not_allowed: >
+    Do not admit MTRs, create a candidate list, create a candidate-universe
+    ledger, create outcome metric records, calculate scores, rank MTRs, or
+    archive raw evidence without a manifest.
