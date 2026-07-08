@@ -170,11 +170,16 @@ rank places.
 
 The TIGER geometry extraction blocker is solvable with `pyshp`.
 
-Recommended next step on this branch:
+Completed next step on this branch:
 
-- choose whether `pyshp` should be installed in a project-local temporary
-  target, documented runtime setup, or a lightweight project venv;
-- run write mode to a processed evidence path;
-- create a processed-geometry extraction log plus manifest update.
+- used documented temporary runtime setup with `PYTHONPATH=/tmp/mobility-pyshp-test`;
+- ran write mode to the processed evidence path;
+- created a processed-geometry extraction log and manifest update.
+
+Current next step:
+
+- perform processed geometry topology or visual sanity review;
+- decide whether tract-level geometry is sufficient for the first sensitivity
+  pass.
 
 ACS remains separately blocked by local TLS/API failures.

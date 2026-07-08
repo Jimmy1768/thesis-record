@@ -4,7 +4,7 @@ Status: draft evidence manifest. Do not treat this file as accepted evidence.
 
 ```yaml
 manifest_id: tiger_2024_subcounty_geometry_overlay_manifest_2026_07_07
-manifest_status: needs_boundary_review
+manifest_status: needs_quality_review
 created: 2026-07-07
 updated: 2026-07-07
 operator_thread: Thesis 2
@@ -50,7 +50,11 @@ intended_use:
 
 storage:
   raw_archive_path: theses/mobility-conversion/evidence/raw/us_census/tiger_2024_subcounty_geometry/
-  processed_path: not_created
+  processed_path:
+    minneapolis_ers_cz_tracts: theses/mobility-conversion/evidence/processed/us_census/tiger_2024_subcounty_geometry/minneapolis_ers_cz_tracts/
+    minneapolis_ers_cz_block_groups: theses/mobility-conversion/evidence/processed/us_census/tiger_2024_subcounty_geometry/minneapolis_ers_cz_block_groups/
+    portland_cbsa_tracts: theses/mobility-conversion/evidence/processed/us_census/tiger_2024_subcounty_geometry/portland_cbsa_tracts/
+    portland_cbsa_block_groups: theses/mobility-conversion/evidence/processed/us_census/tiger_2024_subcounty_geometry/portland_cbsa_block_groups/
   checksum:
     tl_2024_27_bg.zip: 608a2cf783eb473f0e0d1d96085cd9b36f5d0581e25556f95686b2a1af71ed5f
     tl_2024_27_tract.zip: ff85e970af09db62e28f1010cbf51c0241373da4e75b168aee76ca224473f3ce
@@ -94,7 +98,7 @@ vintage_and_refresh:
   refresh_trigger: newer_tiger_release_or_acs_population_table_vintage_decision
 
 quality_review:
-  verification_status: raw_zips_downloaded_checksums_computed_zip_integrity_schema_feature_count_crs_review_passed_boundary_alignment_pending
+  verification_status: raw_and_processed_geometry_created_checksummed_readback_passed_topology_and_population_join_pending
   completeness_notes:
     - all_required_state_tract_paths_for_current_minneapolis_and_portland_overlay_scope_head_verified
     - all_required_state_block_group_paths_for_current_minneapolis_and_portland_overlay_scope_head_verified
@@ -104,6 +108,11 @@ quality_review:
     - each_zip_contains_expected_shapefile_sidecar_set
     - shapefile_schema_and_feature_counts_reviewed
     - coordinate_reference_system_reviewed_as_GCS_North_American_1983
+    - geometry_boundary_alignment_plan_created
+    - pyshp_extraction_tooling_validated
+    - processed_county_filtered_geometry_created
+    - processed_geometry_readback_counts_and_bounding_boxes_recorded
+    - processed_geometry_checksums_recorded
     - ACS population tables not verified or archived
   missingness_class: no_missing_sidecars_detected_schema_level_only
   comparability_class: likely_comparable_within_tiger_2024_pending_raw_inspection
@@ -113,8 +122,8 @@ quality_review:
     - geometry_only_no_population_values
     - ACS API access_blocked_in_current_environment
     - no_topology_validation_or_geometry_repair_done
-    - no_processed_geometry_created
-    - boundary_alignment_plan_not_yet_created
+    - no_visual_or_topology_review_of_processed_outputs
+    - source_metadata_xml_not_copied_to_combined_derived_outputs
     - no boundary_record_or_metric_record_dependency_allowed
 
 admissibility:
@@ -123,19 +132,20 @@ admissibility:
   allowed_for_boundary_record: false
   allowed_for_metric_record: false
   allowed_for_final_evidence: false
-  decision: raw_archive_quality_review_complete_boundary_alignment_required_no_method_test_admission
+  decision: raw_and_processed_geometry_created_quality_review_required_no_method_test_admission
   decision_date: 2026-07-07
   rationale: >
     Official U.S. Census Bureau TIGER/Line 2024 tract and block-group state ZIP
     paths for Minnesota, Wisconsin, Oregon, and Washington have been verified by
     HEAD requests and downloaded under a reviewed license/storage posture. Raw
     ZIP checksums, ZIP integrity checks, shapefile schema review, feature-count
-    capture, and coordinate-reference metadata review are complete. Boundary
-    alignment, processed extraction, ACS population-table acquisition, and
+    capture, coordinate-reference metadata review, boundary-alignment planning,
+    and county-filtered processed geometry extraction are complete. Processed
+    output topology/visual review, ACS population-table acquisition, and
     downstream overlay method gates remain unresolved.
   required_follow_up:
-    - confirm extraction tooling
-    - decide whether to create processed extracted geometry
+    - perform processed geometry topology_or_visual_sanity_review
+    - decide whether tract-level geometry is sufficient for first sensitivity pass
     - keep ACS population-table acquisition deferred until API row verification succeeds
 ```
 
@@ -155,10 +165,14 @@ Geometry boundary-alignment plan:
 
 - `theses/mobility-conversion/research/tiger_2024_geometry_boundary_alignment_plan_2026-07-07.md`
 
+Processed geometry extraction log:
+
+- `theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`
+
 ## Manifest Limits
 
 This manifest records source identity, intended use, verified remote path
-metadata, raw ZIP archive location, checksums, and ZIP integrity status. It does
-not create processed geometry, accept a population value, accept a denominator,
-fill a boundary record, create an outcome metric record, calculate scores, rank
-places, or support final paper claims.
+metadata, raw ZIP archive location, checksums, ZIP integrity status, and
+county-filtered processed geometry locations. It does not accept a population
+value, accept a denominator, fill a boundary record, create an outcome metric
+record, calculate scores, rank places, or support final paper claims.

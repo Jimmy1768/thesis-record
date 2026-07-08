@@ -51,10 +51,10 @@ return.
 | `mtr_src_001` Helsinki FUA | Finland | `observed_functional_region` | Eurostat GISCO / OECD | `municipality_membership_verified_service_completeness_blocked` | Reconcile non-HSL service-source coverage against official `FI001F` membership |
 | `mtr_src_002` Lyon FUA | France | `observed_functional_region` | Eurostat GISCO / European Commission | `static_feed_and_siri_method_blocked` | Resolve authenticated TCL static-feed access, licence, SIRI Lite method, and non-TCL operators |
 | `mtr_src_003` Bristol TTWA | United Kingdom | `national_commuting_zone` | ONS / ONS Open Geography Portal | `exact_row_verified_boundary_population_and_service_blocked` | Verify raw boundary geometry, population path, commute-vintage caveat, and service-source materiality |
-| `mtr_src_004` Minneapolis-St. Paul ERS CZ | United States | `national_commuting_zone` | USDA ERS | `blocked_between_extraction_tooling_and_acs_api_verification` | Enable geometry extraction tooling or verify ACS API rows externally; no population values accepted |
+| `mtr_src_004` Minneapolis-St. Paul ERS CZ | United States | `national_commuting_zone` | USDA ERS | `processed_tiger_geometry_created_quality_review_next` | Review processed geometry topology/visual sanity and tract sufficiency; no population values accepted |
 | `mtr_src_005` Calgary CMA | Canada | `hybrid_functional_statistical_region` | Statistics Canada | `boundary_feature_verified_population_dguid_conflict` | Resolve Statistics Canada DGUID/profile relation, population path, CSD membership, and service-overlay caveats |
 | `mtr_src_006` Greater Melbourne GCCSA | Australia | `hybrid_functional_statistical_region` | Australian Bureau of Statistics | `exact_row_verified_boundary_population_and_fit_blocked` | Verify ABS population path, SA4 membership, boundary-fit, and Victoria service overlay |
-| `mtr_src_007` Portland-Vancouver-Hillsboro MSA | United States | `official_statistical_metro` | OMB / U.S. Census Bureau | `blocked_between_extraction_tooling_and_acs_api_verification` | Enable geometry extraction tooling or verify ACS API rows externally; no population values accepted |
+| `mtr_src_007` Portland-Vancouver-Hillsboro MSA | United States | `official_statistical_metro` | OMB / U.S. Census Bureau | `processed_tiger_geometry_created_quality_review_next` | Review processed geometry topology/visual sanity and tract sufficiency; no population values accepted |
 | `mtr_src_008` Sao Paulo GHS-FUA | Brazil | `modelled_functional_region` | European Commission JRC / GHSL | `source_system_verified_exact_row_and_fallback_blocked` | Review IBGE alternatives or prepare manifest before GHS-FUA GeoPackage extraction |
 
 ## Lead Details
@@ -260,6 +260,12 @@ return.
   tooling or external ACS row verification. See
   `theses/mobility-conversion/research/tiger_2024_geometry_extraction_tooling_check_2026-07-07.md`
   and `theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md`.
+- pyshp extraction update, 2026-07-08: a branch tooling spike confirmed pyshp
+  as adequate for county-FIPS filtering and created processed tract and
+  block-group geometry outputs for the Minneapolis and Portland filters. No
+  population values, denominators, boundary records, metrics, scores, or
+  rankings are authorized. See
+  `theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`.
 
 ### Lead: `mtr_src_005` Calgary CMA
 
@@ -418,6 +424,12 @@ return.
   tooling or external ACS row verification. See
   `theses/mobility-conversion/research/tiger_2024_geometry_extraction_tooling_check_2026-07-07.md`
   and `theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md`.
+- pyshp extraction update, 2026-07-08: a branch tooling spike confirmed pyshp
+  as adequate for county-FIPS filtering and created processed tract and
+  block-group geometry outputs for the Minneapolis and Portland filters. No
+  population values, denominators, boundary records, metrics, scores, or
+  rankings are authorized. See
+  `theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`.
 
 ### Lead: `mtr_src_008` Sao Paulo GHS-FUA
 
