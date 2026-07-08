@@ -119,6 +119,7 @@ Latest evidence-design artifacts:
 - TIGER 2024 raw geometry quality review, 2026-07-07.
 - TIGER 2024 geometry boundary-alignment plan, 2026-07-07.
 - TIGER 2024 geometry extraction tooling check, 2026-07-07.
+- TIGER 2024 geometry tooling spike, 2026-07-08.
 - ACS API access recheck, 2026-07-07.
 
 Outcome metric registry template:
@@ -430,14 +431,19 @@ TIGER 2024 geometry extraction tooling check, 2026-07-07:
 
 - `theses/mobility-conversion/research/tiger_2024_geometry_extraction_tooling_check_2026-07-07.md`
 
+TIGER 2024 geometry tooling spike, 2026-07-08:
+
+- `theses/mobility-conversion/research/tiger_2024_geometry_tooling_spike_2026-07-08.md`
+
 ACS API access recheck, 2026-07-07:
 
 - `theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md`
 
 Next evidence-design artifact:
 
-- Enable geometry extraction tooling for processed geometry, or verify ACS API
-  row access from a working environment. Continue only source-family work that
-  does not create filled boundary records, candidate-universe ledgers, metric
-  records, scores, rankings, accepted population values, or accepted
-  denominator values.
+- Choose the documented pyshp runtime setup, run geometry write mode to a
+  processed evidence path, and create a processed-geometry extraction log plus
+  manifest update; or verify ACS API row access from a working environment.
+  Continue only source-family work that does not create filled boundary
+  records, candidate-universe ledgers, metric records, scores, rankings,
+  accepted population values, or accepted denominator values.

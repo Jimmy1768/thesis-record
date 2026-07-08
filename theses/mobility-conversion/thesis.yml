@@ -158,21 +158,24 @@ current_methodology_artifacts:
   tiger_2024_raw_geometry_quality_review: theses/mobility-conversion/research/tiger_2024_raw_geometry_quality_review_2026-07-07.md
   tiger_2024_geometry_boundary_alignment_plan: theses/mobility-conversion/research/tiger_2024_geometry_boundary_alignment_plan_2026-07-07.md
   tiger_2024_geometry_extraction_tooling_check: theses/mobility-conversion/research/tiger_2024_geometry_extraction_tooling_check_2026-07-07.md
+  tiger_2024_geometry_tooling_spike: theses/mobility-conversion/research/tiger_2024_geometry_tooling_spike_2026-07-08.md
   acs_api_access_recheck: theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md
 
 current_next_step:
-  status: blocked_between_extraction_tooling_and_acs_api_verification
+  status: pyshp_tooling_spike_success_processed_geometry_log_next
   action: >
     The TIGER 2024 tract/block-group geometry raw ZIPs for Minnesota,
     Wisconsin, Oregon, and Washington have been archived under the manifest,
     checksummed, ZIP-integrity tested, and reviewed for shapefile schemas,
     geography keys, feature counts, and coordinate reference metadata. A
     geometry-only boundary-alignment plan now defines county FIPS filters and
-    tract/block-group escalation rules. Current local blockers are: no GIS
-    extraction tooling in the system or bundled runtimes, and ACS API access
-    still failing locally with curl TLS code 35. Next work should either enable
-    extraction tooling for processed geometry or verify ACS API rows from a
-    working environment. Do this without creating filled boundary records,
+    tract/block-group escalation rules. A branch tooling spike shows that
+    pyshp can read the raw TIGER ZIPs and write filtered tract/block-group
+    shapefiles for the Minneapolis and Portland FIPS filters. Next work on this
+    branch should choose the documented pyshp runtime setup, run write mode to a
+    processed evidence path, and create a processed-geometry extraction log plus
+    manifest update. ACS API access remains separately blocked locally with
+    curl TLS code 35. Do this without creating filled boundary records,
     candidate-universe ledgers, metric records, scores, rankings, accepted
     denominator values, or accepted population values.
   not_allowed: >

@@ -2,7 +2,8 @@
 
 Date: 2026-07-07
 
-Status: tooling check. No processed geometry was created.
+Status: tooling check, superseded in branch by 2026-07-08 pyshp spike. No
+processed geometry was created in the repo.
 
 Related boundary-alignment plan:
 
@@ -28,6 +29,14 @@ geometry_extraction_tooling_check:
 
 The raw ZIPs were already archived, checksummed, ZIP-tested, and reviewed at
 schema/header level. The missing tooling affects processed extraction only.
+
+Branch follow-up:
+
+- `theses/mobility-conversion/research/tiger_2024_geometry_tooling_spike_2026-07-08.md`
+
+The branch spike shows that the blocker is solvable with `pyshp` installed into
+an isolated temporary target. Formal processed-output extraction still needs its
+own log and manifest update before repo evidence outputs are created.
 
 ## Acceptable Next Tooling Paths
 
