@@ -71,6 +71,8 @@ class OperatorStatusAlertJobTest < ActiveJob::TestCase
     Operations::OperatorStatusAlertJob.brevo_client_factory = -> { brevo_client }
 
     Operations::OperatorStatusAlertJob.perform_now(now: now)
+    first_event = AuditEvent.where(event_type: "operator_status_alert_sent").last
+    assert_equal now, first_event.occurred_at
 
     assert_no_difference -> { AuditEvent.where(event_type: "operator_status_alert_sent").count } do
       Operations::OperatorStatusAlertJob.perform_now(now: now + 1.hour)

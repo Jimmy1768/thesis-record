@@ -22,25 +22,27 @@ finished methodology.
 
 ## Current Work
 
-The current objective is candidate intake:
+The current objective is still candidate formation, but the active local gate is
+the TIGER 2024 processed-geometry quality review for the Minneapolis and
+Portland county-filtered overlays:
 
-- define the MTR unit;
-- separate approved framing from methodology questions;
-- design a candidate-universe protocol;
-- define evidence standards before source collection;
+- preserve the archived TIGER geometry and processed-overlay evidence trail;
+- perform a processed-geometry topology or visual sanity review;
+- decide whether tract-level geometry is sufficient for the first sensitivity
+  pass;
+- keep ACS population-table verification separate until local API access works;
 - preserve falsifiability and rejection paths.
 
 ## Current Waiting State
 
-Thesis 2 is waiting for a source-led MTR proposal return from the research
-thread.
+Thesis 2 is waiting on the next allowed evidence-design move from the processed
+geometry gate.
 
-When it arrives:
+Until that review is complete:
 
-- preserve the full raw return;
-- create an interpreted intake note;
-- classify every returned lead before promoting any one lead;
-- use the source-led MTR lead review template only for leads needing individual
-  follow-up;
-- do not admit MTRs, create a candidate list, score, rank, or archive raw
-  evidence without a manifest.
+- do not turn the overlay work into a filled boundary record, accepted
+  denominator, accepted population value, metric record, score, or ranking;
+- do not admit MTRs or create a candidate list;
+- keep raw returns and follow-up source work classified before promoting any
+  lead;
+- keep manifest discipline intact for any further evidence movement.

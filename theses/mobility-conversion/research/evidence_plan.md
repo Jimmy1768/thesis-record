@@ -118,7 +118,6 @@ Latest evidence-design artifacts:
 - TIGER 2024 raw geometry acquisition log, 2026-07-07.
 - TIGER 2024 raw geometry quality review, 2026-07-07.
 - TIGER 2024 geometry boundary-alignment plan, 2026-07-07.
-- TIGER 2024 geometry extraction tooling check, 2026-07-07.
 - TIGER 2024 geometry tooling spike, 2026-07-08.
 - TIGER 2024 processed geometry extraction log, 2026-07-08.
 - ACS API access recheck, 2026-07-07.
@@ -427,10 +426,6 @@ TIGER 2024 raw geometry quality review, 2026-07-07:
 TIGER 2024 geometry boundary-alignment plan, 2026-07-07:
 
 - `theses/mobility-conversion/research/tiger_2024_geometry_boundary_alignment_plan_2026-07-07.md`
-
-TIGER 2024 geometry extraction tooling check, 2026-07-07:
-
-- `theses/mobility-conversion/research/tiger_2024_geometry_extraction_tooling_check_2026-07-07.md`
 
 TIGER 2024 geometry tooling spike, 2026-07-08:
 

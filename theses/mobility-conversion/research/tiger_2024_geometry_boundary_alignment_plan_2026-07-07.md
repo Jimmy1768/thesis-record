@@ -2,10 +2,16 @@
 
 Date: 2026-07-07
 
-Status: geometry-only boundary-alignment plan. This plan does not create
-processed geometry, accept population values, accept a denominator, fill a
-boundary record, create an outcome metric record, calculate scores, rank
-places, or support final paper claims.
+Status: complete geometry-only boundary-alignment plan. The plan's county FIPS
+filters and tract/block-group escalation rules were carried forward by the
+accepted tooling and processed-geometry work recorded in
+`theses/mobility-conversion/research/tiger_2024_geometry_tooling_spike_2026-07-08.md`,
+`theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`,
+`theses/mobility-conversion/evidence/manifests/tiger_2024_subcounty_geometry_overlay_manifest_2026-07-07.md`,
+`7bb976c`, and `5e43b41`. This plan still does not itself create processed
+geometry, accept population values, accept a denominator, fill a boundary
+record, create an outcome metric record, calculate scores, rank places, or
+support final paper claims.
 
 Related manifest:
 

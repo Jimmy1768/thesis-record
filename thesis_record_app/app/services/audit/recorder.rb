@@ -38,11 +38,12 @@ module Audit
                             storage_zone: "production_postgresql", privacy_classification: "internal",
                             claim_status_effect: "unchanged", export_allowed: false,
                             previous_state_hash: nil, new_state_hash: nil,
-                            request_id: nil, job_id: nil, ip_or_host: nil)
+                            request_id: nil, job_id: nil, ip_or_host: nil,
+                            occurred_at: Time.current)
       actor_type, actor_id = actor_parts(actor)
 
       AuditEvent.create!(
-        occurred_at: Time.current,
+        occurred_at: occurred_at,
         actor_type: actor_type,
         actor_id: actor_id,
         event_type: event_type,

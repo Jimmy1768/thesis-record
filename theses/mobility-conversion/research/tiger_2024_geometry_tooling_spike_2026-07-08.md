@@ -4,7 +4,11 @@ Date: 2026-07-08
 
 Branch: `codex/mobility-geometry-tooling`
 
-Status: tooling spike. No processed evidence output was written into the repo.
+Status: tooling spike completed. This spike established a repo-local pyshp
+workflow, and the accepted follow-on branch work wrote processed geometry
+outputs into the repo as recorded in
+`theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`
+and commit `5e43b41`.
 
 ## Question
 

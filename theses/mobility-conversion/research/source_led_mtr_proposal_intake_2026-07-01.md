@@ -254,18 +254,16 @@ return.
   county FIPS filters, tract-first handling, and block-group escalation rules.
   No processed geometry or population overlay is authorized by the plan. See
   `theses/mobility-conversion/research/tiger_2024_geometry_boundary_alignment_plan_2026-07-07.md`.
-- tooling/API blocker update, 2026-07-07: local geometry extraction tooling is
-  unavailable in both system and bundled runtimes, and ACS API access remains
-  blocked locally with curl TLS code 35. Next progress requires extraction
-  tooling or external ACS row verification. See
-  `theses/mobility-conversion/research/tiger_2024_geometry_extraction_tooling_check_2026-07-07.md`
+- processed-geometry update, 2026-07-08: the pyshp tooling spike confirmed a
+  workable county-FIPS filtering path, and processed tract and block-group
+  geometry outputs were created for the Minneapolis and Portland filters. The
+  next gate is processed-geometry topology or visual sanity review, while ACS
+  API access remains blocked locally with curl TLS code 35. No population
+  values, denominators, boundary records, metrics, scores, or rankings are
+  authorized. See
+  `theses/mobility-conversion/research/tiger_2024_geometry_tooling_spike_2026-07-08.md`,
+  `theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`,
   and `theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md`.
-- pyshp extraction update, 2026-07-08: a branch tooling spike confirmed pyshp
-  as adequate for county-FIPS filtering and created processed tract and
-  block-group geometry outputs for the Minneapolis and Portland filters. No
-  population values, denominators, boundary records, metrics, scores, or
-  rankings are authorized. See
-  `theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`.
 
 ### Lead: `mtr_src_005` Calgary CMA
 
@@ -418,18 +416,16 @@ return.
   county FIPS filters, tract-first handling, and block-group escalation rules.
   No processed geometry or population overlay is authorized by the plan. See
   `theses/mobility-conversion/research/tiger_2024_geometry_boundary_alignment_plan_2026-07-07.md`.
-- tooling/API blocker update, 2026-07-07: local geometry extraction tooling is
-  unavailable in both system and bundled runtimes, and ACS API access remains
-  blocked locally with curl TLS code 35. Next progress requires extraction
-  tooling or external ACS row verification. See
-  `theses/mobility-conversion/research/tiger_2024_geometry_extraction_tooling_check_2026-07-07.md`
+- processed-geometry update, 2026-07-08: the pyshp tooling spike confirmed a
+  workable county-FIPS filtering path, and processed tract and block-group
+  geometry outputs were created for the Minneapolis and Portland filters. The
+  next gate is processed-geometry topology or visual sanity review, while ACS
+  API access remains blocked locally with curl TLS code 35. No population
+  values, denominators, boundary records, metrics, scores, or rankings are
+  authorized. See
+  `theses/mobility-conversion/research/tiger_2024_geometry_tooling_spike_2026-07-08.md`,
+  `theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`,
   and `theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md`.
-- pyshp extraction update, 2026-07-08: a branch tooling spike confirmed pyshp
-  as adequate for county-FIPS filtering and created processed tract and
-  block-group geometry outputs for the Minneapolis and Portland filters. No
-  population values, denominators, boundary records, metrics, scores, or
-  rankings are authorized. See
-  `theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md`.
 
 ### Lead: `mtr_src_008` Sao Paulo GHS-FUA
 

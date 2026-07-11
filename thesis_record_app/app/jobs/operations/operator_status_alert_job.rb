@@ -43,7 +43,8 @@ module Operations
         entity_id: "operator_status",
         change_summary: "Operator status alert sent; warnings=#{summary.warnings.join(",")}",
         reason_code: "operator_status_warning",
-        new_state_hash: warning_digest
+        new_state_hash: warning_digest,
+        occurred_at: now
       )
     end
 
