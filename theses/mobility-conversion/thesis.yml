@@ -73,6 +73,8 @@ current_methodology_artifacts:
   source_led_mtr_proposal_intake_2026_07_01: theses/mobility-conversion/research/source_led_mtr_proposal_intake_2026-07-01.md
   source_led_mtr_lead_review_template: theses/mobility-conversion/research/source_led_mtr_lead_review_template.md
   source_led_mtr_followup_batch_plan_2026_07_01: theses/mobility-conversion/research/source_led_mtr_followup_batch_plan_2026-07-01.md
+  phase_2_source_candidate_feasibility_matrix_2026_07_12: theses/mobility-conversion/research/phase_2_source_candidate_feasibility_matrix_2026-07-12.md
+  phase_2_source_candidate_feasibility_acceptance_2026_07_12: theses/mobility-conversion/research/phase_2_source_candidate_feasibility_acceptance_2026-07-12.md
   eurostat_gisco_urban_audit_fua_download_api_source_note: theses/mobility-conversion/research/source_notes/eurostat_gisco_urban_audit_fua_download_api_2026-07-01.md
   batch_s1a_eurostat_oecd_fua_exact_row_feasibility: theses/mobility-conversion/research/batch_s1a_eurostat_oecd_fua_exact_row_feasibility_2026-07-01.md
   batch_s1b_us_county_based_boundary_mechanics: theses/mobility-conversion/research/batch_s1b_us_county_based_boundary_mechanics_2026-07-01.md
@@ -168,40 +170,35 @@ phase_ledger:
     note: accepted as formation-stage source truth, not final empirical methodology.
   - phase: 2
     name: source_and_candidate_feasibility
-    status: closure_pending
-    note: source and candidate feasibility gates remain unresolved; Phase 2 is next for ordered closure.
+    status: complete
+    note: bounded eight-lead source and candidate feasibility is closed for this intake.
   - phase: 3
     name: boundary_geometry_validation
-    status: active
-    note: processed-geometry artifacts exist, but this phase remains dependent on Phase 2 closure.
+    status: active_next
+    note: processed-geometry artifacts exist, and this phase is now the next active ordered phase.
   - phase: 4
     name: population_joins_and_metric_pre_admission
-    status: closed_until_prior_gates_pass
-    note: population joins and metric pre-admission remain blocked until prior gates pass.
+    status: closed
+    note: population joins and metric pre-admission remain closed until prior gates pass.
   - phase: 5
     name: candidate_admission_comparison_and_scoring
-    status: closed_until_prior_gates_pass
-    note: candidate admission, comparison, and scoring remain blocked until prior gates pass; paper and publication are outside this five-phase sequence.
+    status: closed
+    note: candidate admission, comparison, and scoring remain closed until prior gates pass; paper and publication are outside this five-phase sequence.
 
 current_next_step:
-  status: processed_tiger_geometry_created_quality_review_next
+  status: processed_geometry_topology_visual_sanity_review_next
   action: >
     The TIGER 2024 tract/block-group geometry raw ZIPs for Minnesota,
     Wisconsin, Oregon, and Washington have been archived under the manifest,
-    checksummed, ZIP-integrity tested, and reviewed for shapefile schemas,
-    geography keys, feature counts, and coordinate reference metadata. A
-    geometry-only boundary-alignment plan now defines county FIPS filters and
-    tract/block-group escalation rules. Pyshp was used to create county-filtered
-    processed tract and block-group shapefiles for the Minneapolis and Portland
-    FIPS filters, with readback counts and checksums recorded. Those processed
-    geometry artifacts exist, but ordered Control execution moves to Phase 2
-    source and candidate feasibility closure next. ACS API access remains
-    separately blocked locally with curl TLS code 35. Do this without creating
-    filled boundary records, candidate-universe ledgers, metric records,
-    scores, rankings, accepted denominator values, or accepted population
-    values.
+    checksummed, ZIP-integrity tested, and processed for the Minneapolis and
+    Portland county filters. The next ordered move is a processed-geometry
+    topology or visual sanity review and a tract-sufficiency decision for
+    Minneapolis and Portland. ACS API access remains separately blocked locally
+    with curl TLS code 35. Do this without creating filled boundary records,
+    candidate-universe ledgers, metric records, scores, rankings, accepted
+    denominator values, or accepted population values. Phase 2 is complete for
+    the bounded eight-lead intake and Phase 3 is now active_next.
   not_allowed: >
     Do not admit MTRs, create a candidate list, create a candidate-universe
     ledger, create outcome metric records, calculate scores, rank MTRs, or
-    archive raw evidence without a manifest. Phase 3 validation remains
-    dependent on Phase 2 closure.
+    archive raw evidence without a manifest. Phase 4 and Phase 5 remain closed.

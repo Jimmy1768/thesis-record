@@ -22,9 +22,9 @@ finished methodology.
 
 ## Current Work
 
-The current objective is still candidate formation, but the active local gate is
-the TIGER 2024 processed-geometry quality review for the Minneapolis and
-Portland county-filtered overlays:
+Phase 2 source and candidate feasibility is complete for the bounded eight-lead
+intake. The active local gate is now the Phase 3 processed-geometry review for
+the Minneapolis and Portland county-filtered overlays:
 
 - preserve the archived TIGER geometry and processed-overlay evidence trail;
 - perform a processed-geometry topology or visual sanity review;
@@ -36,7 +36,7 @@ Portland county-filtered overlays:
 ## Current Waiting State
 
 Thesis 2 is waiting on the next allowed evidence-design move from the processed
-geometry gate.
+geometry gate, not on Phase 2 source-feasibility closure.
 
 Until that review is complete:
 
@@ -51,14 +51,12 @@ Until that review is complete:
 
 - Phase 1 complete: framing and methodology scaffolding is accepted as
   formation-stage source truth.
-- Phase 2 next for ordered closure: source and candidate feasibility gates
-  remain unresolved.
-- Phase 3 has processed-geometry artifacts but remains dependent on Phase 2
-  closure: boundary geometry validation stays queued behind the ordered gate.
-- Phase 4 closed until prior gates pass: population joins and metric
-  pre-admission remain blocked.
-- Phase 5 closed until prior gates pass: candidate admission, comparison, and
-  scoring remain blocked.
+- Phase 2 complete for the bounded eight-lead intake: source and candidate
+  feasibility is closed for this intake.
+- Phase 3 active_next: processed-geometry artifacts exist and boundary geometry
+  validation is the next active ordered phase.
+- Phase 4 closed: population joins and metric pre-admission remain blocked.
+- Phase 5 closed: candidate admission, comparison, and scoring remain blocked.
 
 Paper and publication are outside this five-phase sequence and do not replace
 Phase 5.

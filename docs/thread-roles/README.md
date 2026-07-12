@@ -2,10 +2,16 @@
 
 Status: current temporary Codex Work Mode guidance.
 
-Canonical contract: OperatorKit commit `4c29cf51`.
+Canonical contract: OperatorKit commit `b745b6a8`.
 
 ThesisRecord uses one repo-local Control task and at most one active disposable
 Handoff task.
+
+Each active Handoff belongs to exactly one Control. The
+`owner_control_thread_id` and `handoff_thread_id` pair is a one-to-one identity
+binding: a Handoff thread must never be shared across Controls, and a Control
+must never target another Control's Handoff. `owner_control_thread_id` is
+binding metadata, not a return destination.
 
 ## Control
 
@@ -25,6 +31,7 @@ push, request approval, deploy, restart services, or touch external state.
 
 Every packet binds:
 
+- `owner_control_thread_id`;
 - `handoff_thread_id`;
 - `expected_runtime_class`;
 - `heartbeat_delay_minutes`;
@@ -34,6 +41,10 @@ Every packet binds:
 The Handoff writes its final return in its own task and stops. That return is
 not delivered to Control and does not wake Control. The packet must not use
 `control_thread_id` as a worker-delivery field or claim direct delivery.
+
+Cross-repository work routes Control-to-Control. The receiving Control uses its
+own uniquely bound Handoff. A terminal Handoff is archived before its Control
+creates a replacement.
 
 ## Heartbeat
 
