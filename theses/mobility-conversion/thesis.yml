@@ -164,6 +164,11 @@ current_methodology_artifacts:
   tiger_processed_geometry_validate: theses/mobility-conversion/research/tools/tiger_processed_geometry_validate.py
   tiger_2024_processed_geometry_validation_2026_07_12: theses/mobility-conversion/research/tiger_2024_processed_geometry_validation_2026-07-12.md
   phase_3_boundary_geometry_validation_acceptance_2026_07_12: theses/mobility-conversion/research/phase_3_boundary_geometry_validation_acceptance_2026-07-12.md
+  acs_2024_5year_tract_population_overlay_manifest: theses/mobility-conversion/evidence/manifests/acs_2024_5year_tract_population_overlay_manifest_2026-07-12.md
+  acs_2024_5year_tract_population_acquisition_join_plan: theses/mobility-conversion/research/acs_2024_5year_tract_population_acquisition_join_plan_2026-07-12.md
+  acs_tract_population_fetch: theses/mobility-conversion/research/tools/acs_tract_population_fetch.py
+  acs_tract_population_join: theses/mobility-conversion/research/tools/acs_tract_population_join.py
+  acs_tract_population_tools_tests: theses/mobility-conversion/research/tools/tests/test_acs_tract_population_tools.py
   acs_api_access_recheck: theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md
 
 phase_ledger:
@@ -196,11 +201,12 @@ current_next_step:
     checksummed, ZIP-integrity tested, processed for the Minneapolis and
     Portland county filters, and feature-level validated. The next ordered move
     is bounded Phase 4 population joins and metric pre-admission for
-    Minneapolis and Portland, starting with manifested ACS tract population
-    acquisition and join design. Do this without creating filled boundary
-    records, candidate-universe ledgers, metric records, scores, rankings,
-    accepted denominator values, accepted population values, or publication
-    claims. Phase 3 is complete and Phase 4 is now active_next.
+    Minneapolis and Portland, starting with external-environment ACS tract
+    population capture under the new ACS manifest, followed by local
+    checksum-verified provisional join work. Do this without creating filled
+    boundary records, candidate-universe ledgers, metric records, scores,
+    rankings, accepted denominator values, accepted population values, or
+    publication claims. Phase 3 is complete and Phase 4 is now active_next.
   not_allowed: >
     Do not admit MTRs, create a candidate list, create a candidate-universe
     ledger, create outcome metric records, calculate scores, rank MTRs, or

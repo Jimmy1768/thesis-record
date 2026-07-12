@@ -27,7 +27,8 @@ and Portland TIGER overlays. The active local gate is now bounded Phase 4
 population joins and metric pre-admission:
 
 - preserve the archived TIGER geometry and processed-overlay evidence trail;
-- start with manifested ACS tract population acquisition and join design;
+- start with the manifested ACS tract population acquisition and read-only
+  join tooling;
 - use tract geometry as the initial Phase 4 population-join geography;
 - keep block-group geometry as the escalation layer for peripheral or edge
   sensitivity if tract visibility proves too coarse;
@@ -67,6 +68,11 @@ Phase 5.
 
 ## Indexed Records
 
+- `theses/mobility-conversion/evidence/manifests/acs_2024_5year_tract_population_overlay_manifest_2026-07-12.md`
+- `theses/mobility-conversion/research/acs_2024_5year_tract_population_acquisition_join_plan_2026-07-12.md`
+- `theses/mobility-conversion/research/tools/acs_tract_population_fetch.py`
+- `theses/mobility-conversion/research/tools/acs_tract_population_join.py`
+- `theses/mobility-conversion/research/tools/tests/test_acs_tract_population_tools.py`
 - `theses/mobility-conversion/research/tools/tiger_processed_geometry_validate.py`
 - `theses/mobility-conversion/research/tiger_2024_processed_geometry_validation_2026-07-12.md`
 - `theses/mobility-conversion/research/phase_3_boundary_geometry_validation_acceptance_2026-07-12.md`
