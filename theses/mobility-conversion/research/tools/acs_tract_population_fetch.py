@@ -6,8 +6,9 @@ per exact county, validates the returned headers and geography, rejects
 malformed or sentinel estimate/MOE values, and writes the exact Census API
 response bytes plus a capture index.
 
-It never requires an API key and it refuses to write into a nonempty output
-directory.
+Live capture requires `CENSUS_API_KEY` from the environment; dry-run does not.
+No CLI key is accepted, and the key is never persisted or logged. It refuses
+to write into a nonempty output directory.
 """
 
 from __future__ import annotations
@@ -15,12 +16,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
-from urllib.error import URLError
-from urllib.parse import quote
+from urllib.error import HTTPError, URLError
+from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
 
 
@@ -30,6 +32,7 @@ SOURCE_VINTAGE = "ACS 2024 5-year"
 REQUESTED_FIELDS = ["NAME", "B01003_001E", "B01003_001M"]
 EXPECTED_HEADERS = ["NAME", "B01003_001E", "B01003_001M", "state", "county", "tract"]
 GEOGRAPHY = "tract"
+CENSUS_API_KEY_ENV = "CENSUS_API_KEY"
 
 COUNTY_SPECS: tuple[dict[str, str], ...] = (
     {"state_fips": "27", "county_fips": "003"},
@@ -75,6 +78,19 @@ def build_query_url(state_fips: str, county_fips: str) -> str:
 
 def build_county_filename(state_fips: str, county_fips: str) -> str:
     return f"{state_fips}{county_fips}.json"
+
+
+def require_census_api_key() -> str:
+    api_key = os.environ.get(CENSUS_API_KEY_ENV)
+    if not api_key:
+        raise SystemExit(
+            f"Missing required environment variable {CENSUS_API_KEY_ENV} for live Census capture"
+        )
+    return api_key
+
+
+def build_authenticated_request_url(public_query_url: str, api_key: str) -> str:
+    return f"{public_query_url}&{urlencode({'key': api_key})}"
 
 
 def ensure_empty_output_dir(output_dir: Path) -> None:
@@ -160,12 +176,24 @@ def validate_response_rows(rows: list[list[str]], state_fips: str, county_fips: 
 
 def fetch_county(state_fips: str, county_fips: str, opener=urlopen) -> CountyCapture:
     query_url = build_query_url(state_fips, county_fips)
-    request = Request(query_url, headers={"User-Agent": "codex-thesis-record/1.0"})
+    authenticated_url = build_authenticated_request_url(query_url, require_census_api_key())
+    request = Request(authenticated_url, headers={"User-Agent": "codex-thesis-record/1.0"})
     try:
         with opener(request) as response:
             payload = response.read()
-    except (OSError, URLError) as exc:  # pragma: no cover - network failure is environment-specific
-        raise SystemExit(f"Failed to fetch {query_url}: {exc}") from exc
+    except HTTPError as exc:  # pragma: no cover - network failure is environment-specific
+        raise SystemExit(
+            f"Failed to fetch {query_url}: HTTPError status={exc.code}"
+        ) from exc
+    except URLError as exc:  # pragma: no cover - network failure is environment-specific
+        reason = exc.reason.__class__.__name__ if exc.reason is not None else "URLError"
+        raise SystemExit(
+            f"Failed to fetch {query_url}: {reason}"
+        ) from exc
+    except OSError as exc:  # pragma: no cover - network failure is environment-specific
+        raise SystemExit(
+            f"Failed to fetch {query_url}: {exc.__class__.__name__}"
+        ) from exc
 
     rows = parse_json_response(payload)
     row_count = validate_response_rows(rows, state_fips, county_fips)

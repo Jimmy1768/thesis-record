@@ -16,6 +16,7 @@ artifact_identity:
   source_url_or_access_path:
     api_base: https://api.census.gov/data/2024/acs/acs5
     api_row_pattern: https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:XX&in=county:YYY
+    live_authentication: environment_only_CENSUS_API_KEY_appended_in_memory_only
   acquisition_mode: api_row_capture_per_exact_county
   retrieval_date: null
   source_vintage: ACS 2024 5-year
@@ -45,6 +46,11 @@ storage:
   file_format:
     county_payload: exact_api_list_of_lists_json_bytes
     index_payload: json
+  secret_handling:
+    census_api_key_storage: environment_only
+    census_api_key_persisted: false
+    census_api_key_logged: false
+    query_url_in_index_is_public_and_key_free: true
   repository_storage_allowed: true
   raw_archive_created: false
   processed_overlay_created: false
@@ -100,10 +106,12 @@ quality_review:
   verification_status: draft_needs_api_row_verification
   completeness_notes:
     - exact ACS API row query pattern identified
+    - live capture requires environment-only CENSUS_API_KEY authentication
     - exact tract county scope identified for Minneapolis and Portland
     - geometry vintage alignment required with TIGER 2024 tract layers
     - raw county files must preserve exact Census API response bytes
     - capture index records byte checksums and retrieval metadata
+    - capture index query_url values must remain public and key-free
     - join tool will remain read-only and checksum-verified
     - live ACS row capture remains blocked in the current environment
   known_limitations:

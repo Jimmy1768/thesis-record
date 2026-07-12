@@ -81,6 +81,9 @@ county_scope:
 
 The fetch step must:
 
+- require `CENSUS_API_KEY` from the environment for live capture only;
+- build the authenticated request URL only in memory and keep persisted
+  `query_url` values public and key-free;
 - query the official Census API once for each exact county;
 - emit only the exact row fields requested by this plan;
 - reject malformed, negative, noninteger, or sentinel estimate/MOE values;
@@ -91,10 +94,11 @@ The fetch step must:
   capture index file;
 - record retrieval timestamp, query URL, row count, and sha256 in the index;
 - preserve exact Census API response bytes for each county file;
+- never print, persist, hash into metadata, or include the key in errors;
 - refuse to write into a nonempty output directory;
 - support `--dry-run` without network access by printing the 20 encoded query
-  URLs only;
-- never require or log an API key.
+  URLs only, without requiring a key;
+- never require a CLI key argument or log a secret.
 
 ### Raw Layout
 
@@ -104,6 +108,7 @@ raw_layout:
   county_json_pattern: "<STATEFP><COUNTYFP>.json"
   index_file: index.json
   county_payload_contract: exact_census_api_response_bytes
+  live_authentication_contract: environment_only_CENSUS_API_KEY_in_memory_only
   metadata_fields:
     - state_fips
     - county_fips
@@ -111,7 +116,7 @@ raw_layout:
     - source_vintage
     - api_base
     - requested_fields
-    - query_url
+    - query_url_public_key_free
     - row_count
     - sha256
     - retrieval_timestamp

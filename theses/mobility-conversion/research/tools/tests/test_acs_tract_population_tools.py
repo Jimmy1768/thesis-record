@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import csv
+from contextlib import redirect_stderr, redirect_stdout
 import hashlib
 import importlib.util
+from io import StringIO
 import json
+import os
 import sys
 from pathlib import Path
 import unittest
@@ -113,16 +116,78 @@ class AcsTractPopulationToolsTest(unittest.TestCase):
             url = request.full_url
             if failure_url is not None and url == failure_url:
                 raise OSError("synthetic failure")
-            return Response(payloads_by_url[url])
+            public_url = url.split("&key=", 1)[0]
+            if failure_url is not None and public_url == failure_url:
+                raise OSError("synthetic failure")
+            return Response(payloads_by_url[public_url])
 
         return opener
 
     def make_county_payload(self, state: str, county: str, tract_rows: list[list[str]]) -> bytes:
         return api_payload_bytes([fetch_tool.EXPECTED_HEADERS, *tract_rows])
 
-    def test_dry_run_emits_exact_county_urls(self):
-        from io import StringIO
+    def test_missing_key_fails_before_network(self):
+        original = os.environ.pop(fetch_tool.CENSUS_API_KEY_ENV, None)
+        opener_called = False
 
+        def opener(_request):
+            nonlocal opener_called
+            opener_called = True
+            raise AssertionError("opener should not be called without a key")
+
+        try:
+            with self.assertRaisesRegex(SystemExit, f"Missing required environment variable {fetch_tool.CENSUS_API_KEY_ENV}"):
+                fetch_tool.fetch_county("27", "003", opener=opener)
+            self.assertFalse(opener_called)
+        finally:
+            if original is not None:
+                os.environ[fetch_tool.CENSUS_API_KEY_ENV] = original
+
+    def test_module_docstring_matches_live_authentication_contract(self):
+        doc = fetch_tool.__doc__ or ""
+        self.assertIn("Live capture requires `CENSUS_API_KEY` from the environment; dry-run does not.", doc)
+        self.assertIn("No CLI key is accepted, and the key is never persisted or logged.", doc)
+        self.assertNotIn("It never requires an API key", doc)
+
+    def test_authenticated_request_contains_encoded_key_only_in_memory(self):
+        sentinel = "sentinel secret+/=?"
+        original = os.environ.get(fetch_tool.CENSUS_API_KEY_ENV)
+        os.environ[fetch_tool.CENSUS_API_KEY_ENV] = sentinel
+
+        captured_url: str | None = None
+
+        class Response:
+            def read(self) -> bytes:
+                return api_payload_bytes(
+                    [fetch_tool.EXPECTED_HEADERS, ["Tract 1", "10", "1", "27", "003", "000100"]]
+                )
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+        def opener(request):
+            nonlocal captured_url
+            captured_url = request.full_url
+            return Response()
+
+        try:
+            capture = fetch_tool.fetch_county("27", "003", opener=opener)
+            self.assertIsNotNone(captured_url)
+            self.assertIn("key=", captured_url)
+            self.assertIn("sentinel+secret%2B%2F%3D%3F", captured_url)
+            self.assertNotIn(sentinel, capture.query_url)
+            self.assertNotIn("key=", capture.query_url)
+            self.assertNotIn(sentinel.encode("utf-8"), capture.payload_bytes)
+        finally:
+            if original is None:
+                os.environ.pop(fetch_tool.CENSUS_API_KEY_ENV, None)
+            else:
+                os.environ[fetch_tool.CENSUS_API_KEY_ENV] = original
+
+    def test_dry_run_emits_exact_county_urls(self):
         original_stdout = sys.stdout
         buffer = StringIO()
         sys.stdout = buffer
@@ -141,6 +206,22 @@ class AcsTractPopulationToolsTest(unittest.TestCase):
             lines[-1],
             "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:53&in=county:059",
         )
+        self.assertTrue(all("key=" not in line for line in lines))
+
+    def test_dry_run_does_not_require_key(self):
+        original = os.environ.pop(fetch_tool.CENSUS_API_KEY_ENV, None)
+        original_stdout = sys.stdout
+        buffer = StringIO()
+        sys.stdout = buffer
+        try:
+            fetch_tool.print_dry_run_urls()
+        finally:
+            sys.stdout = original_stdout
+            if original is not None:
+                os.environ[fetch_tool.CENSUS_API_KEY_ENV] = original
+        output = buffer.getvalue()
+        self.assertEqual(len(output.strip().splitlines()), 20)
+        self.assertNotIn("key=", output)
 
     def test_fetch_rejects_malformed_rows(self):
         rows = [
@@ -155,8 +236,11 @@ class AcsTractPopulationToolsTest(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             output_dir = Path(temp_dir) / "raw"
+            sentinel = "SECRET-SENTINEL-123"
             payloads_by_url = {}
             expected_bytes_by_filename = {}
+            original = os.environ.get(fetch_tool.CENSUS_API_KEY_ENV)
+            os.environ[fetch_tool.CENSUS_API_KEY_ENV] = sentinel
             for spec in fetch_tool.COUNTY_SPECS:
                 state = spec["state_fips"]
                 county = spec["county_fips"]
@@ -168,26 +252,47 @@ class AcsTractPopulationToolsTest(unittest.TestCase):
                 payloads_by_url[url] = payload
                 expected_bytes_by_filename[f"{state}{county}.json"] = payload
 
-            fetch_tool.run_fetch(output_dir, opener=self.build_opener(payloads_by_url))
+            try:
+                stdout_buffer = StringIO()
+                stderr_buffer = StringIO()
+                with redirect_stdout(stdout_buffer), redirect_stderr(stderr_buffer):
+                    fetch_tool.run_fetch(output_dir, opener=self.build_opener(payloads_by_url))
+                self.assertNotIn(sentinel, stdout_buffer.getvalue())
+                self.assertNotIn(sentinel, stderr_buffer.getvalue())
 
-            files = sorted(path.name for path in output_dir.iterdir())
-            self.assertEqual(len(files), 21)
-            self.assertEqual(files[0], "27003.json")
-            self.assertEqual(files[-1], "index.json")
-            for filename, payload in expected_bytes_by_filename.items():
-                self.assertEqual((output_dir / filename).read_bytes(), payload)
+                files = sorted(path.name for path in output_dir.iterdir())
+                self.assertEqual(len(files), 21)
+                self.assertEqual(files[0], "27003.json")
+                self.assertEqual(files[-1], "index.json")
+                for filename, payload in expected_bytes_by_filename.items():
+                    written = (output_dir / filename).read_bytes()
+                    self.assertEqual(written, payload)
+                    self.assertNotIn(sentinel.encode("utf-8"), written)
 
-            index = json.loads((output_dir / "index.json").read_text(encoding="utf-8"))
-            first = index["counties"][0]
-            self.assertEqual(first["county_filename"], "27003.json")
-            self.assertEqual(first["sha256"], hashlib.sha256(expected_bytes_by_filename["27003.json"]).hexdigest())
+                index_bytes = (output_dir / "index.json").read_bytes()
+                self.assertNotIn(sentinel.encode("utf-8"), index_bytes)
+                index = json.loads(index_bytes.decode("utf-8"))
+                first = index["counties"][0]
+                self.assertEqual(first["county_filename"], "27003.json")
+                self.assertEqual(first["sha256"], hashlib.sha256(expected_bytes_by_filename["27003.json"]).hexdigest())
+                self.assertEqual(first["query_url"], fetch_tool.build_query_url("27", "003"))
+                self.assertNotIn("key=", first["query_url"])
+                self.assertNotIn(sentinel, first["query_url"])
+            finally:
+                if original is None:
+                    os.environ.pop(fetch_tool.CENSUS_API_KEY_ENV, None)
+                else:
+                    os.environ[fetch_tool.CENSUS_API_KEY_ENV] = original
 
     def test_fetch_leaves_no_partial_files_on_later_failure(self):
         import tempfile
 
         with tempfile.TemporaryDirectory() as temp_dir:
             output_dir = Path(temp_dir) / "raw"
+            sentinel = "SECURITY-FAILURE-SENTINEL"
             payloads_by_url = {}
+            original = os.environ.get(fetch_tool.CENSUS_API_KEY_ENV)
+            os.environ[fetch_tool.CENSUS_API_KEY_ENV] = sentinel
             for spec in fetch_tool.COUNTY_SPECS:
                 state = spec["state_fips"]
                 county = spec["county_fips"]
@@ -197,10 +302,48 @@ class AcsTractPopulationToolsTest(unittest.TestCase):
                     [[f"Example {state}{county}", "12", "3", state, county, "000100"]],
                 )
             failure_url = fetch_tool.build_query_url("41", "051")
-            with self.assertRaisesRegex(SystemExit, "Failed to fetch"):
-                fetch_tool.run_fetch(output_dir, opener=self.build_opener(payloads_by_url, failure_url=failure_url))
-            self.assertTrue(output_dir.exists())
-            self.assertEqual(list(output_dir.iterdir()), [])
+            try:
+                stdout_buffer = StringIO()
+                stderr_buffer = StringIO()
+                with self.assertRaisesRegex(SystemExit, "Failed to fetch"):
+                    with redirect_stdout(stdout_buffer), redirect_stderr(stderr_buffer):
+                        fetch_tool.run_fetch(output_dir, opener=self.build_opener(payloads_by_url, failure_url=failure_url))
+                self.assertTrue(output_dir.exists())
+                self.assertEqual(list(output_dir.iterdir()), [])
+                self.assertNotIn(sentinel, stdout_buffer.getvalue())
+                self.assertNotIn(sentinel, stderr_buffer.getvalue())
+            finally:
+                if original is None:
+                    os.environ.pop(fetch_tool.CENSUS_API_KEY_ENV, None)
+                else:
+                    os.environ[fetch_tool.CENSUS_API_KEY_ENV] = original
+
+    def test_sanitized_network_errors_do_not_disclose_secret(self):
+        sentinel = "VERY-SECRET-KEY"
+        original = os.environ.get(fetch_tool.CENSUS_API_KEY_ENV)
+        os.environ[fetch_tool.CENSUS_API_KEY_ENV] = sentinel
+
+        def opener(_request):
+            raise OSError(f"boom {sentinel}")
+
+        try:
+            stdout_buffer = StringIO()
+            stderr_buffer = StringIO()
+            with self.assertRaises(SystemExit) as context:
+                with redirect_stdout(stdout_buffer), redirect_stderr(stderr_buffer):
+                    fetch_tool.fetch_county("27", "003", opener=opener)
+            message = str(context.exception)
+            self.assertIn(fetch_tool.build_query_url("27", "003"), message)
+            self.assertIn("OSError", message)
+            self.assertNotIn(sentinel, message)
+            self.assertNotIn("key=", message)
+            self.assertNotIn(sentinel, stdout_buffer.getvalue())
+            self.assertNotIn(sentinel, stderr_buffer.getvalue())
+        finally:
+            if original is None:
+                os.environ.pop(fetch_tool.CENSUS_API_KEY_ENV, None)
+            else:
+                os.environ[fetch_tool.CENSUS_API_KEY_ENV] = original
 
     def test_join_verifies_checksums_and_one_to_one_coverage(self):
         import tempfile
