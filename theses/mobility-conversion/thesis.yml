@@ -161,6 +161,9 @@ current_methodology_artifacts:
   tiger_2024_geometry_boundary_alignment_plan: theses/mobility-conversion/research/tiger_2024_geometry_boundary_alignment_plan_2026-07-07.md
   tiger_2024_geometry_tooling_spike: theses/mobility-conversion/research/tiger_2024_geometry_tooling_spike_2026-07-08.md
   tiger_2024_processed_geometry_extraction_log: theses/mobility-conversion/research/tiger_2024_processed_geometry_extraction_log_2026-07-08.md
+  tiger_processed_geometry_validate: theses/mobility-conversion/research/tools/tiger_processed_geometry_validate.py
+  tiger_2024_processed_geometry_validation_2026_07_12: theses/mobility-conversion/research/tiger_2024_processed_geometry_validation_2026-07-12.md
+  phase_3_boundary_geometry_validation_acceptance_2026_07_12: theses/mobility-conversion/research/phase_3_boundary_geometry_validation_acceptance_2026-07-12.md
   acs_api_access_recheck: theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md
 
 phase_ledger:
@@ -174,31 +177,32 @@ phase_ledger:
     note: bounded eight-lead source and candidate feasibility is closed for this intake.
   - phase: 3
     name: boundary_geometry_validation
-    status: active_next
-    note: processed-geometry artifacts exist, and this phase is now the next active ordered phase.
+    status: complete
+    note: feature-level validation passed for the four committed Minneapolis and Portland layers.
   - phase: 4
     name: population_joins_and_metric_pre_admission
-    status: closed
-    note: population joins and metric pre-admission remain closed until prior gates pass.
+    status: active_next
+    note: tract geometry is accepted as the initial Phase 4 population-join geography, with block-group escalation retained for peripheral or edge sensitivity.
   - phase: 5
     name: candidate_admission_comparison_and_scoring
     status: closed
     note: candidate admission, comparison, and scoring remain closed until prior gates pass; paper and publication are outside this five-phase sequence.
 
 current_next_step:
-  status: processed_geometry_topology_visual_sanity_review_next
+  status: bounded_phase_4_population_joins_and_metric_pre_admission_next
   action: >
     The TIGER 2024 tract/block-group geometry raw ZIPs for Minnesota,
     Wisconsin, Oregon, and Washington have been archived under the manifest,
-    checksummed, ZIP-integrity tested, and processed for the Minneapolis and
-    Portland county filters. The next ordered move is a processed-geometry
-    topology or visual sanity review and a tract-sufficiency decision for
-    Minneapolis and Portland. ACS API access remains separately blocked locally
-    with curl TLS code 35. Do this without creating filled boundary records,
-    candidate-universe ledgers, metric records, scores, rankings, accepted
-    denominator values, or accepted population values. Phase 2 is complete for
-    the bounded eight-lead intake and Phase 3 is now active_next.
+    checksummed, ZIP-integrity tested, processed for the Minneapolis and
+    Portland county filters, and feature-level validated. The next ordered move
+    is bounded Phase 4 population joins and metric pre-admission for
+    Minneapolis and Portland, starting with manifested ACS tract population
+    acquisition and join design. Do this without creating filled boundary
+    records, candidate-universe ledgers, metric records, scores, rankings,
+    accepted denominator values, accepted population values, or publication
+    claims. Phase 3 is complete and Phase 4 is now active_next.
   not_allowed: >
     Do not admit MTRs, create a candidate list, create a candidate-universe
     ledger, create outcome metric records, calculate scores, rank MTRs, or
-    archive raw evidence without a manifest. Phase 4 and Phase 5 remain closed.
+    claim any accepted population, denominator, metric, comparison, ranking, or
+    publication result. Phase 5 remains closed.

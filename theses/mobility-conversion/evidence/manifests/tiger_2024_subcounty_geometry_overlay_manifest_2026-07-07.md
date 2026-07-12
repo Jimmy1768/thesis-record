@@ -4,9 +4,9 @@ Status: draft evidence manifest. Do not treat this file as accepted evidence.
 
 ```yaml
 manifest_id: tiger_2024_subcounty_geometry_overlay_manifest_2026_07_07
-manifest_status: needs_quality_review
+manifest_status: feature_level_validation_passed_population_join_pending
 created: 2026-07-07
-updated: 2026-07-07
+updated: 2026-07-12
 operator_thread: Thesis 2
 
 artifact_identity:
@@ -98,7 +98,7 @@ vintage_and_refresh:
   refresh_trigger: newer_tiger_release_or_acs_population_table_vintage_decision
 
 quality_review:
-  verification_status: raw_and_processed_geometry_created_checksummed_readback_passed_topology_and_population_join_pending
+  verification_status: raw_and_processed_geometry_created_checksummed_readback_passed_feature_level_validation_passed_population_join_pending
   completeness_notes:
     - all_required_state_tract_paths_for_current_minneapolis_and_portland_overlay_scope_head_verified
     - all_required_state_block_group_paths_for_current_minneapolis_and_portland_overlay_scope_head_verified
@@ -113,6 +113,9 @@ quality_review:
     - processed_county_filtered_geometry_created
     - processed_geometry_readback_counts_and_bounding_boxes_recorded
     - processed_geometry_checksums_recorded
+    - feature_level_processed_geometry_validation_passed_for_minneapolis_and_portland_tracts_and_block_groups
+    - processed_sidecar_sha256_hashes_match_the_extraction_log
+    - block_group_parent_tract_membership_confirmed
     - ACS population tables not verified or archived
   missingness_class: no_missing_sidecars_detected_schema_level_only
   comparability_class: likely_comparable_within_tiger_2024_pending_raw_inspection
@@ -121,8 +124,8 @@ quality_review:
   known_limitations:
     - geometry_only_no_population_values
     - ACS API access_blocked_in_current_environment
-    - no_topology_validation_or_geometry_repair_done
-    - no_visual_or_topology_review_of_processed_outputs
+    - no_planar_coverage_topology_validation_done
+    - no_visual_review_of_processed_outputs
     - source_metadata_xml_not_copied_to_combined_derived_outputs
     - no boundary_record_or_metric_record_dependency_allowed
 
@@ -132,20 +135,22 @@ admissibility:
   allowed_for_boundary_record: false
   allowed_for_metric_record: false
   allowed_for_final_evidence: false
-  decision: raw_and_processed_geometry_created_quality_review_required_no_method_test_admission
-  decision_date: 2026-07-07
+  decision: feature_level_geometry_validation_passed_population_join_pending
+  decision_date: 2026-07-12
   rationale: >
     Official U.S. Census Bureau TIGER/Line 2024 tract and block-group state ZIP
     paths for Minnesota, Wisconsin, Oregon, and Washington have been verified by
     HEAD requests and downloaded under a reviewed license/storage posture. Raw
     ZIP checksums, ZIP integrity checks, shapefile schema review, feature-count
     capture, coordinate-reference metadata review, boundary-alignment planning,
-    and county-filtered processed geometry extraction are complete. Processed
-    output topology/visual review, ACS population-table acquisition, and
-    downstream overlay method gates remain unresolved.
+    county-filtered processed geometry extraction, and feature-level processed
+    geometry validation are complete. ACS population-table acquisition and
+    downstream overlay method gates remain unresolved, and empirical tract
+    sufficiency is still pending.
   required_follow_up:
-    - perform processed geometry topology_or_visual_sanity_review
-    - decide whether tract-level geometry is sufficient for first sensitivity pass
+    - design bounded Phase 4 ACS tract population acquisition and join work
+    - test tract-level sufficiency empirically in Phase 4
+    - keep block-group escalation available for peripheral or edge sensitivity
     - keep ACS population-table acquisition deferred until API row verification succeeds
 ```
 

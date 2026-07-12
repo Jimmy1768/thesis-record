@@ -22,26 +22,29 @@ finished methodology.
 
 ## Current Work
 
-Phase 2 source and candidate feasibility is complete for the bounded eight-lead
-intake. The active local gate is now the Phase 3 processed-geometry review for
-the Minneapolis and Portland county-filtered overlays:
+Phase 3 boundary geometry validation is complete for the processed Minneapolis
+and Portland TIGER overlays. The active local gate is now bounded Phase 4
+population joins and metric pre-admission:
 
 - preserve the archived TIGER geometry and processed-overlay evidence trail;
-- perform a processed-geometry topology or visual sanity review;
-- decide whether tract-level geometry is sufficient for the first sensitivity
-  pass;
-- keep ACS population-table verification separate until local API access works;
+- start with manifested ACS tract population acquisition and join design;
+- use tract geometry as the initial Phase 4 population-join geography;
+- keep block-group geometry as the escalation layer for peripheral or edge
+  sensitivity if tract visibility proves too coarse;
+- keep accepted values out of the record until Phase 4 work is explicitly
+  closed;
 - preserve falsifiability and rejection paths.
 
 ## Current Waiting State
 
-Thesis 2 is waiting on the next allowed evidence-design move from the processed
-geometry gate, not on Phase 2 source-feasibility closure.
+Thesis 2 is waiting on the next allowed evidence-design move from Phase 4, not
+on Phase 2 source-feasibility closure.
 
 Until that review is complete:
 
 - do not turn the overlay work into a filled boundary record, accepted
-  denominator, accepted population value, metric record, score, or ranking;
+  denominator, accepted population value, metric record, score, comparison, or
+  ranking;
 - do not admit MTRs or create a candidate list;
 - keep raw returns and follow-up source work classified before promoting any
   lead;
@@ -53,10 +56,17 @@ Until that review is complete:
   formation-stage source truth.
 - Phase 2 complete for the bounded eight-lead intake: source and candidate
   feasibility is closed for this intake.
-- Phase 3 active_next: processed-geometry artifacts exist and boundary geometry
-  validation is the next active ordered phase.
-- Phase 4 closed: population joins and metric pre-admission remain blocked.
+- Phase 3 complete: processed-geometry validation is complete for the four
+  committed Minneapolis and Portland layers.
+- Phase 4 active_next: population joins and metric pre-admission are the next
+  active ordered phase.
 - Phase 5 closed: candidate admission, comparison, and scoring remain blocked.
 
 Paper and publication are outside this five-phase sequence and do not replace
 Phase 5.
+
+## Indexed Records
+
+- `theses/mobility-conversion/research/tools/tiger_processed_geometry_validate.py`
+- `theses/mobility-conversion/research/tiger_2024_processed_geometry_validation_2026-07-12.md`
+- `theses/mobility-conversion/research/phase_3_boundary_geometry_validation_acceptance_2026-07-12.md`
