@@ -46,3 +46,19 @@ Until that review is complete:
 - keep raw returns and follow-up source work classified before promoting any
   lead;
 - keep manifest discipline intact for any further evidence movement.
+
+## Phase Ledger
+
+- Phase 1 complete: framing and methodology scaffolding is accepted as
+  formation-stage source truth.
+- Phase 2 next for ordered closure: source and candidate feasibility gates
+  remain unresolved.
+- Phase 3 has processed-geometry artifacts but remains dependent on Phase 2
+  closure: boundary geometry validation stays queued behind the ordered gate.
+- Phase 4 closed until prior gates pass: population joins and metric
+  pre-admission remain blocked.
+- Phase 5 closed until prior gates pass: candidate admission, comparison, and
+  scoring remain blocked.
+
+Paper and publication are outside this five-phase sequence and do not replace
+Phase 5.
