@@ -170,6 +170,8 @@ current_methodology_artifacts:
   acs_tract_population_join: theses/mobility-conversion/research/tools/acs_tract_population_join.py
   acs_tract_population_tools_tests: theses/mobility-conversion/research/tools/tests/test_acs_tract_population_tools.py
   acs_api_access_recheck: theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md
+  acs_2024_5year_tract_population_capture_join_review: theses/mobility-conversion/research/acs_2024_5year_tract_population_capture_join_review_2026-07-13.md
+  phase_4_population_join_metric_pre_admission_acceptance_2026_07_13: theses/mobility-conversion/research/phase_4_population_join_metric_pre_admission_acceptance_2026-07-13.md
 
 phase_ledger:
   - phase: 1
@@ -186,27 +188,27 @@ phase_ledger:
     note: feature-level validation passed for the four committed Minneapolis and Portland layers.
   - phase: 4
     name: population_joins_and_metric_pre_admission
-    status: active_next
-    note: tract geometry is accepted as the initial Phase 4 population-join geography, with block-group escalation retained for peripheral or edge sensitivity.
+    status: complete
+    note: ACS tract population acquisition and read-only TIGER join passed checksum, one-to-one coverage, and reproducibility review as provisional input only.
   - phase: 5
     name: candidate_admission_comparison_and_scoring
     status: closed
-    note: candidate admission, comparison, and scoring remain closed until prior gates pass; paper and publication are outside this five-phase sequence.
+    note: candidate admission, comparison, and scoring remain closed; no separate non-scoring intake gate is yet defined in the ordered source-truth contract.
 
 current_next_step:
-  status: bounded_phase_4_population_joins_and_metric_pre_admission_next
+  status: phase_4_complete_phase_5_closed_pending_non_scoring_intake_gate_decision
   action: >
-    The TIGER 2024 tract/block-group geometry raw ZIPs for Minnesota,
-    Wisconsin, Oregon, and Washington have been archived under the manifest,
-    checksummed, ZIP-integrity tested, processed for the Minneapolis and
-    Portland county filters, and feature-level validated. The next ordered move
-    is bounded Phase 4 population joins and metric pre-admission for
-    Minneapolis and Portland, starting with external-environment ACS tract
-    population capture under the new ACS manifest, followed by local
-    checksum-verified provisional join work. Do this without creating filled
-    boundary records, candidate-universe ledgers, metric records, scores,
-    rankings, accepted denominator values, accepted population values, or
-    publication claims. Phase 3 is complete and Phase 4 is now active_next.
+    Phase 4 is complete as a bounded evidence-integrity gate: the manifested
+    ACS 2024 5-year tract population capture for Minneapolis and Portland has
+    been checksummed, joined read-only to the committed TIGER 2024 tract
+    layers, and reproduced locally from repository raw bytes, while remaining
+    provisional input only. The next allowed source-truth move is conservative:
+    keep Phase 5 closed and decide explicitly whether the ordered contract
+    defines a separate non-scoring intake gate between Phase 4 and Phase 5.
+    Unless and until that gate exists, do not resume candidate admission or
+    job-access metric retesting. Any later retest remains blocked pending
+    admitted boundary/source authority plus admitted service and travel-time
+    methodology.
   not_allowed: >
     Do not admit MTRs, create a candidate list, create a candidate-universe
     ledger, create outcome metric records, calculate scores, rank MTRs, or

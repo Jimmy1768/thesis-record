@@ -1,0 +1,52 @@
+{
+  "accepted_denominator_value": false,
+  "accepted_population_value": false,
+  "acs_source_family": "American Community Survey 2024 5-year detailed table B01003",
+  "acs_source_vintage": "ACS 2024 5-year",
+  "capture_retrieval_timestamp": "2026-07-12T09:35:22.327850Z",
+  "joined_csv": "acs_2024_5year_tract_population_join.csv",
+  "joined_csv_sha256": "6fa719485f31276bf688afe7b8d0b5ccc539b9917dbca8952de789cfd410d6d3",
+  "layers": {
+    "minneapolis_ers_cz_tracts": {
+      "expected_counties": [
+        "27003",
+        "27019",
+        "27025",
+        "27037",
+        "27053",
+        "27059",
+        "27065",
+        "27115",
+        "27123",
+        "27139",
+        "27163",
+        "55093",
+        "55109"
+      ],
+      "expected_geometry_row_count": 845,
+      "geometry_row_count": 845,
+      "joined_row_count": 845,
+      "raw_row_count": 845
+    },
+    "portland_cbsa_tracts": {
+      "expected_counties": [
+        "41005",
+        "41009",
+        "41051",
+        "41067",
+        "41071",
+        "53011",
+        "53059"
+      ],
+      "expected_geometry_row_count": 568,
+      "geometry_row_count": 568,
+      "joined_row_count": 568,
+      "raw_row_count": 568
+    }
+  },
+  "one_to_one_coverage": true,
+  "raw_index_sha256": "f03527a73b1c976efe79d9f9f450926d9c7d7f40584c81712228911d92594699",
+  "row_count": 1413,
+  "status": "provisional",
+  "tiger_geometry_manifest_repo_path": "theses/mobility-conversion/evidence/manifests/tiger_2024_subcounty_geometry_overlay_manifest_2026-07-07.md"
+}

@@ -1,0 +1,173 @@
+{
+  "api_base": "https://api.census.gov/data/2024/acs/acs5",
+  "counties": [
+    {
+      "county_filename": "27003.json",
+      "county_fips": "003",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:003",
+      "row_count": 90,
+      "sha256": "4f334c42f54435e404fc45542375cedd7896b3f48d05dab2daaec6f36fe272c4",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27019.json",
+      "county_fips": "019",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:019",
+      "row_count": 25,
+      "sha256": "9b306d088abccdf54b50b14ce5a089c693b013c29d213bb5cffc662cf598df3a",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27025.json",
+      "county_fips": "025",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:025",
+      "row_count": 13,
+      "sha256": "0fe2f09013183f6693b9a9d30142a788f27b3ddedf5fec9294eef1b0a001cf26",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27037.json",
+      "county_fips": "037",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:037",
+      "row_count": 106,
+      "sha256": "40f6ffcf418c0f1b88cd656e5ac502f2a641133f7adc2c0737fad61b883c4d46",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27053.json",
+      "county_fips": "053",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:053",
+      "row_count": 329,
+      "sha256": "40663f958c6161eff303943044e46500182fbe8759395b29099b389817ffd40a",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27059.json",
+      "county_fips": "059",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:059",
+      "row_count": 9,
+      "sha256": "93c901a13ac7e8a10e28bc9e8fc4da54b435598fa1b1bebc03adec0e36ce6983",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27065.json",
+      "county_fips": "065",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:065",
+      "row_count": 4,
+      "sha256": "aa34e7aec433f3c12a2d98135c905e181393b22b1d62603ce40f7510addc1477",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27115.json",
+      "county_fips": "115",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:115",
+      "row_count": 9,
+      "sha256": "fce638ad8c42943fc41c9c9187d1cb8e72025ba4584aa593c81a31fb66ca0505",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27123.json",
+      "county_fips": "123",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:123",
+      "row_count": 143,
+      "sha256": "ab1eb806f66bd5ecb36cc125b3d4951dd037e49bfd9d777b2d8871a44e834ddd",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27139.json",
+      "county_fips": "139",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:139",
+      "row_count": 32,
+      "sha256": "eb0a7cf17c59d04af997dfad33dca1019df00928d807273f71368602cc20f94e",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "27163.json",
+      "county_fips": "163",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:27&in=county:163",
+      "row_count": 59,
+      "sha256": "0f9f09a6dec806004aa894ca878532541e7d69fb34aca4abf7d8d25f00811f61",
+      "state_fips": "27"
+    },
+    {
+      "county_filename": "55093.json",
+      "county_fips": "093",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:55&in=county:093",
+      "row_count": 8,
+      "sha256": "41b021398da7e7542d93e4c9739ca24a498f0006ba70a2167987b458a3d13f1e",
+      "state_fips": "55"
+    },
+    {
+      "county_filename": "55109.json",
+      "county_fips": "109",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:55&in=county:109",
+      "row_count": 18,
+      "sha256": "f3323bbb66fb8d0d8dce17507a93788708255e8f8a18673cf2f14f27fff1a85c",
+      "state_fips": "55"
+    },
+    {
+      "county_filename": "41005.json",
+      "county_fips": "005",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:41&in=county:005",
+      "row_count": 87,
+      "sha256": "841105f08a6e800aaba4395630d06691519a445319a2ceefaeb0eb3c41b4d3fd",
+      "state_fips": "41"
+    },
+    {
+      "county_filename": "41009.json",
+      "county_fips": "009",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:41&in=county:009",
+      "row_count": 11,
+      "sha256": "f4b372a5de5678120485e7ecaf5a4e18a31777c5f7347c3d6e74826aff83af1e",
+      "state_fips": "41"
+    },
+    {
+      "county_filename": "41051.json",
+      "county_fips": "051",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:41&in=county:051",
+      "row_count": 197,
+      "sha256": "ac76e64c743ac31d981cb1e421cff44d7fac5b4767b8fd207f527f85b0682aa0",
+      "state_fips": "41"
+    },
+    {
+      "county_filename": "41067.json",
+      "county_fips": "067",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:41&in=county:067",
+      "row_count": 134,
+      "sha256": "7be9eb4c3bbca6377ba8e44fbf81cc62ed0d82d2b920180a6e9f394a7bcd30c0",
+      "state_fips": "41"
+    },
+    {
+      "county_filename": "41071.json",
+      "county_fips": "071",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:41&in=county:071",
+      "row_count": 19,
+      "sha256": "4a48cd5c0ef1236becc0c17fcd8567870025a98cd9217fc36421b82010ec5839",
+      "state_fips": "41"
+    },
+    {
+      "county_filename": "53011.json",
+      "county_fips": "011",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:53&in=county:011",
+      "row_count": 115,
+      "sha256": "f476d2f3ac25572b5706fe2b62c2946360e6d64b30fbb40eb76cc3ed7028bed2",
+      "state_fips": "53"
+    },
+    {
+      "county_filename": "53059.json",
+      "county_fips": "059",
+      "query_url": "https://api.census.gov/data/2024/acs/acs5?get=NAME,B01003_001E,B01003_001M&for=tract:*&in=state:53&in=county:059",
+      "row_count": 5,
+      "sha256": "291d6342d2c30750bf8fadc771c11705cb8ab7d6e430b3c7d9984fdd487df65d",
+      "state_fips": "53"
+    }
+  ],
+  "requested_fields": [
+    "NAME",
+    "B01003_001E",
+    "B01003_001M"
+  ],
+  "retrieval_timestamp": "2026-07-12T09:35:22.327850Z",
+  "source_family": "American Community Survey 2024 5-year detailed table B01003",
+  "source_vintage": "ACS 2024 5-year"
+}
