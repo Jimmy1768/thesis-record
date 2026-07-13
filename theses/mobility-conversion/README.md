@@ -22,33 +22,35 @@ finished methodology.
 
 ## Current Work
 
-Phase 4 population-join review is now complete for the manifested Minneapolis
-and Portland ACS tract overlays. The bounded result is technical and
-provisional:
+Phase 4 population-join review is complete, and Phase 5 is now open only for a
+bounded non-scoring substage:
 
 - preserve the archived TIGER geometry and processed-overlay evidence trail;
 - preserve the exact-byte ACS raw capture, capture index, and processed join
   artifacts;
-- keep tract geometry as the initial provisional population-join geography;
-- keep block-group geometry as the escalation layer for peripheral or edge
-  sensitivity if tract visibility later proves too coarse;
-- keep accepted values, metric records, and candidate admission out of the
-  record;
+- open only `5A` boundary-record construction and readiness review for
+  Minneapolis and Portland;
+- use tract geometry as the accepted provisional population-join overlay input;
+- keep block-group geometry as the escalation layer if tract visibility later
+  proves too coarse;
+- keep candidate admission, the live candidate-universe ledger, and all scoring
+  authority closed;
 - preserve falsifiability and rejection paths.
 
 ## Current Waiting State
 
-Thesis 2 is waiting on the next allowed source-truth move after bounded Phase 4
-closure, not on Phase 2 or Phase 3.
+Thesis 2 is now in bounded Phase 5A boundary-record construction and readiness
+review, not in candidate admission or scoring.
 
-After this review:
+At this stage:
 
-- do not turn the overlay work into a filled boundary record, accepted
-  denominator, accepted population value, metric record, score, comparison, or
-  ranking;
+- create only non-selected, `not_admitted` boundary records derived from
+  already accepted repository evidence;
 - do not admit MTRs or create a candidate list;
+- do not create the live candidate-universe ledger;
 - keep the candidate scheduled-public-transport job-access idea blocked pending
   admitted boundary/source, service, and travel-time authority;
+- record U.S. source/tooling convenience as a bias risk rather than as merit;
 - keep raw returns and follow-up source work classified before promoting any
   lead;
 - keep manifest discipline intact for any further evidence movement.
@@ -63,9 +65,12 @@ After this review:
   committed Minneapolis and Portland layers.
 - Phase 4 complete: ACS tract population acquisition/join succeeded as a
   provisional, checksum-verified, reproducible overlay input only.
-- Phase 5 closed: candidate admission, comparison, and scoring remain blocked
-  unless a later ordered source-truth decision explicitly defines a separate
-  non-scoring intake gate.
+- Phase 5 active_next only for 5A boundary-record construction and readiness
+  review using the existing candidate-universe workflow.
+- Phase 5B closed: admission review and the live candidate-universe ledger stay
+  closed until a complete record passes every required gate.
+- Phase 5C closed: comparison, scoring, ranking, and final selection remain
+  closed.
 
 Paper and publication are outside this five-phase sequence and do not replace
 Phase 5.
@@ -76,6 +81,7 @@ Phase 5.
 - `theses/mobility-conversion/research/acs_2024_5year_tract_population_acquisition_join_plan_2026-07-12.md`
 - `theses/mobility-conversion/research/acs_2024_5year_tract_population_capture_join_review_2026-07-13.md`
 - `theses/mobility-conversion/research/phase_4_population_join_metric_pre_admission_acceptance_2026-07-13.md`
+- `theses/mobility-conversion/research/phase_5_staged_entry_decision_2026-07-13.md`
 - `theses/mobility-conversion/research/tools/acs_tract_population_fetch.py`
 - `theses/mobility-conversion/research/tools/acs_tract_population_join.py`
 - `theses/mobility-conversion/research/tools/tests/test_acs_tract_population_tools.py`

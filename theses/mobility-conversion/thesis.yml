@@ -172,6 +172,7 @@ current_methodology_artifacts:
   acs_api_access_recheck: theses/mobility-conversion/research/acs_api_access_recheck_2026-07-07.md
   acs_2024_5year_tract_population_capture_join_review: theses/mobility-conversion/research/acs_2024_5year_tract_population_capture_join_review_2026-07-13.md
   phase_4_population_join_metric_pre_admission_acceptance_2026_07_13: theses/mobility-conversion/research/phase_4_population_join_metric_pre_admission_acceptance_2026-07-13.md
+  phase_5_staged_entry_decision_2026_07_13: theses/mobility-conversion/research/phase_5_staged_entry_decision_2026-07-13.md
 
 phase_ledger:
   - phase: 1
@@ -192,25 +193,53 @@ phase_ledger:
     note: ACS tract population acquisition and read-only TIGER join passed checksum, one-to-one coverage, and reproducibility review as provisional input only.
   - phase: 5
     name: candidate_admission_comparison_and_scoring
+    status: active_next
+    note: only bounded substage 5A boundary-record construction and readiness review is open; admission, ledger, comparison, and scoring remain closed.
+
+phase_5_substages:
+  - substage: 5A
+    name: boundary_record_construction_and_readiness_review
+    workflow_mapping:
+      - stage_4_boundary_record_creation
+      - stage_5_boundary_fit_review
+      - stage_6_data_alignment_review
+    status: active_next
+    note: >
+      Create only source-led, non-selected boundary records with
+      record_status not_admitted, using already accepted repository evidence
+      and keeping unknowns explicit.
+  - substage: 5B
+    name: admission_review_and_live_candidate_universe_ledger
+    workflow_mapping:
+      - stage_7_admission_review
+      - stage_8_candidate_universe_ledger
     status: closed
-    note: candidate admission, comparison, and scoring remain closed; no separate non-scoring intake gate is yet defined in the ordered source-truth contract.
+    note: >
+      Remains closed until at least one complete boundary record passes every
+      required gate and reaches admissible_for_candidate_universe.
+  - substage: 5C
+    name: comparison_scoring_ranking_and_final_selection
+    status: closed
+    note: >
+      Remains closed. No current source-truth authority permits comparison,
+      scoring, ranking, final selection, or publication claims.
 
 current_next_step:
-  status: phase_4_complete_phase_5_closed_pending_non_scoring_intake_gate_decision
+  status: bounded_phase_5a_boundary_record_construction_and_readiness_review_active_next
   action: >
-    Phase 4 is complete as a bounded evidence-integrity gate: the manifested
-    ACS 2024 5-year tract population capture for Minneapolis and Portland has
-    been checksummed, joined read-only to the committed TIGER 2024 tract
-    layers, and reproduced locally from repository raw bytes, while remaining
-    provisional input only. The next allowed source-truth move is conservative:
-    keep Phase 5 closed and decide explicitly whether the ordered contract
-    defines a separate non-scoring intake gate between Phase 4 and Phase 5.
-    Unless and until that gate exists, do not resume candidate admission or
-    job-access metric retesting. Any later retest remains blocked pending
-    admitted boundary/source authority plus admitted service and travel-time
-    methodology.
+    Phase 5 is now active_next only for bounded substage 5A under the existing
+    candidate-universe workflow. The next exact implementation unit is two
+    source-led, non-selected proposed-MTR boundary records: one for
+    Minneapolis-St. Paul ERS commuting zone and one for
+    Portland-Vancouver-Hillsboro CBSA. Each record must be created from
+    already accepted repository evidence only, must begin with record_status
+    not_admitted, must keep unknowns explicit, and must leave readiness or
+    admission checklist booleans false unless directly supported. This is
+    boundary-record construction and readiness review only, not admission.
   not_allowed: >
-    Do not admit MTRs, create a candidate list, create a candidate-universe
-    ledger, create outcome metric records, calculate scores, rank MTRs, or
-    claim any accepted population, denominator, metric, comparison, ranking, or
-    publication result. Phase 5 remains closed.
+    Do not admit MTRs, create a candidate list, create a live
+    candidate-universe ledger, create outcome metric records, calculate
+    scores, rank MTRs, compare MTRs, select final cases, or claim any accepted
+    population, denominator, metric, comparison, ranking, selection, or
+    publication result. Record U.S. evidence/tooling convenience as a bias risk
+    rather than as merit.
