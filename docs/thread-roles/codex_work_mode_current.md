@@ -1,6 +1,6 @@
 # ThesisRecord Codex Work Mode Current Snapshot
 
-Status: current Planning coordination snapshot
+Status: current Planning-to-Strategy Control coordination snapshot
 
 Recorded: 2026-08-02
 
@@ -11,24 +11,24 @@ deployment, or secret semantics.
 
 ```yaml
 codex_work_mode_snapshot:
-  recorded_at: 2026-08-02
+  recorded_at: "2026-08-02"
   logical_role: ThesisRecord Planning
   actual_task_id: 019fbdeb-c5a4-7ea2-a046-eb1d32fca9c3
   repository: /Users/jimmy1768/Projects/thesis-record
   worktree: /Users/jimmy1768/Projects/thesis-record
   branch: main
   head: d276b2623695aaa923fcf765628de6c832ffac76
-  status: planning_on_demand_control_lifecycle_delta_frozen; user research changes preserved
+  status: planning_control_ready_request_sent; Strategy-created Control A authorized; unrelated Mobility Conversion research changes preserved
   active_plan_links:
     - docs/thread-roles/plans/CODEX_WORK_MODE_STRATEGY_IMPLEMENTER_THREAD_REFRESH_PLAN.md
     - docs/architecture/phase_1_operator_nodes_v0.md
-  active_packet: none
+  active_packet: Planning Control-ready request sent to Strategy; Control A task identity is not recorded in this snapshot
   callbacks: []
   authorization:
     - Director-authorized Codex Work Mode repository governance migration.
     - Director-authorized on-demand Control lifecycle delta.
   blockers: []
-  next_action: Send Strategy the one Control-ready request for this frozen plan; Strategy owns any Control creation or Thread Refresh.
+  next_action: Strategy-created Control A selects and freezes one implementation packet; Strategy owns any Control archive or Thread Refresh after the complete snapshot-recorded idle gate.
 ```
 
 At this snapshot, the global-current Director phase is Phase 1: publish and

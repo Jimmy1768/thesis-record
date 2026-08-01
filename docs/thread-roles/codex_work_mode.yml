@@ -50,6 +50,8 @@ codex_work_mode_contract:
         - plan_documentation
         - frozen_acceptance_criteria
       writes_accepted_plans_on_main: true
+      sends_one_control_ready_request_after_plan_and_criteria_frozen: true
+      control_ready_request_excludes_implementation_detail_selection: true
     control:
       scope: repository
       max_per_repository: 2
@@ -114,6 +116,34 @@ codex_work_mode_contract:
     persistent_handoff_is_exception: true
     cross_repository_route: strategy_to_repository_planning
     cross_repository_control_targeting_allowed: false
+    control_a_created_only_from_planning_control_ready_request: true
+    control_b_requires_independent_parallel_work: true
+
+  planning_control_ready_request:
+    template_path: docs/thread-roles/templates/codex_planning_control_ready.md
+    sent_by: planning
+    received_by: strategy
+    sent_once_after_plan_and_criteria_frozen: true
+    fields:
+      - accepted_plan
+      - frozen_acceptance_criteria
+      - canonical_main_base_head
+      - canonical_main_final_head
+      - recommended_control_slot
+      - recommended_control_model
+      - likely_implementation_scope
+      - likely_checks
+      - blocked_surfaces
+      - follow_on
+      - final_status_and_staging
+      - first_blocker
+    excludes_control_selected_implementation_details:
+      - implementation_branch
+      - execution_mode
+      - implementation_model
+      - implementation_reasoning
+      - exact_owned_paths
+      - final_required_checks
 
   control_supervision:
     applies_to: ephemeral_implementer
@@ -162,6 +192,14 @@ codex_work_mode_contract:
       - checks
       - blocked_surfaces
       - result_evidence
+    selected_by_control_before_dispatch:
+      - implementation_branch
+      - execution_mode
+      - implementation_model
+      - implementation_reasoning
+      - owned_paths
+      - checks
+    default_dispatches_one_ephemeral_implementer: true
 
   thread_snapshot:
     template_path: docs/thread-roles/templates/codex_thread_snapshot.md
@@ -221,6 +259,14 @@ codex_work_mode_contract:
       - no_unresolved_callback
       - no_unsent_planning_terminal_packet
       - exact_repository_state_recorded_in_current_snapshot
+    control_archive_requires_complete_snapshot_recorded_idle_gate: true
+    control_archive_snapshot_state_fields:
+      - repository
+      - worktree
+      - branch
+      - head
+      - status
+      - staging
     strategy_self_refresh_requires_director_authorization: true
     director_recovery_allowed_when_strategy_unavailable: true
     defines_repository_runtime_reincarnation: false

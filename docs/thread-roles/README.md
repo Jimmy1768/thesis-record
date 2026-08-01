@@ -16,12 +16,21 @@ Planning task and does not implement repository changes.
 
 ThesisRecord Planning is this repository's one unnumbered Planning task. It
 owns first-principles reasoning, readiness, accepted plan documentation, and
-frozen acceptance criteria on `main`. A cross-repository or new-contract issue
-returns to Strategy.
+frozen acceptance criteria on `main`. After freezing them, Planning sends
+Strategy one [Control-ready request](templates/codex_planning_control_ready.md).
+The request identifies the frozen plan and criteria, canonical `main`
+base/final HEAD, recommended Control slot/model, likely scope/checks, blocked
+surfaces, follow-on, status/staging, and first blocker. It deliberately does
+not choose implementation branch, execution mode, implementation
+model/reasoning, exact owned paths, or the final check packet. A
+cross-repository or new-contract issue returns to Strategy.
 
-ThesisRecord may have `Control A` and `Control B`. Each independently consumes
-a frozen plan, chooses the implementation branch, freezes an implementation
-packet, dispatches one implementation agent, verifies frozen-plan conformance,
+Strategy creates `Control A` only from that Planning Control-ready request.
+`Control B` is permitted only for work genuinely independent of active Control
+A work. Each Control independently consumes a frozen plan, selects the
+implementation branch, execution mode, implementation model/reasoning, exact
+owned paths, and required checks, then freezes one implementation packet and
+dispatches one ephemeral Implementer. It verifies frozen-plan conformance,
 reruns the required checks, and may stage, commit, and locally integrate an
 accepted result. A Control does not implement its packet or reopen Planning.
 
@@ -87,12 +96,13 @@ retains predecessor authority until the successor has read source truth and the
 snapshot, verified actual state, and reported its real task ID, model, role,
 and readiness. Only then may the predecessor be archived.
 
-Planning and Strategy are unnumbered. A refreshed Control keeps slot A or B and
-must be idle: no active Implementer/Handoff, pending result review or
-integration, unresolved approval/callback, or unsent Planning packet. Its exact
-repository state must already be recorded. Strategy self-refresh requires
-Director authorization; the Director may restore unavailable Strategy from the
-snapshot.
+Planning and Strategy are unnumbered. A refreshed Control keeps slot A or B.
+Strategy archives it only after the complete idle gate is both satisfied and
+recorded in the current snapshot: no active Implementer/Handoff, pending result
+review or integration, unresolved approval/callback, or unsent Planning
+terminal packet, plus exact repository/worktree/branch/HEAD/status and staging
+state. Strategy self-refresh requires Director authorization; the Director may
+restore unavailable Strategy from the snapshot.
 
 ## ThesisRecord Boundaries
 

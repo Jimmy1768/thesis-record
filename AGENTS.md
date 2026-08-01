@@ -25,14 +25,21 @@ or replace repository Planning.
 
 ThesisRecord has one unnumbered Planning task. Planning owns repository
 reasoning, readiness, plan documentation, and frozen acceptance criteria. It
-writes accepted plans on `main` and returns cross-repository or new-contract
-questions to Strategy.
+writes accepted plans on `main`, then sends Strategy one Control-ready request
+for the frozen plan. That request identifies the plan, criteria, canonical
+`main` base/final HEAD, recommended Control slot/model, likely scope/checks,
+blocked surfaces, follow-on, status/staging, and first blocker; it does not
+select implementation details. Planning returns cross-repository or
+new-contract questions to Strategy.
 
-ThesisRecord may use independent `Control A` and `Control B` tasks. A Control
-consumes a frozen plan, freezes one implementation packet, selects its
+Strategy creates `Control A` only from Planning's Control-ready request.
+`Control B` is allowed only for work genuinely independent of active Control A
+work. A Control consumes a frozen plan, freezes one implementation packet, selects its
 implementation branch, reviews only for frozen-plan conformance, reruns the
 required checks, and may stage, commit, and locally integrate accepted work.
-Control does not implement the packet or reopen Planning.
+Control selects its execution mode, implementation model/reasoning, exact
+owned paths, and required checks before it dispatches one ephemeral
+Implementer. Control does not implement the packet or reopen Planning.
 
 An ephemeral Implementer is the default one-packet implementation agent. Each
 Control has at most one active implementation agent. An Implementer receives a
@@ -88,12 +95,13 @@ role, and readiness. Strategy archives the predecessor only after that
 verification.
 
 Strategy and Planning remain unnumbered. A refreshed Control retains its A or
-B slot and may be refreshed only while idle: no active Implementer or Handoff,
-pending result review or integration, unresolved approval or callback, or
-unsent terminal packet to Planning, with exact repository state recorded in the
-snapshot. Implementers are never refreshed. Strategy self-refresh requires
-explicit Director authorization; the Director may restore Strategy from the
-current snapshot if it is unavailable.
+B slot and Strategy archives it only after the complete idle gate is satisfied
+and recorded in the current snapshot: no active Implementer or Handoff, pending
+result review or integration, unresolved approval or callback, or unsent
+terminal packet to Planning, plus exact repository/worktree/branch/HEAD/status
+and staging state. Implementers are never refreshed. Strategy self-refresh
+requires explicit Director authorization; the Director may restore Strategy
+from the current snapshot if it is unavailable.
 
 ## Phase Integrity
 
