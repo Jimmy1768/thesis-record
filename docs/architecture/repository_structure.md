@@ -19,7 +19,8 @@ ThesisRecord separates platform infrastructure from thesis-specific content.
 - `docs/migration/` documents migration decisions and verification.
 - `docs/operations/` documents sanitized operations examples and boundaries.
 - `docs/source-verification/` documents source verification rules.
-- `docs/thread-roles/` documents Control, Research, and Writer responsibilities.
+- `docs/thread-roles/` contains the current Codex Work Mode governance
+  reference, protocol, plans, packet templates, and coordination snapshot.
 
 ## Rails App
 

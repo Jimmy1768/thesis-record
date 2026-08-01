@@ -1,0 +1,248 @@
+---
+codex_work_mode_contract:
+  version: 1
+  purpose: documentation_backed_builder_workflow_for_thesisrecord
+
+  builder_repository_boundary:
+    codex_is_builder: true
+    codex_is_product_or_runtime_control_surface: false
+    codex_task_mechanics_define_repository_runtime_semantics: false
+    protected_repository_domains:
+      - evidence_authority
+      - research_methodology
+      - publication_state
+      - deployment_topology
+      - runtime_services
+      - data_ownership
+      - application_lifecycle
+
+  naming_and_evidence_boundary:
+    proper_name: Codex Work Mode
+    proper_name_indivisible: true
+    builder_governance_only: true
+    builder_governance_evidence_separate_from_thesisrecord_evidence: true
+    builder_governance_evidence_may_define_or_prove_product_behavior: false
+    product_evidence_may_define_codex_task_behavior: false
+
+  roles:
+    strategy:
+      scope: cross_repository
+      count: 1
+      numbered: false
+      default_model: gpt-5.6-sol
+      default_reasoning: high
+      owns:
+        - cross_repository_architecture
+        - cross_repository_sequence
+        - model_policy
+        - durable_task_creation
+        - thread_refresh
+      implementation_edits_allowed: false
+    planning:
+      scope: repository
+      count_per_repository: 1
+      numbered: false
+      default_model: gpt-5.6-terra
+      default_reasoning: high
+      owns:
+        - first_principles_reasoning
+        - readiness
+        - plan_documentation
+        - frozen_acceptance_criteria
+      writes_accepted_plans_on_main: true
+    control:
+      scope: repository
+      max_per_repository: 2
+      stable_slot_names: [A, B]
+      default_model: gpt-5.6-terra
+      default_reasoning: high
+      strategy_authorized_escalation_model: gpt-5.6-sol
+      implementation_edits_allowed: false
+      planning_reopen_allowed: false
+      max_active_implementation_agents: 1
+    implementer:
+      lifetime: one_packet
+      persistent: false
+      created_by: control
+      receives_full_control_conversation: false
+      may_spawn_agents: false
+      returns_result_directly_to_control: true
+      edits_only_packet_owned_paths: true
+      no_git_integration_authority: true
+      no_approval_authority: true
+    handoff:
+      lifetime: one_packet
+      persistent: true
+      exceptional: true
+      requested_by: control
+      created_by: strategy
+      reviewed_only_by_requesting_control: true
+      archived_after_terminal_disposition: true
+      qualifying_reasons:
+        - multiple_implementation_rounds
+        - extended_waiting
+        - approval_sensitive_pause
+        - separately_inspectable_high_blast_radius_history
+      difficulty_alone_qualifies: false
+      edits_only_packet_owned_paths: true
+      no_git_integration_authority: true
+      no_approval_authority: true
+
+  model_allocation:
+    implementer:
+      certified_mechanical: { model: gpt-5.6-luna, reasoning: medium }
+      normal: { model: gpt-5.6-terra, reasoning: medium }
+      deeper_bounded: { model: gpt-5.6-terra, reasoning: high }
+    handoff:
+      normal: { model: gpt-5.6-terra, reasoning: medium }
+      deeper_bounded: { model: gpt-5.6-terra, reasoning: high }
+    luna_forbidden_when:
+      - unresolved_design_choice
+      - lifecycle_judgment
+      - cross_component_semantic_decision
+    explicit_selection_required_for_every_implementation_packet: true
+    implementation_rejection_alone_escalates_model: false
+
+  topology:
+    workspace_strategy_count: 1
+    planning_count_per_repository: 1
+    max_controls_per_repository: 2
+    control_slot_names: [A, B]
+    max_active_implementation_agents_per_control: 1
+    persistent_control_handoff_pairs: false
+    default_execution_mode: ephemeral_implementer
+    persistent_handoff_is_exception: true
+    cross_repository_route: strategy_to_repository_planning
+    cross_repository_control_targeting_allowed: false
+
+  control_supervision:
+    applies_to: ephemeral_implementer
+    control_remains_active_until_implementer_result: true
+    observes_agent_activity_state: true
+    receives_progress_updates: true
+    waits_for_parent_agent_return: true
+    activity_indicator_represents_build_turn_in_progress: true
+    implementation_edits_allowed: false
+    repeated_partial_diff_review_required: false
+    packet_widening_allowed: false
+    status_only_interrupt_allowed: false
+    terminal_decisions: [accept, reject, blocked]
+    sends_exactly_one_terminal_packet_to_planning: true
+    planning_terminal_packet_fields:
+      - implementation_agent_identity
+      - implementation_model_and_reasoning
+      - repository
+      - worktree
+      - branch
+      - base_head
+      - final_head
+      - decision
+      - changed_paths
+      - checks
+      - accepted_commit
+      - final_status_and_staging
+      - first_blocker
+      - authority_boundary_confirmation
+
+  implementation_packet:
+    template_path: docs/thread-roles/templates/codex_control_implementation.md
+    execution_modes: [ephemeral_implementer, persistent_handoff]
+    required_fields:
+      - objective
+      - accepted_plan_or_design
+      - repository
+      - implementation_branch
+      - control_slot
+      - execution_mode
+      - implementation_model
+      - implementation_reasoning
+      - model_selection_reason
+      - owned_paths
+      - required_behavior
+      - checks
+      - blocked_surfaces
+      - result_evidence
+
+  thread_snapshot:
+    template_path: docs/thread-roles/templates/codex_thread_snapshot.md
+    current_path: docs/thread-roles/codex_work_mode_current.md
+    volatile_coordination_only: true
+    may_define_new_architecture: false
+    accepted_decisions_belong_in_plans_or_references: true
+    required_fields:
+      - logical_role
+      - actual_task_id
+      - repository
+      - worktree
+      - branch
+      - head
+      - status
+      - active_plan_links
+      - active_packet
+      - callbacks
+      - authorization
+      - blockers
+      - next_action
+    read_order:
+      - AGENTS.md
+      - docs/thread-roles/README.md
+      - docs/thread-roles/codex_work_mode.yml
+      - docs/thread-roles/templates/codex_control_implementation.md
+      - docs/thread-roles/codex_work_mode_current.md
+      - snapshot_linked_plans_and_references
+      - actual_repository_state
+
+  thread_refresh:
+    owner: strategy
+    term: Thread Refresh
+    numbered_builder_reincarnation_used: false
+    applies_to: [strategy, planning, control, handoff]
+    applies_to_implementer: false
+    preserve_exact_state_before_creation: true
+    write_accepted_decisions_before_creation: true
+    update_current_snapshot_before_creation: true
+    creation_attempted_once_without_automatic_retry: true
+    predecessor_remains_authoritative_until_successor_ready: true
+    successor_verifies_source_truth_and_actual_state: true
+    verify_real_task_id_model_role_and_readiness: true
+    retire_predecessor_only_after_successor_ready: true
+    strategy_and_planning_remain_unnumbered: true
+    control_retains_slot_name: true
+    control_replacement_only_through_thread_refresh: true
+    control_refresh_requires_idle: true
+    control_refresh_with_active_implementer_allowed: false
+    control_refresh_with_active_handoff_allowed: false
+    control_idle_requirements:
+      - no_active_implementer
+      - no_active_handoff
+      - no_pending_result_review
+      - no_pending_integration
+      - no_unresolved_approval
+      - no_unresolved_callback
+      - no_unsent_planning_terminal_packet
+      - exact_repository_state_recorded_in_current_snapshot
+    strategy_self_refresh_requires_director_authorization: true
+    director_recovery_allowed_when_strategy_unavailable: true
+    defines_repository_runtime_reincarnation: false
+
+  phase_integrity:
+    resolve_current_global_director_phase_before_work: true
+    classify_similarly_named_phases: [global_current, historical, plan_local]
+    control_may_dispatch_bounded_repairs_under_frozen_plan: true
+    control_may_update_accepted_plan: false
+    planning_may_revise_plan_after_explicit_director_reopen: true
+    director_only_phase_actions: [create, split, rename, defer, replace, close]
+
+  safety:
+    implementation_agent_forbidden_without_explicit_authorization:
+      - stage
+      - commit
+      - merge
+      - push
+      - deploy
+      - publish
+      - resolve_approvals
+      - mutate_external_systems
+      - access_secrets_or_providers
+      - broaden_job
+    preserve_repository_authority_boundaries: true

@@ -1,90 +1,111 @@
-# Codex Task Roles
+# ThesisRecord Codex Work Mode
 
-Status: current temporary Codex Work Mode guidance.
+Status: current repository builder-governance reference.
 
-Canonical contract: OperatorKit commit `859bf872`.
+Codex Work Mode is the builder workflow for planning, implementing, reviewing,
+and locally integrating ThesisRecord changes. It is not a ThesisRecord product
+or runtime control surface, and its task mechanics do not define evidence,
+research, publication, provider, deployment, secret, or lifecycle semantics.
 
-ThesisRecord uses one repo-local Control task and one uniquely bound,
-long-lived Handoff task. At most one bounded Handoff job may be active at a
-time.
+## Authority And Roles
 
-Each active Handoff belongs to exactly one Control. The
-`owner_control_thread_id` and `handoff_thread_id` pair is a one-to-one identity
-binding: a Handoff thread must never be shared across Controls, and a Control
-must never target another Control's Handoff. `owner_control_thread_id` is
-binding metadata, not a return destination.
+Strategy is the one workspace-wide Codex Work Mode task. It owns
+cross-repository architecture and sequencing, model policy, durable task
+creation, and Thread Refresh. It routes repository work through the relevant
+Planning task and does not implement repository changes.
 
-## Control
+ThesisRecord Planning is this repository's one unnumbered Planning task. It
+owns first-principles reasoning, readiness, accepted plan documentation, and
+frozen acceptance criteria on `main`. A cross-repository or new-contract issue
+returns to Strategy.
 
-ThesisRecord Control owns first-principles reasoning, readiness, branch and Git
-state, complete Handoff packets, acceptance review, commits, approvals,
-sequencing, heartbeat lifecycle, and Handoff archival.
+ThesisRecord may have `Control A` and `Control B`. Each independently consumes
+a frozen plan, chooses the implementation branch, freezes an implementation
+packet, dispatches one implementation agent, verifies frozen-plan conformance,
+reruns the required checks, and may stage, commit, and locally integrate an
+accepted result. A Control does not implement its packet or reopen Planning.
 
-The requested repository-Control profile is GPT-5.6-sol with high reasoning.
-OperatorKit Control alone owns Sol/xhigh kernel architecture,
-cross-repository contracts, and authority boundaries. ThesisRecord routes that
-class of analysis Control-to-Control instead of increasing this Control to
-xhigh. Requested model and reasoning remain configuration evidence rather than
-runtime-telemetry proof.
+## Implementation Agents
 
-Control independently verifies a terminal Handoff result before accepting and
-committing it. Cross-repo requests route Control-to-Control.
+The default execution mode is one ephemeral Implementer per frozen packet. The
+Implementer receives the packet, not the full Control conversation; it cannot
+spawn an agent, edits only its owned paths, runs the stated checks, and returns
+directly to Control. A Control remains active while that Implementer runs,
+observing activity and progress before receiving the direct result. It does not
+use that supervision to edit the work, repeatedly inspect partial diffs, widen
+the packet, or interrupt merely for status.
 
-## Handoff
+A persistent Handoff is a one-packet exception for multiple implementation
+rounds, extended waiting, approval-sensitive pauses, or a separately
+inspectable high-blast-radius history. Control requests the exception, Strategy
+creates it, and the requesting Control alone reviews the terminal result.
+Difficulty alone is insufficient. The Handoff is archived after acceptance,
+rejection, or abandonment.
 
-ThesisRecord Handoff owns only the bounded implementation and focused checks in
-its current packet. It has no permanent model or reasoning classification. A
-Handoff does not switch branches, create worktrees, commit, merge, push,
-request approval, deploy, restart services, or touch external state.
+Neither agent stages, commits, merges, pushes, deploys, publishes, resolves
+approvals, broadens scope, accesses secrets/providers, or mutates external
+systems.
 
-Control selects an execution profile for every bounded job and passes the same
-requested model and reasoning in the packet and dispatch override. Baselines:
+## Model Policy
 
-- mechanical documentation, tests, and fixtures: GPT-5.4-mini / medium;
-- ordinary bounded implementation: GPT-5.4 / medium;
-- architecture, persistence, authority, security, or cross-contract-sensitive
-  implementation: GPT-5.4 / high.
+- Strategy: `gpt-5.6-sol`, high reasoning.
+- Planning and Control by default: `gpt-5.6-terra`, high reasoning.
+- Certified mechanical Implementer: `gpt-5.6-luna`, medium reasoning.
+- Normal Implementer or Handoff: `gpt-5.6-terra`, medium reasoning.
+- Deeper bounded Implementer or Handoff: `gpt-5.6-terra`, high reasoning.
 
-Requested model and reasoning are configuration evidence, not proof of actual
-runtime telemetry.
+Strategy may authorize Sol for a demanding contract or high-risk Control review.
+Luna is unavailable for unresolved design, lifecycle judgment, or
+cross-component semantic work. Every packet records its model, reasoning, and
+selection reason.
 
-Every packet binds:
+## Packets And Terminal Return
 
-- `owner_control_thread_id`;
-- `handoff_thread_id`;
-- `expected_runtime_class`;
-- `heartbeat_delay_minutes`;
-- `requested_model`;
-- `requested_reasoning`;
-- `execution_profile`;
-- `selection_reason`;
-- `implementation_commit_owner`;
-- `integration_commit_owner`.
+Every packet identifies its objective, accepted plan/design, repository,
+implementation branch, Control slot, execution mode, selected model and
+reasoning, owned paths, required behavior, checks, blocked surfaces, and result
+evidence. Use [the packet template](templates/codex_control_implementation.md).
 
-The Handoff writes its final return in its own task and stops. That return is
-not delivered to Control and does not wake Control. The packet must not use
-`control_thread_id` as a worker-delivery field or claim direct delivery.
+After `accept`, `reject`, or `blocked`, Control sends exactly one terminal
+packet to Planning. It includes implementation-agent identity and model,
+repository/worktree/branch/base and final HEAD, decision, changed paths,
+checks, accepted commit when applicable, final status and staging, first
+blocker, and authority-boundary confirmation.
 
-Cross-repository work routes Control-to-Control. The receiving Control uses its
-own uniquely bound Handoff. Terminal jobs return the Handoff to idle for serial
-reuse; a replacement is created only when the identity binding is explicitly
-ended or the Handoff is no longer reachable.
+## Thread Refresh And Snapshot
 
-## Terminal Wake And Heartbeat
+Strategy alone performs Thread Refresh. It applies to Strategy, Planning,
+Control, and exceptional persistent Handoff tasks, never to an Implementer.
+It does not use or define builder-thread reincarnation.
 
-The platform terminal wake is the primary Control-resumption mechanism after a
-Handoff writes its terminal return and stops. The heartbeat is fallback
-recovery only; it checks task status, never the active transcript.
+Before refresh, Strategy records exact volatile coordination in
+[the current snapshot](codex_work_mode_current.md), including task identity,
+repository state, plans, packet, callbacks, authorization, blockers, and next
+action. Accepted decisions and open design questions belong in plans and
+references before that snapshot. Strategy attempts a successor once and
+retains predecessor authority until the successor has read source truth and the
+snapshot, verified actual state, and reported its real task ID, model, role,
+and readiness. Only then may the predecessor be archived.
 
-While a Handoff is active, Control does not poll, read its transcript, narrate
-progress, or steer status. When terminal wake or fallback heartbeat resumes
-Control, Control deletes any outstanding heartbeat before reading the terminal
-return once and reviewing the evidence. The long-lived Handoff then returns to
-idle for the next serial job rather than being archived after each job.
+Planning and Strategy are unnumbered. A refreshed Control keeps slot A or B and
+must be idle: no active Implementer/Handoff, pending result review or
+integration, unresolved approval/callback, or unsent Planning packet. Its exact
+repository state must already be recorded. Strategy self-refresh requires
+Director authorization; the Director may restore unavailable Strategy from the
+snapshot.
 
-## Research And Writing
+## ThesisRecord Boundaries
 
-Research and writing are bounded work scopes, not separate Codex task
-identities. Research work must preserve source-verification and falsification
-rules. Writing may begin only when accepted source truth and claim status
-support it, and must not invent claims from raw returns or open questions.
+The current global Director phase comes only from the repository architecture
+roadmap. Thesis-local phases and historical records do not replace it. Frozen
+plans and accepted phases remain intact; only the Director changes phase scope
+or lifecycle. Research keeps its source-verification and falsification rules.
+Writing requires accepted source truth and claim status and cannot promote raw
+returns or open questions into claims.
+
+This reference, [the protocol](codex_work_mode.yml),
+[the snapshot template](templates/codex_thread_snapshot.md), and
+[the accepted migration plan](plans/CODEX_WORK_MODE_STRATEGY_IMPLEMENTER_THREAD_REFRESH_PLAN.md)
+are the active repository Codex Work Mode source truth. Historical operational
+handoffs preserve their original terminology as evidence and are not current
+governance.
