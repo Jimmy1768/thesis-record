@@ -1,6 +1,6 @@
 # ThesisRecord Codex Work Mode Strategy, Implementer, And Thread Refresh Plan
 
-Status: Director-authorized governance migration accepted
+Status: Director-authorized governance migration accepted; on-demand Control lifecycle delta frozen
 
 Owner: ThesisRecord Planning
 
@@ -58,12 +58,40 @@ by this migration.
 Every packet records the chosen model, reasoning, and selection reason. Luna
 is excluded for unresolved design, lifecycle, or cross-component semantic work.
 
+## On-Demand Control Lifecycle Delta
+
+Planning freezes this accepted plan and its acceptance criteria, then sends
+Strategy one Control-ready request. The request names the accepted plan,
+criteria, canonical `main` base/final HEAD, recommended Control slot/model,
+likely implementation scope/checks, blocked surfaces, follow-on, final status
+and staging, and the first blocker. Planning does not select an implementation
+branch, execution mode, implementation model/reasoning, exact owned paths, or
+an implementation-check packet.
+
+Strategy creates `Control A` only after receiving that Control-ready request.
+`Control B` is permitted only for work genuinely independent of active Control
+A work. The created Control selects the branch, execution mode,
+model/reasoning, exact owned paths, and required checks, then freezes one
+implementation packet and dispatches one ephemeral Implementer. After its
+frozen-plan review, Control sends exactly one terminal packet to Planning.
+
+Strategy archives a Control only after the complete idle gate is both satisfied
+and recorded in the current snapshot: no active Implementer/Handoff, pending
+result review or integration, unresolved approval or callback, or unsent
+Planning terminal packet, plus exact repository/worktree/branch/HEAD/status
+and staging state. Persistent Handoff remains exceptional and one-packet.
+
+No active numbered ThesisRecord Control lane was found. Historical operational
+handoffs are non-authoritative evidence and receive no new work. The unrelated
+dirty Mobility Conversion research lane is preserved and is not a Control lane.
+
 ## Owned Source Truth
 
 - `AGENTS.md`
 - `docs/thread-roles/README.md`
 - `docs/thread-roles/codex_work_mode.yml`
 - `docs/thread-roles/templates/codex_control_implementation.md`
+- `docs/thread-roles/templates/codex_planning_control_ready.md`
 - `docs/thread-roles/templates/codex_thread_snapshot.md`
 - `docs/thread-roles/codex_work_mode_current.md`
 - this plan
@@ -85,6 +113,25 @@ is excluded for unresolved design, lifecycle, or cross-component semantic work.
    deployment, secret, product, and runtime boundaries.
 6. The focused contract test, YAML parse, current-governance residue scan, and
    diff check pass.
+7. Planning sends Strategy a Control-ready request after freezing this plan and
+   criteria; it does not freeze implementation details.
+8. Strategy creates Control A only from that request, uses Control B only for
+   genuinely independent parallel work, and archives Controls only after the
+   complete snapshot-recorded idle gate.
+
+## Control Implementation Follow-On
+
+Control finalizes the packet for the accepted source-truth update. Its likely
+owned paths are `AGENTS.md`, `docs/thread-roles/README.md`,
+`docs/thread-roles/codex_work_mode.yml`,
+`docs/thread-roles/templates/codex_planning_control_ready.md`,
+`docs/thread-roles/codex_work_mode_current.md`, and
+`thesis_record_app/test/services/operations/codex_work_mode_contract_test.rb`.
+It must select the exact subset, branch, execution mode, implementation model,
+and checks before dispatch. Likely required checks are the focused Codex Work
+Mode contract test, protocol YAML parse, active-governance residue scan, and
+diff check; Control must freeze the final check set without expanding it into
+an unrelated suite.
 
 ## Explicit Non-Goals
 
