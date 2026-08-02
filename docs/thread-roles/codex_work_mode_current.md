@@ -1,6 +1,6 @@
 # ThesisRecord Codex Work Mode Current Snapshot
 
-Status: current Planning-to-Strategy Control archive snapshot
+Status: current Planning-to-Strategy Control availability snapshot
 
 Recorded: 2026-08-02
 
@@ -17,20 +17,18 @@ codex_work_mode_snapshot:
   repository: /Users/jimmy1768/Projects/thesis-record
   worktree: /Users/jimmy1768/Projects/thesis-record
   branch: main
-  head: cccc637213e945987ebb22de50e38c62d408a1de
-  status: control_a_archived_after_complete_idle_gate; unrelated Mobility Conversion research changes preserved
+  head: 044ec40a23210103a662c34c00e4633ba38a72b2
+  status: control_a_restored_terminal_idle_unarchived; unrelated Mobility Conversion research changes preserved
   active_plan_links:
     - docs/thread-roles/plans/CODEX_WORK_MODE_STRATEGY_IMPLEMENTER_THREAD_REFRESH_PLAN.md
     - docs/architecture/phase_1_operator_nodes_v0.md
   active_packet: none
-  callbacks:
-    - Control A terminal packet received and accepted by Planning.
-    - Strategy archived Control A after verifying the complete recorded idle gate.
+  callbacks: []
   authorization:
     - Director-authorized Codex Work Mode repository governance migration.
     - Director-authorized on-demand Control lifecycle delta.
   blockers: []
-  next_action: No active ThesisRecord Control; Planning awaits a subsequent authorized repository request.
+  next_action: Control A is visible and terminal-idle; Strategy may use it only after a future valid Planning Control-ready request.
   control_a_terminal:
     task_id: 019fbe3c-5e66-7b63-8864-58893117362d
     decision: accept
@@ -41,7 +39,21 @@ codex_work_mode_snapshot:
     final_head: 4a81c18ab01c04d861d40b141ad78a4a5b1af76d
     accepted_commit: 4a81c18ab01c04d861d40b141ad78a4a5b1af76d
     integration: local_fast_forward_completed
-    archive: strategy_archived_after_complete_idle_gate
+    lifecycle_history:
+      - strategy_archived_after_complete_idle_gate
+      - strategy_unarchived_by_director_authorized_retry
+    current_lifecycle:
+      visibility: visible
+      archive_status: unarchived
+      state: terminal_idle
+      available_only_after: future_valid_planning_control_ready_request
+      active_packet: none
+      active_implementer: none
+      active_handoff: none
+      unresolved_callback: none
+      unresolved_approval: none
+      pending_result_review: none
+      pending_integration: none
     checks:
       - focused_contract_test_passed
       - protocol_and_snapshot_yaml_safe_load_passed
