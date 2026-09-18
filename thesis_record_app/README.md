@@ -13,6 +13,24 @@ bin/rails db:prepare
 bin/rails test
 ```
 
+## Local Periodic Collection Work
+
+The June Day 0 database baseline must be registered in place, not reimported. The
+local collection code adds capture-linked SUSB/BDS/BFS rows and immutable
+quarter/result identities beside the existing thesis checkpoint records.
+`operator:day_zero_digest_rehearsal` is read-only and expects the documented
+June counts. Synthetic tests exercise duplicate checks, corrected captures,
+unchanged quarters, and append-only database guards.
+
+The SUSB, BDS, and BFS parsers, three-source release lookup, append-only
+source-native computation, pending review links, and Sidekiq quarterly job
+have local controlled-response tests. The job takes an explicit quarter,
+cutoff, and source registry IDs; it is not scheduled. No live collection has
+run. Production collection and Day 0 registration entry points remain disabled
+until the later production phase. See
+`ops/docs/plans/periodic_evidence_pipeline_plan.md` at the repository root for
+the phase boundary.
+
 ## Boundaries
 
 - Structured private data belongs in production PostgreSQL.

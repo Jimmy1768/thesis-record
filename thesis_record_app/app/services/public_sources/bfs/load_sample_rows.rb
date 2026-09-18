@@ -37,6 +37,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "BFS source-row upsert")
         ensure_load_allowed!
         Operations::V0CanonicalCollectionPreflight.enforce_source_write_allowed!(
           source_kind: bfs_policy.fetch(:source_kind)

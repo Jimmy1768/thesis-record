@@ -23,6 +23,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "BFS metric-definition mutation")
         ensure_scaffold_allowed!
         before_counts = guardrail_counts
         definitions = upsert_definitions!

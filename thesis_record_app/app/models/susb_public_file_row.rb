@@ -2,6 +2,7 @@ class SusbPublicFileRow < ApplicationRecord
   belongs_to :data_source
   belongs_to :intake_manifest
   belongs_to :schema_version
+  belongs_to :periodic_capture, optional: true
 
   validates :year, :state_code, :naics_code, :enterprise_size_code,
             :firm_count, :establishment_count, :employment,
@@ -10,5 +11,6 @@ class SusbPublicFileRow < ApplicationRecord
             :enterprise_size_description, :row_hash, presence: true
   validates :employment_noise_flag, :payroll_noise_flag, inclusion: { in: %w[G H J D S] }
   validates :receipts_noise_flag, inclusion: { in: %w[G H J D S] }, allow_nil: true
-  validates :enterprise_size_code, uniqueness: { scope: [ :data_source_id, :year, :state_code, :naics_code ] }
+  validates :enterprise_size_code, uniqueness: { scope: [ :data_source_id, :year, :state_code, :naics_code, :periodic_capture_id ] },
+                                  if: -> { periodic_capture_id.nil? }
 end

@@ -79,6 +79,9 @@ module Operations
 
         window = FRESHNESS_WINDOWS.fetch(name)
         warnings << "stale_#{name}_event" if event.occurred_at < now - window
+        if name == :source_release_check && event.change_summary.include?("passed=false")
+          warnings << "failed_source_release_check_event"
+        end
       end
     end
   end

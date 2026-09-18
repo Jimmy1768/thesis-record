@@ -34,6 +34,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "SUSB source-row upsert")
         Operations::V0CanonicalCollectionPreflight.enforce_source_write_allowed!(
           source_kind: susb_policy.fetch(:source_kind)
         )

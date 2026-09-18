@@ -1,4 +1,16 @@
 namespace :operator do
+  desc "Read-only Day 0 membership and content digest rehearsal"
+  task day_zero_digest_rehearsal: :environment do
+    result = Evidence::DayZeroManifestBuilder.call
+    puts JSON.pretty_generate(
+      baseline_key: result.manifest.fetch("baseline_key"),
+      manifest_digest: result.manifest_digest,
+      tables: result.manifest.fetch("tables").transform_values do |table|
+        table.slice("row_count", "member_id_sha256", "content_sha256")
+      end
+    )
+  end
+
   desc "Bootstrap the first ThesisRecord operator admin from environment variables"
   task bootstrap_admin: :environment do
     user = Operators::BootstrapAdmin.call!

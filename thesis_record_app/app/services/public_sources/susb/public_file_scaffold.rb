@@ -14,6 +14,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "SUSB source registry scaffold mutation")
         DataSource.transaction do
           source = register_source!
           access_path = register_access_path!(source)

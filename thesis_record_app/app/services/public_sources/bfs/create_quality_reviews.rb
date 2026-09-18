@@ -26,6 +26,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "BFS quality-review upsert")
         ensure_review_policy_allowed!
         before_counts = guardrail_counts
         counters = create_reviews!

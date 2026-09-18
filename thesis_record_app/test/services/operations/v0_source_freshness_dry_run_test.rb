@@ -26,6 +26,27 @@ class Operations::V0SourceFreshnessDryRunTest < ActiveSupport::TestCase
     end
   end
 
+  class FailingHttpClient
+    def self.start(_host, _port, use_ssl:)
+      raise "expected ssl" unless use_ssl
+
+      yield new
+    end
+
+    def request(request)
+      code = request.path.include?("/bfs/") ? "503" : "200"
+      FakeResponse.new(code, { "content-type" => "text/plain" })
+    end
+  end
+
+  class ErroringHttpClient
+    def self.start(_host, _port, use_ssl:)
+      raise "expected ssl" unless use_ssl
+
+      raise Net::OpenTimeout
+    end
+  end
+
   test "reports all three sources from policy without network by default" do
     result = Operations::V0SourceFreshnessDryRun.call
 
@@ -70,5 +91,27 @@ class Operations::V0SourceFreshnessDryRunTest < ActiveSupport::TestCase
 
     assert_not result.passed
     assert_includes result.blockers, "census_bfs_api.endpoints_configured"
+  end
+
+  test "fails aggregate health when any endpoint returns non-success status" do
+    result = Operations::V0SourceFreshnessDryRun.call(
+      network_enabled: true,
+      http_client: FailingHttpClient
+    )
+
+    assert_not result.passed
+    assert_includes result.blockers, "census_bfs_api.network_endpoints_healthy"
+    assert_equal 503, result.sources.find { |source| source.source_kind == "census_bfs_api" }.endpoints.first.status
+  end
+
+  test "fails aggregate health with sanitized network error class" do
+    result = Operations::V0SourceFreshnessDryRun.call(
+      network_enabled: true,
+      http_client: ErroringHttpClient
+    )
+
+    assert_not result.passed
+    assert result.sources.flat_map(&:endpoints).all? { |endpoint| endpoint.error == "Net::OpenTimeout" }
+    assert result.sources.flat_map(&:endpoints).all? { |endpoint| endpoint.status.nil? }
   end
 end

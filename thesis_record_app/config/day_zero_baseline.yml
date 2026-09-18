@@ -1,0 +1,25 @@
+shared:
+  baseline_key: operator_nodes_v0_2026_06
+  baseline_observed_on: "2026-06-14"
+  authority_manifest_paths:
+    - theses/operator-node-economics/evidence/manifests/v0_baseline_snapshot_2026-06-14.md
+    - theses/operator-node-economics/evidence/manifests/v0_collection_complete_2026-06-15.md
+    - theses/operator-node-economics/evidence/manifests/v0_canonical_collection_susb_2022_result_2026-06-15.md
+    - theses/operator-node-economics/evidence/manifests/v0_canonical_collection_bds_2023_result_2026-06-15.md
+    - theses/operator-node-economics/evidence/manifests/v0_canonical_collection_bfs_2012_result_2026-06-15.md
+  expected_counts:
+    data_sources: 3
+    source_access_paths: 3
+    intake_manifests: 3
+    schema_versions: 3
+    metric_definitions: 21
+    metric_observations: 1179605
+    metric_quality_reviews: 1179605
+    susb_public_file_rows: 570105
+    bfs_api_rows: 1368
+    bds_public_file_rows: 104880
+  historical_provenance:
+    original_application_commit: unknown
+    original_parser_versions: unknown
+    original_computation_timestamps: unknown
+    backfill_metadata_is_original_provenance: false

@@ -24,6 +24,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "SUSB quality-review upsert")
         ensure_review_policy_allowed!
 
         counters = {

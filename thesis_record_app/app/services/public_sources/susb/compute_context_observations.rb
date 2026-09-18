@@ -56,6 +56,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "SUSB metric delete-and-recreate")
         ensure_design_allowed!
         source = find_source!
         metric_definitions = find_metric_definitions!

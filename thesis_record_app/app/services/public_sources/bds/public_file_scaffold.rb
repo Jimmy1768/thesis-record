@@ -13,6 +13,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "BDS source registry scaffold mutation")
         existing_source = DataSource.find_by(
           name: bds_policy.fetch(:source_name),
           source_kind: bds_policy.fetch(:source_kind)

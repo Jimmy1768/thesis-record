@@ -12,6 +12,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "SUSB metric-definition mutation")
         MetricDefinition.transaction do
           metric_definitions.map do |key, attributes|
             definition = MetricDefinition.find_or_initialize_by(key: key.to_s)

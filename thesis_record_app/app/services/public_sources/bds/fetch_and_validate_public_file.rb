@@ -64,6 +64,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "BDS fixed-path fetch and registry mutation")
         ensure_policy_allows_fetch_validation!
 
         scaffold = find_or_create_scaffold

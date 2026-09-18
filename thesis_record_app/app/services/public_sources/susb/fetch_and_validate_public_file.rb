@@ -53,6 +53,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "SUSB fixed-path fetch and registry mutation")
         scaffold = find_or_create_scaffold
         fetched_this_run = fetch_raw_file_if_needed
         validation = validate_raw_file!

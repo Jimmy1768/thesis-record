@@ -50,6 +50,7 @@ module PublicSources
       end
 
       def call!
+        Operations::LegacyEvidenceWriteFence.enforce!(operation: "BDS source-row replacement")
         ensure_policy_allows_source_row_load!
         Operations::V0CanonicalCollectionPreflight.enforce_source_write_allowed!(
           source_kind: bds_policy.fetch(:source_kind)

@@ -66,6 +66,7 @@ module Operations
         checks: {
           source_kind_matches: source_policy.fetch(:source_kind, nil) == config.fetch(:source_kind),
           endpoints_configured: endpoints.all?(&:configured),
+          network_endpoints_healthy: !network_enabled || endpoints.all? { |endpoint| successful_endpoint?(endpoint) },
           no_rows_authorized: rows_disabled?(source_policy),
           no_claim_effect: source_policy.fetch(:claim_status_effect, "unchanged") == "unchanged"
         },
@@ -124,6 +125,10 @@ module Operations
       ]
 
       keys.all? { |key| source_policy.fetch(key, false) == false }
+    end
+
+    def successful_endpoint?(endpoint)
+      endpoint.network_checked && endpoint.error.nil? && endpoint.status.in?(200..299)
     end
 
     def source_blockers(sources)

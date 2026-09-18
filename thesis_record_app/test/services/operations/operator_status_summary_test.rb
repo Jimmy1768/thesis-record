@@ -96,16 +96,31 @@ class Operations::OperatorStatusSummaryTest < ActiveSupport::TestCase
     assert_includes summary.warnings, "stale_v0_readiness_event"
   end
 
+  test "fresh failed source check remains unhealthy" do
+    create_audit_event!(
+      event_type: "source_release_check_completed",
+      entity_id: "source_release_check",
+      reason_code: "scheduled_source_release_check",
+      change_summary: "Source-release check completed; passed=false"
+    )
+
+    summary = Operations::OperatorStatusSummary.call
+
+    assert_includes summary.warnings, "failed_source_release_check_event"
+    assert_not_includes summary.warnings, "stale_source_release_check_event"
+  end
+
   private
 
-  def create_audit_event!(event_type:, entity_id:, reason_code: "test_reason", occurred_at: Time.current)
+  def create_audit_event!(event_type:, entity_id:, reason_code: "test_reason", occurred_at: Time.current,
+                          change_summary: "#{event_type} summary")
     AuditEvent.create!(
       occurred_at: occurred_at,
       actor_type: "Test",
       event_type: event_type,
       entity_type: "SchedulerCheckpoint",
       entity_id: entity_id,
-      change_summary: "#{event_type} summary",
+      change_summary: change_summary,
       reason_code: reason_code,
       storage_zone: "production_postgresql",
       privacy_classification: "internal",
