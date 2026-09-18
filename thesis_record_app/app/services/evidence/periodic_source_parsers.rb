@@ -113,11 +113,11 @@ module Evidence
             match = /\A(\d{4})-(0[1-9]|1[0-2])\z/.match(period)
             raise InvalidResponse, "BFS row #{line} has invalid period" unless match && match[1].to_i == reference_year
             raise InvalidResponse, "BFS row #{line} has invalid geography" unless row.fetch("us") == design.fetch(:geography_code).to_s
+            raise InvalidResponse, "BFS row #{line} exceeds cutoff month" if match[2].to_i > last_month
 
             next unless design.fetch(:first_pass_data_type_codes).include?(row.fetch("data_type_code")) &&
                         design.fetch(:first_pass_category_codes).include?(row.fetch("category_code")) &&
                         design.fetch(:seasonally_adj_allowed).include?(row.fetch("seasonally_adj"))
-            raise InvalidResponse, "BFS row #{line} exceeds cutoff month" if match[2].to_i > last_month
 
             raise InvalidResponse, "BFS row #{line} has invalid slot" unless row.fetch("time_slot_id") == "0"
             raise InvalidResponse, "BFS row #{line} has invalid error flag" unless %w[no yes].include?(row.fetch("error_data"))

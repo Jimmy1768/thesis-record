@@ -13,7 +13,11 @@ module Evidence
     def self.call!(quarter:, cutoff_at:, registry_ids:, fetcher: ->(uri) { Net::HTTP.get_response(uri) },
                    environment: ENV)
       raise CollectionError, "production quarterly collection is a later phase" if Rails.env.production?
-      raise CollectionError, "quarter is invalid" unless quarter.match?(/\A\d{4}-Q[1-4]\z/)
+      expected_cutoff = QuarterlyCollection.cutoff_for(quarter)
+      raise CollectionError, "quarter is invalid" unless expected_cutoff
+      raise CollectionError, "cutoff does not match quarter" unless
+        cutoff_at.respond_to?(:to_time) && cutoff_at.to_time&.utc == expected_cutoff
+      raise CollectionError, "quarter has not closed" if Time.current.utc < expected_cutoff
       raise CollectionError, "all three source registries are required" unless
         registry_ids.keys.map(&:to_s).sort == PARSER_VERSIONS.keys.sort
 
@@ -29,7 +33,7 @@ module Evidence
           schema.intake_manifest_id == manifest.id
 
         begin
-          release = PeriodicSourceReleases.latest!(source_kind: kind, cutoff_at: cutoff_at,
+          release = PeriodicSourceReleases.latest!(source_kind: kind, cutoff_at: expected_cutoff,
                                                    fetcher: fetcher, environment: environment,
                                                    policy: policy)
         rescue PeriodicSourceReleases::ReleaseError => error
@@ -47,7 +51,7 @@ module Evidence
       end
 
       CompleteQuarterlyCollection.call!(
-        quarter: quarter, captures: captures, cutoff_at: cutoff_at,
+        quarter: quarter, captures: captures, cutoff_at: expected_cutoff,
         method_manifest: PeriodicSourceNativeResults.method_manifest(policy: policy),
         definitions: PeriodicSourceNativeResults.definitions_manifest(policy: policy),
         compute: ->(inputs) { PeriodicSourceNativeResults.call(inputs, policy: policy) }

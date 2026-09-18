@@ -5,7 +5,11 @@ module Evidence
     def self.call!(quarter:, captures:, cutoff_at:, method_manifest:, definitions:, compute:)
       raise CollectionError, "production quarterly collection is a later phase" if Rails.env.production?
 
-      raise CollectionError, "quarter is invalid" unless quarter.match?(/\A\d{4}-Q[1-4]\z/)
+      expected_cutoff = QuarterlyCollection.cutoff_for(quarter)
+      raise CollectionError, "quarter is invalid" unless expected_cutoff
+      raise CollectionError, "cutoff does not match quarter" unless
+        cutoff_at.respond_to?(:to_time) && cutoff_at.to_time&.utc == expected_cutoff
+      raise CollectionError, "quarter has not closed" if Time.current.utc < expected_cutoff
       raise CollectionError, "captures must be nonempty" unless captures.any?
       raise CollectionError, "captures must be distinct" unless captures.map(&:id).uniq.size == captures.size
       raise CollectionError, "captures must be completed" unless captures.all? { |capture| capture.status == "completed" }
@@ -64,7 +68,7 @@ module Evidence
         collection = QuarterlyCollection.create!(
           quarter: quarter, revision: revision, identity_digest: quarter_identity,
           input_digest: input_digest, quarterly_result_set: result_set,
-          status: "building", cutoff_at: cutoff_at
+          status: "building", cutoff_at: expected_cutoff
         )
         capture_ids.each do |id|
           QuarterlyCollectionCapture.create!(quarterly_collection: collection, periodic_capture_id: id)

@@ -110,6 +110,32 @@ Post-cutover observation on 2026-06-27 UTC showed:
 - status watchdog completed successfully;
 - `bin/rails operator:status` remained warning-free.
 
+## Host And Repository Identity
+
+`sourcegrid-web` names the Droplet, not the ThesisRecord Git repository. The
+Droplet has separate checkouts at
+`/home/jimmy1768_user/Projects/sourcegrid-web` and
+`/home/jimmy1768_user/Projects/thesis-record`. ThesisRecord commands in this
+runbook apply only to the latter; do not use the SourceGrid checkout as a
+substitute.
+
+If `sourcegrid-web` is not a resolvable SSH alias on the operator workstation,
+use `ssh jimmy1768_user@<current-sourcegrid-web-address>` with the address from
+the private host inventory. Do not commit the host address or credentials to
+this public repository.
+
+To transfer `main` for inspection without changing the production checkout or
+`release/current`, run this against the ThesisRecord repository only:
+
+```bash
+ssh jimmy1768_user@<current-sourcegrid-web-address> \
+  git -C /home/jimmy1768_user/Projects/thesis-record \
+  fetch origin main:refs/remotes/origin/main
+```
+
+This updates only `origin/main`; it does not deploy code, migrate the database,
+restart services, or authorize a production collection.
+
 ## Branch Policy
 
 Production must run from `release/current`.

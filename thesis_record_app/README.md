@@ -31,6 +31,14 @@ until the later production phase. See
 `ops/docs/plans/periodic_evidence_pipeline_plan.md` at the repository root for
 the phase boundary.
 
+The reporting quarter is a UTC calendar interval, with an exclusive end derived
+from its label; retrieval happens after that end. A quarterly record must show
+the source releases and reference periods actually available at retrieval,
+which may lag the reporting quarter. The local job rejects a cutoff that does
+not match the quarter or a run before the quarter closes. BFS requests are
+bounded through the quarter's last eligible month; the live query predicate
+still requires verification during production preparation.
+
 ## Boundaries
 
 - Structured private data belongs in production PostgreSQL.

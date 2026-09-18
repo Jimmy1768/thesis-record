@@ -3,6 +3,7 @@ require "minitest/mock"
 
 class PeriodicDatabaseCollectionTest < ActiveSupport::TestCase
   setup do
+    travel_to Time.utc(2027, 1, 2)
     @source = DataSource.create!(name: "periodic BDS test", source_kind: "census_bds_public_file",
                                  storage_zone: "production_postgresql", privacy_classification: "public",
                                  retention_rule: "test")
@@ -13,6 +14,21 @@ class PeriodicDatabaseCollectionTest < ActiveSupport::TestCase
                                     version: "test-v1", schema_status: "validated")
     @definition = MetricDefinition.create!(key: "periodic-test", name: "Periodic test",
                                            formula_status: "draft", formula: "count")
+  end
+
+  teardown { travel_back }
+
+  test "quarter cutoffs are derived and persisted values must match" do
+    assert_equal Time.utc(2026, 4, 1), QuarterlyCollection.cutoff_for("2026-Q1")
+    assert_equal Time.utc(2026, 7, 1), QuarterlyCollection.cutoff_for("2026-Q2")
+    assert_equal Time.utc(2026, 10, 1), QuarterlyCollection.cutoff_for("2026-Q3")
+    assert_equal Time.utc(2027, 1, 1), QuarterlyCollection.cutoff_for("2026-Q4")
+
+    collection = QuarterlyCollection.new(quarter: "2026-Q3", cutoff_at: Time.utc(2026, 9, 30),
+                                         revision: 1, identity_digest: "identity", input_digest: "input",
+                                         status: "building")
+    assert_not collection.valid?
+    assert_includes collection.errors[:cutoff_at], "must match the quarter end"
   end
 
   test "Day 0 registration verifies existing members and protects them without rewriting" do
@@ -137,6 +153,26 @@ class PeriodicDatabaseCollectionTest < ActiveSupport::TestCase
     end
   end
 
+  test "direct quarter completion rejects an unrelated or unclosed cutoff" do
+    capture = capture_for("response-one", row_attributes)
+    compute = ->(_captures) { [] }
+    error = assert_raises(Evidence::CompleteQuarterlyCollection::CollectionError) do
+      Evidence::CompleteQuarterlyCollection.call!(
+        **quarter_options("2026-Q3", capture).merge(cutoff_at: Time.utc(2026, 9, 30)),
+        compute: compute)
+    end
+    assert_match(/cutoff/, error.message)
+
+    travel_to Time.utc(2026, 9, 30, 23, 59, 59) do
+      error = assert_raises(Evidence::CompleteQuarterlyCollection::CollectionError) do
+        Evidence::CompleteQuarterlyCollection.call!(**quarter_options("2026-Q3", capture), compute: compute)
+      end
+      assert_match(/not closed/, error.message)
+    end
+    assert_equal 0, QuarterlyCollection.count
+    assert_equal 0, QuarterlyResultSet.count
+  end
+
   test "building record identities cannot drift before completion" do
     capture = PeriodicCapture.create!(data_source: @source, dataset_scope: "test",
                                       release_identity: "2023", response_sha256: "a" * 64,
@@ -194,7 +230,7 @@ class PeriodicDatabaseCollectionTest < ActiveSupport::TestCase
   end
 
   def quarter_options(quarter, capture)
-    { quarter: quarter, captures: [ capture ], cutoff_at: Time.utc(2026, 10, 1),
+    { quarter: quarter, captures: [ capture ], cutoff_at: QuarterlyCollection.cutoff_for(quarter),
       method_manifest: { "version" => "test-v1" }, definitions: { "periodic-test" => "count" } }
   end
 

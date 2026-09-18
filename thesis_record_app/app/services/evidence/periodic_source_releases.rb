@@ -21,14 +21,20 @@ module Evidence
 
       ingestion = policy.fetch(:public_ingestion_v1)
       first_year = case source_kind
-                   when "census_susb_public_file" then Integer(ingestion.fetch(:susb_us_state_annual).fetch(:default_year))
-                   when "census_bds_public_file"
-                     Integer(ingestion.fetch(:bds_sector_age_size_public_file).fetch(:source_url)[/bds(\d{4})_/, 1])
-                   else 2012
-                   end
+      when "census_susb_public_file" then Integer(ingestion.fetch(:susb_us_state_annual).fetch(:default_year))
+      when "census_bds_public_file"
+        Integer(ingestion.fetch(:bds_sector_age_size_public_file).fetch(:source_url)[/bds(\d{4})_/, 1])
+      else 2012
+      end
       cutoff = cutoff_at.to_time.utc
-      cutoff.year.downto(first_year) do |year|
-        public_url = public_url(source_kind, year, ingestion)
+      raise ReleaseError, "cutoff must be a UTC quarter boundary" unless
+        [ 1, 4, 7, 10 ].include?(cutoff.month) && cutoff == Time.utc(cutoff.year, cutoff.month, 1)
+
+      latest_month = cutoff - 1
+      latest_year = source_kind == "census_bfs_api" ? latest_month.year : cutoff.year - 1
+      latest_year.downto(first_year) do |year|
+        through_month = source_kind == "census_bfs_api" && year == latest_month.year ? latest_month.month : 12
+        public_url = public_url(source_kind, year, ingestion, through_month: through_month)
         request_url = authenticated_url(public_url, source_kind, environment)
         response = begin
           fetcher.call(URI(request_url))
@@ -41,12 +47,10 @@ module Evidence
         raise ReleaseError, "source response is not text for #{public_url}" unless response.body.is_a?(String)
 
         parser = case source_kind
-                 when "census_susb_public_file" then PeriodicSourceParsers.susb(year: year, policy: policy)
-                 when "census_bds_public_file" then PeriodicSourceParsers.bds(release_year: year, policy: policy)
-                 else PeriodicSourceParsers.bfs(year: year,
-                                                through_month: year == cutoff.year ? cutoff.month : 12,
-                                                policy: policy)
-                 end
+        when "census_susb_public_file" then PeriodicSourceParsers.susb(year: year, policy: policy)
+        when "census_bds_public_file" then PeriodicSourceParsers.bds(release_year: year, policy: policy)
+        else PeriodicSourceParsers.bfs(year: year, through_month: through_month, policy: policy)
+        end
         return Release.new(source_kind: source_kind, dataset_scope: SCOPES.fetch(source_kind),
                            release_identity: year.to_s, response: response.body,
                            parser: parser, public_url: public_url, checked_at: Time.current)
@@ -54,7 +58,7 @@ module Evidence
       raise ReleaseError, "no available release for #{source_kind} by cutoff"
     end
 
-    def self.public_url(source_kind, year, ingestion)
+    def self.public_url(source_kind, year, ingestion, through_month:)
       case source_kind
       when "census_susb_public_file"
         configured = ingestion.fetch(:susb_us_state_annual).fetch(:source_url)
@@ -68,7 +72,8 @@ module Evidence
       when "census_bfs_api"
         settings = ingestion.fetch(:bfs_monthly_api)
         fields = settings.fetch(:dry_run_v1).fetch(:query_get_fields).join(",")
-        "#{settings.fetch(:endpoint_url)}?#{URI.encode_www_form(get: fields, time: year, for: 'us:*')}"
+        months = "from #{year}-01 to #{year}-#{format('%02d', through_month)}"
+        "#{settings.fetch(:endpoint_url)}?#{URI.encode_www_form(get: fields, time: months, for: 'us:*')}"
       end
     end
 

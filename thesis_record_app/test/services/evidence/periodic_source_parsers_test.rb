@@ -93,9 +93,18 @@ class PeriodicSourceParsersTest < ActiveSupport::TestCase
     header = bfs_settings.fetch(:dry_run_v1).fetch(:expected_response_header)
     row = [ "BA_BA", "0", "no", "NAICS11", "42", "no", "2026-10", "1" ]
     parser = Evidence::PeriodicSourceParsers.bfs(year: 2026, through_month: 9, policy: @policy)
-    assert_raises(Evidence::PeriodicSourceParsers::InvalidResponse) do
-      parser.call(JSON.generate([ header, row ])).to_a
+    [ row, row.dup.tap { |cells| cells[3] = "TOTAL" } ].each do |later_row|
+      assert_raises(Evidence::PeriodicSourceParsers::InvalidResponse) do
+        parser.call(JSON.generate([ header, later_row ])).to_a
+      end
     end
+  end
+
+  test "BFS accepts a lagged latest month without inventing quarter-end coverage" do
+    header = bfs_settings.fetch(:dry_run_v1).fetch(:expected_response_header)
+    row = [ "BA_BA", "0", "no", "NAICS11", "42", "no", "2026-08", "1" ]
+    parser = Evidence::PeriodicSourceParsers.bfs(year: 2026, through_month: 9, policy: @policy)
+    assert_equal [ "2026-08" ], parser.call(JSON.generate([ header, row ])).map { |item| item.fetch(:period_month) }
   end
 
   test "BFS parser rejects malformed rows, geography, and duplicate grain" do

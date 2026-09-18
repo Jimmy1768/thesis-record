@@ -7,6 +7,7 @@ class CollectQuarterlyTest < ActiveSupport::TestCase
   Response = Struct.new(:code, :body)
 
   setup do
+    travel_to Time.utc(2027, 1, 2)
     @policy = Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys
     @registries = {}
     Evidence::PeriodicSourceReleases::SCOPES.each_key do |kind|
@@ -26,6 +27,8 @@ class CollectQuarterlyTest < ActiveSupport::TestCase
       MetricDefinition.create!(key: key, name: key, formula_status: "draft", formula: "source value")
     end
   end
+
+  teardown { travel_back }
 
   test "three-source quarter completes, retries, reuses unchanged results, and revises corrections" do
     registration = register_synthetic_day_zero
@@ -86,6 +89,34 @@ class CollectQuarterlyTest < ActiveSupport::TestCase
     assert_equal 2, PeriodicCapture.count
   end
 
+  test "quarter cutoff and close are checked before source retrieval" do
+    calls = 0
+    fetcher = ->(_uri) { calls += 1; Response.new("200", "response") }
+    error = assert_raises(Evidence::CollectQuarterly::CollectionError) do
+      Evidence::CollectQuarterly.call!(**options("2026-Q3").merge(cutoff_at: Time.utc(2026, 9, 30)),
+                                       fetcher: fetcher)
+    end
+    assert_match(/cutoff/, error.message)
+
+    travel_to Time.utc(2026, 9, 30, 23, 59, 59) do
+      error = assert_raises(Evidence::CollectQuarterly::CollectionError) do
+        Evidence::CollectQuarterly.call!(**options("2026-Q3"), fetcher: fetcher)
+      end
+      assert_match(/not closed/, error.message)
+    end
+    assert_equal 0, calls
+
+    travel_to Time.utc(2026, 10, 1) do
+      assert_equal "completed", collect("2026-Q3").status
+    end
+  end
+
+  test "a lagged BFS month is recorded without claiming September coverage" do
+    collection = collect("2026-Q3", bfs_month: "2026-08")
+    assert_equal "completed", collection.status
+    assert_equal [ "2026-08" ], BfsApiRow.pluck(:period_month)
+  end
+
   test "job delegates only the explicit quarter and registry identifiers" do
     expected = options("2026-Q3")
     Evidence::CollectQuarterly.stub(:call!, ->(**args) {
@@ -94,7 +125,7 @@ class CollectQuarterlyTest < ActiveSupport::TestCase
       assert_equal expected[:registry_ids], args[:registry_ids]
     }) do
       Evidence::QuarterlyDatabaseCollectionJob.new.perform(
-        quarter: "2026-Q3", cutoff_at: "2026-09-30T00:00:00Z", registry_ids: @registries)
+        quarter: "2026-Q3", cutoff_at: "2026-10-01T00:00:00Z", registry_ids: @registries)
     end
   end
 
@@ -121,7 +152,7 @@ class CollectQuarterlyTest < ActiveSupport::TestCase
   private
 
   def options(quarter)
-    { quarter: quarter, cutoff_at: Time.utc(2026, 9, 30), registry_ids: @registries }
+    { quarter: quarter, cutoff_at: QuarterlyCollection.cutoff_for(quarter), registry_ids: @registries }
   end
 
   def register_synthetic_day_zero
@@ -134,17 +165,19 @@ class CollectQuarterlyTest < ActiveSupport::TestCase
     })
   end
 
-  def collect(quarter, bds_firms: "1")
-    fetcher = ->(uri) { response_for(uri, bds_firms: bds_firms) }
+  def collect(quarter, bds_firms: "1", bfs_month: "2026-09")
+    fetcher = ->(uri) { response_for(uri, bds_firms: bds_firms, bfs_month: bfs_month) }
     Evidence::CollectQuarterly.call!(**options(quarter), fetcher: fetcher,
                                      environment: { "CENSUS_API_KEY" => "sentinel" })
   end
 
-  def response_for(uri, bds_firms: "1")
+  def response_for(uri, bds_firms: "1", bfs_month: "2026-09")
+    return Response.new("404", "") if uri.host != "api.census.gov" && uri.path.include?("2026")
+
     body = case uri.host
-           when "api.census.gov" then bfs_response
-           else uri.path.include?("susb") ? susb_response : bds_response(bds_firms)
-           end
+    when "api.census.gov" then bfs_response(bfs_month)
+    else uri.path.include?("susb") ? susb_response : bds_response(bds_firms)
+    end
     Response.new("200", body)
   end
 
@@ -161,15 +194,15 @@ class CollectQuarterlyTest < ActiveSupport::TestCase
   def bds_response(firms)
     header = @policy.fetch(:public_ingestion_v1).fetch(:bds_sector_age_size_public_file)
                     .fetch(:required_columns).map(&:to_s)
-    row = header.index_with { "1" }.merge("year" => "2026", "sector" => "11",
+    row = header.index_with { "1" }.merge("year" => "2025", "sector" => "11",
                                            "fage" => "a) 0", "fsize" => "a) 1 to 4",
                                            "firms" => firms)
     CSV.generate_line(header) + CSV.generate_line(header.map { |field| row.fetch(field) })
   end
 
-  def bfs_response
+  def bfs_response(month)
     header = @policy.fetch(:public_ingestion_v1).fetch(:bfs_monthly_api)
                     .fetch(:dry_run_v1).fetch(:expected_response_header)
-    JSON.generate([ header, [ "BA_BA", "0", "no", "NAICS11", "42", "no", "2026-09", "1" ] ])
+    JSON.generate([ header, [ "BA_BA", "0", "no", "NAICS11", "42", "no", month, "1" ] ])
   end
 end
