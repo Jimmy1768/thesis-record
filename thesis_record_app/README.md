@@ -25,9 +25,10 @@ unchanged quarters, and append-only database guards.
 The SUSB, BDS, and BFS parsers, three-source release lookup, append-only
 source-native computation, pending review links, and Sidekiq quarterly job
 have local controlled-response tests. The job takes an explicit quarter,
-cutoff, and source registry IDs; it is not scheduled. No live collection has
-run. Production collection and Day 0 registration entry points remain disabled
-until the later production phase. See
+cutoff, and source registry IDs; it is not scheduled. A disposable Droplet
+rehearsal completed the full three-source collection path against the public
+endpoints without writing production. Production collection and Day 0
+registration entry points remain disabled until the later production phase. See
 `ops/docs/plans/periodic_evidence_pipeline_plan.md` at the repository root for
 the phase boundary.
 
@@ -37,7 +38,7 @@ the source releases and reference periods actually available at retrieval,
 which may lag the reporting quarter. The local job rejects a cutoff that does
 not match the quarter or a run before the quarter closes. BFS requests are
 bounded through the quarter's last eligible month; the live query predicate
-still requires verification during production preparation.
+was verified in the disposable rehearsal recorded under `ops/docs/rehearsals/`.
 
 ## Boundaries
 

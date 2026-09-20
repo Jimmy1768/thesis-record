@@ -56,6 +56,15 @@ digests.
 
 ## Recovery Gate, Later Phase
 
+On 2026-09-19, the application-level restore path was exercised from the
+existing September logical dump: the isolated database opened, migrations and
+Day 0 registration succeeded, a live three-source simulated Q3 collection
+completed, concurrent retry converged, and the disposable environments were
+removed. See the
+[`../rehearsals/2026-09-19-quarterly-collection-rehearsal.md`](../rehearsals/2026-09-19-quarterly-collection-rehearsal.md)
+receipt. This does not satisfy the selected DigitalOcean backup gate below;
+that specific backup still needs an isolated restore test.
+
 Before production migration or quarterly activation:
 
 1. Confirm the actual PostgreSQL data and WAL locations and that the selected
@@ -71,11 +80,16 @@ Before production migration or quarterly activation:
    production collection entry points with scheduling disabled. Run targeted
    read-only Droplet smoke checks; the full test suite is not the Droplet smoke
    test. Register the existing production Day 0 rows in place, then run and
-   inspect one manual Q3 collection after September 30.
+   inspect one operator-triggered Q3 collection after September 30 with the
+   recurring schedule still disabled. October 1 at 00:00 UTC is the earliest
+   valid boundary, not a required execution timestamp; `manual` does not mean
+   hand-entering rows or requiring the Director to run application commands.
 4. Restore a post-run backup in isolation and verify both Day 0 and the
    completed collection. Only then enable the collection schedule and observe
    its first fire. Scheduler dispatch can be checked in the isolated environment
-   before activation without running a production collection.
+   before activation without running a production collection. Each scheduled
+   fire targets the quarter that just closed; after a successful manual Q3
+   rollout, the next quarter-boundary fire targets Q4 rather than rerunning Q3.
 
 Droplet backup retention is a recovery window, not the ten-year database
 history policy. Keep completed quarterly records in PostgreSQL; do not prune

@@ -22,6 +22,15 @@ is not a collection deadline. Preparation can occur before September 30; the
 first Q3 database collection belongs after that quarter closes. This plan does
 not set a fixed production run date or activate a schedule.
 
+October 1 at 00:00 UTC is the earliest valid Q3 execution boundary, not a
+required production run timestamp. In this plan, `manual` means one
+operator-triggered invocation of the normal guarded collection job while its
+recurring schedule remains disabled. It does not mean hand-entering rows or
+requiring the Director to run application commands personally. The first run
+is operator-triggered so its production writes, runtime, retry behavior, and
+post-run recovery can be inspected before Sidekiq receives authority to fire
+future collections unattended.
+
 Treat each reporting quarter as a UTC calendar interval. For example, 2026-Q3
 is `[2026-07-01T00:00:00Z, 2026-10-01T00:00:00Z)`. Its `cutoff_at` is the
 exclusive upper bound, derived from the quarter rather than supplied as an
@@ -34,7 +43,9 @@ published through September or that its returned edition existed on September
 
 The existing quarter-start `QuarterlyIndicatorCheckpointJob` is audit-only. It
 does not collect SUSB, BDS, or BFS rows and does not satisfy the first database
-collection. Keep its scheduler entry distinct from the new collection job.
+collection. Keep its scheduler entry distinct from the new collection job. Any
+historical reference to Q3 as that checkpoint job's first scheduled quarter
+describes the audit clock only; it is not an automatic Q3 database collection.
 
 ## Known State
 
@@ -167,8 +178,10 @@ without changing thesis evidence authority.
   full test suite as the Droplet smoke test. Test scheduler dispatch in the
   isolated environment without enabling a production collection run.
 - After September 30 and the preceding checks, register production Day 0 in
-  place, then run one guarded manual Q3 collection. Verify row links, digests,
-  retry behavior, and a post-run isolated restore.
+  place, then run one guarded, operator-triggered Q3 collection with the
+  recurring schedule still disabled. October 1 is only the earliest valid
+  boundary; run Q3 when the gates and an attended quiet window are ready.
+  Verify row links, digests, retry behavior, and a post-run isolated restore.
 
 Exit: one manual production quarter and Day 0 are verified and recoverable.
 
@@ -177,6 +190,11 @@ Exit: one manual production quarter and Day 0 are verified and recoverable.
 - After the manual run and post-run restore verify, enable the Sidekiq
   collection schedule and observe its first actual fire. Monitor expected
   release checks, collection completion, retries, and failed runs separately.
+  Each automatic dispatch targets the calendar quarter that just closed. If
+  activation follows the Q3 manual verification and precedes January 1, 2027,
+  the first automatic database collection is 2026-Q4 after its January 1 UTC
+  boundary; it is not a delayed Q3 run. Keep the exact cron disabled until its
+  argument derivation and one-fire behavior pass an isolated scheduler test.
 - Retain completed quarterly history for the planned ten-year horizon. The
   operational collection does not itself publish or accept thesis claims.
 
@@ -189,20 +207,31 @@ deployment, and scheduling are Phase 4 or later. Do not use count agreement or
 the September dump timestamp as proof of June row-level provenance. No
 production write is authorized by this plan.
 
-As of 2026-09-18, Phase 1's local schema and synthetic registration tests
-pass. The read-only scan of `living_dissertation_app_development` matched all
-ten documented counts and produced the digests recorded in
-`evidence_archive_snapshot_recovery_plan.md`. The local quarterly core,
-three source parsers, release lookup, source-native computation, pending review
-links, explicit quarter/revision reader, and unscheduled Sidekiq job have
-controlled-response tests. No live source retrieval or actual quarterly run
-has been performed. Production entry points remain explicitly disabled in code.
+As of 2026-09-19, Phase 1's local schema and synthetic registration tests pass.
+The read-only scan of `living_dissertation_app_development` matched all ten
+documented counts and produced the digests recorded in
+`evidence_archive_snapshot_recovery_plan.md`. Separate disposable Droplet
+rehearsals restored the September logical dump, applied the migrations,
+registered all ten Day 0 manifests, retrieved all three configured live public
+sources, completed one simulated 2026-Q3 collection with 1,178,862
+observation/review pairs, and proved concurrent retry convergence. The
+disposable environments were removed after verification. The operational
+receipt is
+[`../rehearsals/2026-09-19-quarterly-collection-rehearsal.md`](../rehearsals/2026-09-19-quarterly-collection-rehearsal.md).
+
+That application-level rehearsal did not use or verify a Director-selected
+DigitalOcean backup image and is not the production manual run. Production
+entry points remain explicitly disabled in code, the collection job remains
+absent from the live schedule, and exact recurring dispatch argument derivation
+still requires an isolated scheduler test before activation.
 
 The local implementation now derives the exclusive cutoff from the quarter,
 rejects early or mismatched runs, bounds BFS queries to eligible months, and
 tests later-month responses and lagged source coverage. These corrections use
-the existing quarterly workflow; live BFS predicate verification and all
-production preparation remain in the later phase.
+the existing quarterly workflow. The September 19 rehearsal verified the live
+BFS predicate and the full three-source application path. The selected
+DigitalOcean backup restore, production Day 0 verification, guarded deployment,
+and isolated scheduler dispatch test remain in the later production phase.
 
 The existing `thesis_record_app_development` database on this workstation
 still records five uncommitted 2026-09-14 prototype migrations. Do not use it
@@ -218,5 +247,5 @@ remained on `release/current` at `c85ba2a`; no deployment or migration occurred.
 Read-only checks found the ThesisRecord web and Sidekiq services and both
 watchdog timers active, and the local `/up` endpoint returned HTTP 200. This is
 host/app availability, not quarterly-collection readiness: the production
-backup/restore, Day 0 row verification, isolated rehearsal, and production
-entry-point activation gates above remain unverified or incomplete.
+backup/restore, production Day 0 row verification, scheduler dispatch, and
+production entry-point activation gates above remain unverified or incomplete.
