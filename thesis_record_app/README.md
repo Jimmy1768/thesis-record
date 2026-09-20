@@ -25,7 +25,9 @@ unchanged quarters, and append-only database guards.
 The SUSB, BDS, and BFS parsers, three-source release lookup, append-only
 source-native computation, pending review links, and Sidekiq quarterly job
 have local controlled-response tests. The job takes an explicit quarter,
-cutoff, and source registry IDs; it is not scheduled. A disposable Droplet
+cutoff, and source registry IDs. An unscheduled dispatcher derives the
+just-closed quarter and fails closed unless each source has exactly one coherent
+registry chain; no recurring collection entry exists yet. A disposable Droplet
 rehearsal completed the full three-source collection path against the public
 endpoints without writing production. Production collection and Day 0
 registration entry points remain disabled until the later production phase. See
