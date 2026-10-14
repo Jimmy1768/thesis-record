@@ -14,7 +14,8 @@ module Evidence
 
     def self.call!(data_source:, intake_manifest:, schema_version:, dataset_scope:,
                    release_identity:, response:, parser_version:, parser:, checked_at: Time.current)
-      raise CaptureError, "production periodic capture is a later phase" if Rails.env.production?
+      raise CaptureError, "production periodic capture is not authorized" if
+        Rails.env.production? && ENV["THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION"] != "true"
 
       model = SOURCE_MODELS.fetch(data_source.source_kind)
       raise CaptureError, "source metadata mismatch" unless

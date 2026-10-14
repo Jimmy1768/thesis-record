@@ -16,7 +16,8 @@ module Evidence
 
     def self.latest!(source_kind:, cutoff_at:, fetcher: ->(uri) { Net::HTTP.get_response(uri) },
                      environment: ENV, policy: Rails.application.config_for(:thesis_record_policy).deep_symbolize_keys)
-      raise ReleaseError, "production source retrieval is a later phase" if Rails.env.production?
+      raise ReleaseError, "production source retrieval is not authorized" if
+        Rails.env.production? && ENV["THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION"] != "true"
       raise ReleaseError, "unknown periodic source" unless SCOPES.key?(source_kind)
 
       ingestion = policy.fetch(:public_ingestion_v1)

@@ -3,7 +3,8 @@ module Evidence
     class RegistrationMismatch < StandardError; end
 
     def self.call!(config: Rails.application.config_for(:day_zero_baseline).deep_symbolize_keys)
-      raise RegistrationMismatch, "production Day 0 registration is a later phase" if Rails.env.production?
+      raise RegistrationMismatch, "production Day 0 registration is not authorized" if
+        Rails.env.production? && ENV["THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION"] != "true"
 
       key = config.fetch(:baseline_key)
       existing = DayZeroRegistration.find_by(baseline_key: key)

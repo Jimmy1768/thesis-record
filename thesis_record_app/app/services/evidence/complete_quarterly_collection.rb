@@ -3,7 +3,8 @@ module Evidence
     class CollectionError < StandardError; end
 
     def self.call!(quarter:, captures:, cutoff_at:, method_manifest:, definitions:, compute:)
-      raise CollectionError, "production quarterly collection is a later phase" if Rails.env.production?
+      raise CollectionError, "production quarterly collection is not authorized" if
+        Rails.env.production? && ENV["THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION"] != "true"
 
       expected_cutoff = QuarterlyCollection.cutoff_for(quarter)
       raise CollectionError, "quarter is invalid" unless expected_cutoff

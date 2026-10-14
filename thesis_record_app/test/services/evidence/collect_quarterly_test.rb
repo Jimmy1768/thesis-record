@@ -129,12 +129,23 @@ class CollectQuarterlyTest < ActiveSupport::TestCase
     end
   end
 
-  test "production and mismatched registries refuse collection before retrieval" do
+  test "production collection requires the exact authorization before retrieval" do
     calls = 0
     fetcher = ->(_uri) { calls += 1; Response.new("200", "") }
     Rails.stub(:env, ActiveSupport::StringInquirer.new("production")) do
-      assert_raises(Evidence::CollectQuarterly::CollectionError) do
-        Evidence::CollectQuarterly.call!(**options("2026-Q3"), fetcher: fetcher)
+      [ nil, "false" ].each do |authorization|
+        ENV.stub(:[], ->(key) { key == "THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION" ? authorization : ENV.fetch(key, nil) }) do
+          assert_raises(Evidence::CollectQuarterly::CollectionError) do
+            Evidence::CollectQuarterly.call!(**options("2026-Q3"), fetcher: fetcher)
+          end
+        end
+      end
+
+      ENV.stub(:[], ->(key) { key == "THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION" ? "true" : ENV.fetch(key, nil) }) do
+        error = assert_raises(Evidence::CollectQuarterly::CollectionError) do
+          Evidence::CollectQuarterly.call!(**options("invalid"), fetcher: fetcher)
+        end
+        assert_match(/quarter is invalid/, error.message)
       end
     end
     assert_equal 0, calls

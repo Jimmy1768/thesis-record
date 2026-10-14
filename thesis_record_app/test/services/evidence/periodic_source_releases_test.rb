@@ -50,6 +50,29 @@ class PeriodicSourceReleasesTest < ActiveSupport::TestCase
     assert_equal 0, calls
   end
 
+  test "production retrieval requires the exact quarterly collection authorization" do
+    calls = 0
+    Rails.stub(:env, ActiveSupport::StringInquirer.new("production")) do
+      [ nil, "false" ].each do |authorization|
+        ENV.stub(:[], ->(key) { key == "THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION" ? authorization : ENV.fetch(key, nil) }) do
+          assert_raises(Evidence::PeriodicSourceReleases::ReleaseError) do
+            Evidence::PeriodicSourceReleases.latest!(source_kind: "census_susb_public_file",
+              cutoff_at: Time.utc(2026, 10, 1), fetcher: ->(_uri) { calls += 1 })
+          end
+        end
+      end
+
+      ENV.stub(:[], ->(key) { key == "THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION" ? "true" : ENV.fetch(key, nil) }) do
+        error = assert_raises(Evidence::PeriodicSourceReleases::ReleaseError) do
+          Evidence::PeriodicSourceReleases.latest!(source_kind: "unknown",
+            cutoff_at: Time.utc(2026, 10, 1), fetcher: ->(_uri) { calls += 1 })
+        end
+        assert_match(/unknown periodic source/, error.message)
+      end
+    end
+    assert_equal 0, calls
+  end
+
   test "BFS public release identity excludes the key and missing key stops before fetch" do
     calls = 0
     fetcher = lambda do |_uri|

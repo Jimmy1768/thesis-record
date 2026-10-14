@@ -139,16 +139,32 @@ class PeriodicDatabaseCollectionTest < ActiveSupport::TestCase
     assert_equal 0, MetricObservation.count
   end
 
-  test "production entry points remain disabled until the later phase" do
+  test "production Day 0, capture, and completion require the exact quarterly collection authorization" do
     Rails.stub(:env, ActiveSupport::StringInquirer.new("production")) do
-      assert_raises(Evidence::RegisterDayZero::RegistrationMismatch) do
-        Evidence::RegisterDayZero.call!(config: {})
+      [ nil, "false" ].each do |authorization|
+        ENV.stub(:[], ->(key) { key == "THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION" ? authorization : ENV.fetch(key, nil) }) do
+          assert_raises(Evidence::RegisterDayZero::RegistrationMismatch) do
+            Evidence::RegisterDayZero.call!(config: {})
+          end
+          assert_raises(Evidence::RecordPeriodicCapture::CaptureError) do
+            Evidence::RecordPeriodicCapture.call!(**capture_options("response"), parser: ->(_bytes) { [] })
+          end
+          assert_raises(Evidence::CompleteQuarterlyCollection::CollectionError) do
+            Evidence::CompleteQuarterlyCollection.call!(**quarter_options("2026-Q3", nil), compute: ->(_) { [] })
+          end
+        end
       end
-      assert_raises(Evidence::RecordPeriodicCapture::CaptureError) do
-        Evidence::RecordPeriodicCapture.call!(**capture_options("response"), parser: ->(_bytes) { [] })
-      end
-      assert_raises(Evidence::CompleteQuarterlyCollection::CollectionError) do
-        Evidence::CompleteQuarterlyCollection.call!(**quarter_options("2026-Q3", nil), compute: ->(_) { [] })
+
+      ENV.stub(:[], ->(key) { key == "THESIS_RECORD_ALLOW_QUARTERLY_COLLECTION" ? "true" : ENV.fetch(key, nil) }) do
+        assert_raises(KeyError) { Evidence::RegisterDayZero.call!(config: {}) }
+        capture_error = assert_raises(Evidence::RecordPeriodicCapture::CaptureError) do
+          Evidence::RecordPeriodicCapture.call!(**capture_options("response"), parser: ->(_bytes) { [] })
+        end
+        assert_match(/contains no source rows/, capture_error.message)
+        completion_error = assert_raises(Evidence::CompleteQuarterlyCollection::CollectionError) do
+          Evidence::CompleteQuarterlyCollection.call!(**quarter_options("2026-Q3", nil), compute: ->(_) { [] })
+        end
+        assert_match(/captures must be nonempty/, completion_error.message)
       end
     end
   end
