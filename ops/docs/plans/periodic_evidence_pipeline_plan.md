@@ -164,6 +164,10 @@ without changing thesis evidence authority.
 
 ### 4. Production Preparation And Manual Run
 
+The executable sequence, production authorization requirements, stop
+conditions, and recovery checkpoints for the first run are defined in
+[`production_q3_collection_activation_plan.md`](production_q3_collection_activation_plan.md).
+
 - Verify the Director's Droplet backup and isolated restore before any
   production migration or collection. Backup activation and restore are
   Droplet operations, not application-managed backup code.
